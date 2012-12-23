@@ -5,7 +5,7 @@ function Edid (stringEdid) {
   // Convert to integer array
   this.edidData = convertToIntArray(stringEdid);  
   this.WhiteAndSyncLevels = ["+0.7/−0.3 V", "+0.714/−0.286 V",
-                               "+1.0/−0.4 V", "+0.7/0 V"]
+                               "+1.0/−0.4 V", "+0.7/0 V"];
 }
 
 function convertToIntArray(string)
@@ -43,6 +43,8 @@ Edid.prototype.parse = function()
                           this.getEdidRevision();
 
   this.bdp = this.getBasicDisplayParams();
+  
+  this.chromaticity = this.getChromaticityCoordinates();
 }
 
 Edid.prototype.validateHeader = function()
@@ -176,26 +178,84 @@ Edid.prototype.getBasicDisplayParams = function()
   
     var BLANK_TO_BLACK_OFF = 4;
     var BLANK_TO_BLACK_MASK = 0x01;
-    bdp.blankToBlack = (this.edidData[VIDEO_IN_PARAMS_BITMAP] >> 
-                                BLANK_TO_BLACK_OFF) & BLANK_TO_BLACK_MASK;
+    bdp.blankToBlack = ((this.edidData[VIDEO_IN_PARAMS_BITMAP] >> 
+                                BLANK_TO_BLACK_OFF) & BLANK_TO_BLACK_MASK) ?
+                                true : false;
                                 
     var SEPARATE_SYNC_OFF = 3;
     var SEPARATE_SYNC_MASK = 0x01;
-    bdp.separateSyncSupported = (this.edidData[VIDEO_IN_PARAMS_BITMAP] >> 
-                                SEPARATE_SYNC_OFF) & SEPARATE_SYNC_MASK;
+    bdp.separateSyncSupported = ((this.edidData[VIDEO_IN_PARAMS_BITMAP] >> 
+                                SEPARATE_SYNC_OFF) & SEPARATE_SYNC_MASK) ?
+                                true : false;
         
     var COMPOSITE_SYNC_OFF = 2;
     var COMPOSITE_SYNC_MASK = 0x01;
-    bdp.compositeSyncSupported = (this.edidData[VIDEO_IN_PARAMS_BITMAP] >> 
-                                COMPOSITE_SYNC_OFF) & COMPOSITE_SYNC_MASK;
+    bdp.compositeSyncSupported = ((this.edidData[VIDEO_IN_PARAMS_BITMAP] >> 
+                                COMPOSITE_SYNC_OFF) & COMPOSITE_SYNC_MASK) ?
+                                true : false;
     
     var SYNC_ON_GREEN_OFF = 1;
     var SYNC_ON_GREEN_MASK = 0x01;
-    bdp.synOnGreen = (this.edidData[VIDEO_IN_PARAMS_BITMAP] >> 
-                                SYNC_ON_GREEN_OFF) & SYNC_ON_GREEN_MASK;                                                    
+    bdp.synOnGreen = ((this.edidData[VIDEO_IN_PARAMS_BITMAP] >> 
+                                SYNC_ON_GREEN_OFF) & SYNC_ON_GREEN_MASK) ?
+                                true : false;
   
     var VSYNC_SERRATED_MASK = 0x01;
-    bdp.vsyncSerrated = this.edidData[VIDEO_IN_PARAMS_BITMAP] & VSYNC_SERRATED_MASK; 
+    bdp.vsyncSerrated = (this.edidData[VIDEO_IN_PARAMS_BITMAP] & VSYNC_SERRATED_MASK) ?
+                                true : false;
   }
   return bdp;
+}
+
+Edid.prototype.getChromaticityCoordinates = function()
+{
+  var chromaticity = new Object();
+  var TWO_BIT_MASK = 0x03;
+  var TWO_BIT_OFF = 2;
+  var FOUR_BIT_OFF = 4;
+  var SIX_BIT_OFF = 6;
+
+  var RED_GREEN_LSB = 25;
+  var RED_X_MSB = 27;
+  chromaticity.redX = (this.edidData[RED_X_MSB] << TWO_BIT_OFF) |
+                      ((this.edidData[RED_GREEN_LSB] >> SIX_BIT_OFF) & TWO_BIT_MASK);
+  chromaticity.redXCoords = (chromaticity.redX / 1024);
+  
+  var RED_Y_MSB = 28;
+  chromaticity.redY = (this.edidData[RED_Y_MSB] << TWO_BIT_OFF) |
+                      ((this.edidData[RED_GREEN_LSB] >> FOUR_BIT_OFF) & TWO_BIT_MASK);
+  chromaticity.redYCoords = (chromaticity.redY / 1024);
+
+  var GREEN_X_MSB = 29;  
+  chromaticity.greenX = (this.edidData[GREEN_X_MSB] << TWO_BIT_OFF) |
+                      ((this.edidData[RED_GREEN_LSB] >> TWO_BIT_OFF) & TWO_BIT_MASK);
+  chromaticity.greenXCoords = (chromaticity.greenX / 1024);
+
+  var GREEN_Y_MSB = 30;
+  chromaticity.greenY = (this.edidData[GREEN_Y_MSB] << TWO_BIT_OFF) |
+                      (this.edidData[RED_GREEN_LSB] & TWO_BIT_MASK);
+  chromaticity.greenYCoords = (chromaticity.greenY / 1024);
+
+  var BLUE_WHITE_LSB = 26;
+  var BLUE_X_MSB = 31;  
+  chromaticity.blueX = (this.edidData[BLUE_X_MSB] << TWO_BIT_OFF) |
+                      ((this.edidData[BLUE_WHITE_LSB] >> SIX_BIT_OFF) & TWO_BIT_MASK);
+  chromaticity.blueXCoords = (chromaticity.blueX / 1024);
+  
+  var BLUE_Y_MSB = 32;
+  chromaticity.blueY = (this.edidData[BLUE_Y_MSB] << TWO_BIT_OFF) |
+                      ((this.edidData[BLUE_WHITE_LSB] >> FOUR_BIT_OFF) & TWO_BIT_MASK);
+  chromaticity.blueYCoords = (chromaticity.blueY / 1024);
+
+  var WHITE_X_MSB = 33;
+  chromaticity.whiteX = (this.edidData[WHITE_X_MSB] << TWO_BIT_OFF) |
+                      ((this.edidData[BLUE_WHITE_LSB] >> TWO_BIT_OFF) & TWO_BIT_MASK);
+  chromaticity.whiteXCoords = (chromaticity.whiteX / 1024);
+                      
+  var WHITE_Y_MSB = 34;
+  chromaticity.whiteY = (this.edidData[WHITE_Y_MSB] << TWO_BIT_OFF) |
+                      (this.edidData[BLUE_WHITE_LSB] & TWO_BIT_MASK);
+  chromaticity.whiteYCoords = (chromaticity.whiteY / 1024);
+  
+  return chromaticity;
 }

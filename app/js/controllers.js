@@ -24,6 +24,7 @@ function EdidCtrl($scope) {
 "00 00 3D 1D 38 0B 00 00 20 20 20 20 20 00 00 48";
 
     $scope.edidHeaderInfo = 'partials/edidHeaderInfo.html';
+    $scope.chromacityCoords = 'partials/chromacityCoords.html';
 
     $scope.parseEdid = function() {
     // Remove 0x, and Commas
