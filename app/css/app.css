@@ -28,3 +28,21 @@
   content: "";
   padding: 0;
 }
+
+#wrap {
+width:850px;
+margin:0 auto;
+padding-top:50px;
+}
+#main {
+float:left;
+width:600px;
+}
+#sidebar {
+float:right;
+width:250px;
+}
+
+#inputEdid, #outputEdid {
+  resize: none;
+}

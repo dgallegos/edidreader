@@ -14,16 +14,16 @@
   <script src="js/directives.js"></script>
 </head>
 <body>
-  <div ng-controller="EdidCtrl">
+  <div id="wrap" ng-controller="EdidCtrl">
     
     <div id="main">
       <form ng-submit="parseEdid()">
-        <label>Edid:</label>
-        <textarea ng-model="originalEdid" class="field span7" rows="8"></textarea>
+        <H1>Edid:</H1>
+        <textarea id="inputEdid" ng-model="originalEdid" class="field span5" rows="8"></textarea>
         <input type="submit" value="Parse Edid">
       </form>
       <p>
-        <textarea readonly="true" ng-model="scrubbedEdid" class="field span5" rows="8"></textarea>
+        <textarea id="outputEdid" readonly="true" ng-model="scrubbedEdid" class="field span5" rows="8"></textarea>
       </p>
     </div>
     
