@@ -26,6 +26,7 @@ function EdidCtrl($scope) {
     $scope.edid = new Edid();
     $scope.edidHeaderInfo = 'partials/edidHeaderInfo.html';
     $scope.chromacityCoords = 'partials/chromacityCoords.html';
+    $scope.timingBitmap = 'partials/timingBitmap.html';
 
     $scope.parseEdid = function() {
     // Remove 0x, and Commas
@@ -42,6 +43,11 @@ function EdidCtrl($scope) {
       $scope.bdpPage = 'partials/bdp/analog.html';
     }
   };
+  $scope.isTimingBitmapSet = function(index)
+  {
+    var isSet = ($scope.edid.timingBitmap & (1 << index))?true:false;
+    return isSet;
+  }
 }
 
 

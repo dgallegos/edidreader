@@ -7,6 +7,23 @@ function Edid () {
                               "RGB 4:4:4 + YCrCb 4:4:4 + YCrCb 4:2:2"];
   this.analogColorSpace = ["Monochrome or Grayscale", 
                             "RGB color", "Non-RGB color", "Undefined"];
+  this.establishedTimingBitmaps = ["720×400 @ 70 Hz",
+                                    "720×400 @ 88 Hz",
+                                    "640×480 @ 60 Hz",
+                                    "640×480 @ 67 Hz",
+                                    "640×480 @ 72 Hz",
+                                    "640×480 @ 75 Hz",
+                                    "800×600 @ 56 Hz",
+                                    "800×600 @ 60 Hz",
+                                    "800×600 @ 72 Hz",
+                                    "800×600 @ 75 Hz",
+                                    "832×624 @ 75 Hz",
+                                    "1024×768i @ 87 Hz",
+                                    "1024×768 @ 60 Hz",
+                                    "1024×768 @ 72 Hz",
+                                    "1024×768 @ 75 Hz",
+                                    "1280×1024 @ 75 Hz",
+                                    "1152x870 @ 75 Hz"];
 }
 
 Edid.prototype.setEdidData = function(stringEdid)
@@ -52,6 +69,8 @@ Edid.prototype.parse = function()
   this.bdp = this.getBasicDisplayParams();
   
   this.chromaticity = this.getChromaticityCoordinates();
+  
+  this.timingBitmap = this.getTimingBitmap();
 }
 
 Edid.prototype.validateHeader = function()
@@ -302,25 +321,13 @@ Edid.prototype.getChromaticityCoordinates = function()
 
 Edid.prototype.getTimingBitmap = function()
 {
-  var timingBitmap = new Object();
-  /*
-  timingBitmap.res720×400at70 = 1;
-  timingBitmap.res720×400at88 = 1;
-  timingBitmap.res640×480at60 = 1;
-  timingBitmap.res640×480at67 = 1;
-  timingBitmap.res640×480at72 = 1;
-  timingBitmap.res640×480at75 = 1;
-  timingBitmap.res800×600at56 = 1;
-  timingBitmap.res800×600at60 = 1;
-  timingBitmap.res800×600at72 = 1;
-  timingBitmap.res800×600at75 = 1;
-  timingBitmap.res832×624at75 = 1;
-  timingBitmap.res1024×768iat87 = 1;
-  timingBitmap.res1024×768at60 = 1;
-  timingBitmap.res1024×768at72 = 1;
-  timingBitmap.res1024×768at75 = 1;
-  timingBitmap.res1280×1024at75 = 1;
-  timingBitmap.res1152x870at75 = 1;
-  */
+  var TIMING_BITMAP1 = 35;
+  var TIMING_BITMAP2 = 36;
+  var TIMING_BITMAP3 = 37;
+  
+  var timingBitmap = (this.edidData[TIMING_BITMAP3] << 16) |
+                      (this.edidData[TIMING_BITMAP2] << 8) |
+                      this.edidData[TIMING_BITMAP1]
+  return timingBitmap;
 }
 
