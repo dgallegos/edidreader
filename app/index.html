@@ -5,8 +5,10 @@
   <title>My AngularJS App</title>
   <link rel="stylesheet" href="css/app.css"/>
   <link rel="stylesheet" href="css/bootstrap.css">
+  <script src="js/jquery-1.8.3.min.js"></script>
   <script src="lib/angular/angular.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/bootstrap.js"></script>
   <script src="js/services.js"></script>
   <script src="js/controllers.js"></script>
   <script src="js/edid.js"></script>
@@ -28,16 +30,20 @@
     </div>
     
     <div id="sidebar">
-      <div class="edidHeaderInformation" ng-include src="edidHeaderInfo">
-      </div>
-      
-      <div class="basicDisplayParams" ng-include src="bdpPage">
-      </div>
-      
-      <div class="chromacityCoordinates" ng-include src="chromacityCoords">
-      </div>
-            
-      <div class="timingBitmap" ng-include src="timingBitmap">
+          <div class="accordion" id="accordion2">
+
+        <div class="edidHeaderInformation" ng-include src="edidHeaderInfo">
+        </div>
+        
+        <div class="basicDisplayParams" ng-include src="bdpPage">
+        </div>
+        
+        <div class="chromacityCoordinates" ng-include src="chromacityCoords">
+        </div>
+              
+        <div class="timingBitmap" ng-include src="timingBitmap">
+        </div>
+        
       </div>
     </div>
       

@@ -24,9 +24,6 @@ function EdidCtrl($scope) {
 "00 00 3D 1D 38 0B 00 00 20 20 20 20 20 00 00 48";
 
     $scope.edid = new Edid();
-    $scope.edidHeaderInfo = 'partials/edidHeaderInfo.html';
-    $scope.chromacityCoords = 'partials/chromacityCoords.html';
-    $scope.timingBitmap = 'partials/timingBitmap.html';
 
     $scope.parseEdid = function() {
     // Remove 0x, and Commas
@@ -34,6 +31,8 @@ function EdidCtrl($scope) {
     
     $scope.edid.setEdidData($scope.scrubbedEdid);
     $scope.edid.parse();
+    
+    $scope.edidHeaderInfo = 'partials/edidHeaderInfo.html';
     if($scope.edid.bdp.digitalInput == true)
     {
       $scope.bdpPage = 'partials/bdp/digital.html';
@@ -42,6 +41,8 @@ function EdidCtrl($scope) {
     {
       $scope.bdpPage = 'partials/bdp/analog.html';
     }
+    $scope.chromacityCoords = 'partials/chromacityCoords.html';
+    $scope.timingBitmap = 'partials/timingBitmap.html';
   };
   $scope.isTimingBitmapSet = function(index)
   {

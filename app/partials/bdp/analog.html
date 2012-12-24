@@ -1,20 +1,28 @@
-<h3>Basic Display Parameters</h3>
-<p>
-  Digital Input: {{edid.bdp.digitalInput}} <br />
-  Video white and sync levels, relative to blank: {{edid.WhiteAndSyncLevels[edid.bdp.whiteSyncLevels]}} <br />
-  Blank-to-black setup (pedestal) expected: {{edid.bdp.blankToBlack}} <br />
-  Separate sync supported: {{edid.bdp.separateSyncSupported}} <br />
-  Composite sync (on HSync) supported: {{edid.bdp.compositeSyncSupported}} <br />
-  Sync on green supported: {{edid.bdp.synOnGreen}} <br />
-  VSync pulse must be serrated: {{edid.bdp.vsyncSerrated}} <br />
-  Maximum Horizontal Image Size: {{edid.bdp.maxHorImgSize}} <br />
-  Maximum Vertical Image Size: {{edid.bdp.maxVertImgSize}} <br />
-  Display Gamma: {{edid.bdp.displayGamma}} <br />
-  DPMS Standby: {{edid.bdp.dpmsStandby}} <br />
-  DPMS Suspend: {{edid.bdp.dpmsSuspend}} <br />
-  DPMS Active-Off: {{edid.bdp.dpmsActiveOff}} <br />
-  Display Type: {{edid.analogColorSpace[edid.bdp.displayType]}} <br />
-  Standard sRGB Color Space: {{edid.bdp.standardSRgb}} <br />
-  Preferred Timing Mode: {{edid.bdp.preferredTiming}} <br />
-  GTF Supported: {{edid.bdp.gtfSupported}} <br />
-</p>
+<div class="accordion-group">
+  <div class="accordion-heading">
+    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#bdp">
+      <h3>Basic Display Parameters</h3>
+    </a>
+  </div>
+  <div id="bdp" class="accordion-body collapse">
+    <div class="accordion-inner">
+      Digital Input: {{edid.bdp.digitalInput}} <br />
+      Video white and sync levels, relative to blank: {{edid.WhiteAndSyncLevels[edid.bdp.whiteSyncLevels]}} <br />
+      Blank-to-black setup (pedestal) expected: {{edid.bdp.blankToBlack}} <br />
+      Separate sync supported: {{edid.bdp.separateSyncSupported}} <br />
+      Composite sync (on HSync) supported: {{edid.bdp.compositeSyncSupported}} <br />
+      Sync on green supported: {{edid.bdp.synOnGreen}} <br />
+      VSync pulse must be serrated: {{edid.bdp.vsyncSerrated}} <br />
+      Maximum Horizontal Image Size: {{edid.bdp.maxHorImgSize}} <br />
+      Maximum Vertical Image Size: {{edid.bdp.maxVertImgSize}} <br />
+      Display Gamma: {{edid.bdp.displayGamma}} <br />
+      DPMS Standby: {{edid.bdp.dpmsStandby}} <br />
+      DPMS Suspend: {{edid.bdp.dpmsSuspend}} <br />
+      DPMS Active-Off: {{edid.bdp.dpmsActiveOff}} <br />
+      Display Type: {{edid.analogColorSpace[edid.bdp.displayType]}} <br />
+      Standard sRGB Color Space: {{edid.bdp.standardSRgb}} <br />
+      Preferred Timing Mode: {{edid.bdp.preferredTiming}} <br />
+      GTF Supported: {{edid.bdp.gtfSupported}} <br />
+    </div>
+  </div>
+</div>

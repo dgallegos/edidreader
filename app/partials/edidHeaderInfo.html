@@ -1,9 +1,17 @@
-<h3>Header Information</h3>
-<p>
-  Edid Header: {{edid.validHeader}}  <br />
-  EISA ID: {{edid.eisaId}} <br />
-  Product Code: {{edid.productCode}} <br />
-  Serial Number: {{edid.serialNumber}} <br />
-  Manufacture Date: {{edid.manufactureDate}} <br />
-  Edid Version: {{edid.edidVersion}} <br />  
-</p>
+<div class="accordion-group">
+  <div class="accordion-heading">
+    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#edidHeaderInfo">
+      <h3>Header Information</h3>
+    </a>
+  </div>
+  <div id="edidHeaderInfo" class="accordion-body collapse">
+    <div class="accordion-inner">
+      Edid Header: {{edid.validHeader}}  <br />
+      EISA ID: {{edid.eisaId}} <br />
+      Product Code: {{edid.productCode}} <br />
+      Serial Number: {{edid.serialNumber}} <br />
+      Manufacture Date: {{edid.manufactureDate}} <br />
+      Edid Version: {{edid.edidVersion}} <br />  
+    </div>
+  </div>
+</div>
