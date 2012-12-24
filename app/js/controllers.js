@@ -45,7 +45,9 @@ function EdidCtrl($scope) {
   };
   $scope.isTimingBitmapSet = function(index)
   {
-    var isSet = ($scope.edid.timingBitmap & (1 << index))?true:false;
+    var tbLength = $scope.edid.establishedTimingBitmaps.length;
+    var msb = 0x800000;
+    var isSet = ($scope.edid.timingBitmap & (msb >> index))?true:false;
     return isSet;
   }
 }

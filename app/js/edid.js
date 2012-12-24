@@ -325,9 +325,9 @@ Edid.prototype.getTimingBitmap = function()
   var TIMING_BITMAP2 = 36;
   var TIMING_BITMAP3 = 37;
   
-  var timingBitmap = (this.edidData[TIMING_BITMAP3] << 16) |
+  var timingBitmap = (this.edidData[TIMING_BITMAP1] << 16) |
                       (this.edidData[TIMING_BITMAP2] << 8) |
-                      this.edidData[TIMING_BITMAP1]
+                      this.edidData[TIMING_BITMAP3];
   return timingBitmap;
 }
 
