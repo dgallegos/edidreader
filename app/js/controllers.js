@@ -43,6 +43,8 @@ function EdidCtrl($scope) {
     }
     $scope.chromacityCoords = 'partials/chromacityCoords.html';
     $scope.timingBitmap = 'partials/timingBitmap.html';
+    $scope.standardTimingInfo = 'partials/standardTimingInformation.html';
+    $scope.stdDisplayModes = 'partials/stdDisplayModes.html'
   };
   $scope.isTimingBitmapSet = function(index)
   {

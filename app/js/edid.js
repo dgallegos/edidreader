@@ -71,6 +71,8 @@ Edid.prototype.parse = function()
   this.chromaticity = this.getChromaticityCoordinates();
   
   this.timingBitmap = this.getTimingBitmap();
+
+  this.standardDisplayModes = this.getStandardDisplayModes();
 }
 
 Edid.prototype.validateHeader = function()
@@ -331,3 +333,35 @@ Edid.prototype.getTimingBitmap = function()
   return timingBitmap;
 }
 
+Edid.prototype.getStandardDisplayModes = function()
+{
+  var STD_DISPLAY_MODES_START = 38;
+  var STD_DISPLAY_MODES_END = 53;
+  
+  var stdDispModesArray = new Array();
+  var arrayCounter = 0;
+  var standardDisplayModes = new Object();
+  var index = STD_DISPLAY_MODES_START;
+  while(index < STD_DISPLAY_MODES_END)
+  {
+    if((this.edidData[index] != 0x01) &&
+          (this.edidData[index+1] != 0x01))
+    {
+      standardDisplayModes.xResolution = (this.edidData[index] + 31) * 8;
+      
+      var XY_PIXEL_RATIO_OFF = 6;
+      var XY_PIXEL_RATIO_MASK = 0x03;
+      standardDisplayModes.xyPixelRatio = (this.edidData[index+1] >>
+                                        XY_PIXEL_RATIO_OFF) & XY_PIXEL_RATIO_MASK;
+      
+      var VERTICAL_FREQUENCY_MASK = 0x3F;
+      standardDisplayModes.vertFreq = (this.edidData[index+1] & 
+                                        VERTICAL_FREQUENCY_MASK) + 60;
+      
+      stdDispModesArray[arrayCounter] = standardDisplayModes;
+      arrayCounter++;
+    }
+    index += 2;
+  }
+  return stdDispModesArray;
+}
