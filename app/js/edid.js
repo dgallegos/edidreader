@@ -1,11 +1,18 @@
-function Edid (stringEdid) {
-  //this.edidData = new Array();
-  //var bdp = new Object();
-
-  // Convert to integer array
-  this.edidData = convertToIntArray(stringEdid);  
+function Edid () {
+ 
   this.WhiteAndSyncLevels = ["+0.7/−0.3 V", "+0.714/−0.286 V",
                                "+1.0/−0.4 V", "+0.7/0 V"];
+  this.digitalColorSpace = ["RGB 4:4:4", "RGB 4:4:4 + YCrCb 4:4:4",
+                              "RGB 4:4:4 + YCrCb 4:2:2",
+                              "RGB 4:4:4 + YCrCb 4:4:4 + YCrCb 4:2:2"];
+  this.analogColorSpace = ["Monochrome or Grayscale", 
+                            "RGB color", "Non-RGB color", "Undefined"];
+}
+
+Edid.prototype.setEdidData = function(stringEdid)
+{
+  // Convert to integer array
+  this.edidData = convertToIntArray(stringEdid);  
 }
 
 function convertToIntArray(string)
@@ -204,6 +211,39 @@ Edid.prototype.getBasicDisplayParams = function()
     bdp.vsyncSerrated = (this.edidData[VIDEO_IN_PARAMS_BITMAP] & VSYNC_SERRATED_MASK) ?
                                 true : false;
   }
+  var MAX_HOR_IMG_SIZE = 21;
+  bdp.maxHorImgSize = this.edidData[MAX_HOR_IMG_SIZE];
+  
+  var MAX_VERT_IMG_SIZE = 22;
+  bdp.maxVertImgSize = this.edidData[MAX_VERT_IMG_SIZE];
+
+  var DISPLAY_GAMMA = 23;
+  bdp.displayGamma = this.edidData[DISPLAY_GAMMA];
+
+  var SUPPORTED_FEATURES_BITMAP = 24;
+  var DPMS_STANDBY = 0x80;
+  bdp.dpmsStandby = (this.edidData[SUPPORTED_FEATURES_BITMAP] & DPMS_STANDBY) ?
+                                true : false;
+  var DPMS_SUSPEND = 0x40;                              
+  bdp.dpmsSuspend = (this.edidData[SUPPORTED_FEATURES_BITMAP] & DPMS_SUSPEND) ?
+                                true : false;             
+  var DPMS_ACTIVE_OFF = 0x20;
+  bdp.dpmsActiveOff = (this.edidData[SUPPORTED_FEATURES_BITMAP] & DPMS_ACTIVE_OFF) ?
+                                true : false;                     
+  var DISPLAY_TYPE_OFF = 3;
+  var DISPLAY_TYPE_MASK = 0x03; 
+  bdp.displayType = (this.edidData[SUPPORTED_FEATURES_BITMAP] >> DISPLAY_TYPE_OFF) &
+                                   DISPLAY_TYPE_MASK;
+  
+  var STANDARD_SRGB = 0x04;
+  bdp.standardSRgb = (this.edidData[SUPPORTED_FEATURES_BITMAP] & STANDARD_SRGB) ?
+                                true : false;
+  var PREFERRED_TIMING = 0x02;
+  bdp.preferredTiming = (this.edidData[SUPPORTED_FEATURES_BITMAP] & PREFERRED_TIMING) ?
+                                true : false;
+  var GTF_SUPPORTED = 0x01;
+  bdp.gtfSupported = (this.edidData[SUPPORTED_FEATURES_BITMAP] & GTF_SUPPORTED) ?
+                                true : false;
   return bdp;
 }
 
@@ -259,3 +299,28 @@ Edid.prototype.getChromaticityCoordinates = function()
   
   return chromaticity;
 }
+
+Edid.prototype.getTimingBitmap = function()
+{
+  var timingBitmap = new Object();
+  /*
+  timingBitmap.res720×400at70 = 1;
+  timingBitmap.res720×400at88 = 1;
+  timingBitmap.res640×480at60 = 1;
+  timingBitmap.res640×480at67 = 1;
+  timingBitmap.res640×480at72 = 1;
+  timingBitmap.res640×480at75 = 1;
+  timingBitmap.res800×600at56 = 1;
+  timingBitmap.res800×600at60 = 1;
+  timingBitmap.res800×600at72 = 1;
+  timingBitmap.res800×600at75 = 1;
+  timingBitmap.res832×624at75 = 1;
+  timingBitmap.res1024×768iat87 = 1;
+  timingBitmap.res1024×768at60 = 1;
+  timingBitmap.res1024×768at72 = 1;
+  timingBitmap.res1024×768at75 = 1;
+  timingBitmap.res1280×1024at75 = 1;
+  timingBitmap.res1152x870at75 = 1;
+  */
+}
+

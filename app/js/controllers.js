@@ -23,14 +23,15 @@ function EdidCtrl($scope) {
 "20 46 6C 61 74 20 50 61 6E 65 6C 00 00 00 00 FD \n" +
 "00 00 3D 1D 38 0B 00 00 20 20 20 20 20 00 00 48";
 
+    $scope.edid = new Edid();
     $scope.edidHeaderInfo = 'partials/edidHeaderInfo.html';
     $scope.chromacityCoords = 'partials/chromacityCoords.html';
 
     $scope.parseEdid = function() {
     // Remove 0x, and Commas
     $scope.scrubbedEdid = $scope.originalEdid.replace(/,/g," ").replace(/0x/g,"").toUpperCase();
-
-    $scope.edid = new Edid($scope.scrubbedEdid);
+    
+    $scope.edid.setEdidData($scope.scrubbedEdid);
     $scope.edid.parse();
     if($scope.edid.bdp.digitalInput == true)
     {

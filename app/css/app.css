@@ -36,11 +36,11 @@ padding-top:50px;
 }
 #main {
 float:left;
-width:600px;
+width:550px;
 }
 #sidebar {
 float:right;
-width:250px;
+width:300px;
 }
 
 #inputEdid, #outputEdid {
