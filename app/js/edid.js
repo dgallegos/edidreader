@@ -24,6 +24,12 @@ function Edid () {
                                     "1024×768 @ 75 Hz",
                                     "1280×1024 @ 75 Hz",
                                     "1152x870 @ 75 Hz"];
+                                    
+  this.xyPixelRatioEnum = [{"string":"16:10"},
+                           {"string":"4:3"},
+                           {"string":"5:4"},
+                           {"string":"16:9"}];
+  
   this.syncTypeEnum = {"ANALOG_COMPOSITE" : 0x00,
                     "BIPOLAR_ANALOG_COMPOSITE" : 0x01,
                       "DIGITAL_COMPOSITE" : 0x02,
@@ -350,13 +356,13 @@ Edid.prototype.getStandardDisplayModes = function()
   
   var stdDispModesArray = new Array();
   var arrayCounter = 0;
-  var standardDisplayModes = new Object();
   var index = STD_DISPLAY_MODES_START;
   while(index < STD_DISPLAY_MODES_END)
   {
     if((this.edidData[index] != 0x01) &&
           (this.edidData[index+1] != 0x01))
     {
+      var standardDisplayModes = new Object();
       standardDisplayModes.xResolution = (this.edidData[index] + 31) * 8;
       
       var XY_PIXEL_RATIO_OFF = 6;

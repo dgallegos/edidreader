@@ -9,7 +9,7 @@
 
       <div ng-repeat="dispMode in edid.standardDisplayModes"> 
         X Resolution: {{dispMode.xResolution}} <br />
-        X:Y Pixel Ratio: {{dispMode.xyPixelRatio}} <br />
+        X:Y Pixel Ratio: {{edid.xyPixelRatioEnum[dispMode.xyPixelRatio].string}} <br />
         Vertical Frequency: {{dispMode.vertFreq}} <br />
       </div>
         
