@@ -54,7 +54,7 @@ $scope.originalEdid =  "00,FF,FF,FF,FF,FF,FF,00,4C,2D,9B,06,01,00,00,00, \n" +
     // Start Actually Parsing
     $scope.parseEdid = function() {
     // Remove 0x, and Commas
-    $scope.scrubbedEdid = $scope.originalEdid.replace(/,/g," ").replace(/0x/g,"").replace(/ +(?= )/g,'').toUpperCase();
+    $scope.scrubbedEdid = scrubEdid($scope.originalEdid);
     
     $scope.edid.setEdidData($scope.scrubbedEdid);
     $scope.edid.parse();
@@ -134,7 +134,21 @@ $scope.originalEdid =  "00,FF,FF,FF,FF,FF,FF,00,4C,2D,9B,06,01,00,00,00, \n" +
   }
 }
 
+function scrubEdid(edid)
+{
+  var scrubbedEdid;
+  
+  // Remove commas, replace with spaces
+  scrubbedEdid = edid.replace(/,/g,' ');
+  // Remove 0x for hex
+  scrubbedEdid = scrubbedEdid.replace(/0x/g,' ');
+  // Remove multiple spaces
+  scrubbedEdid = scrubbedEdid.replace( / +/g,' ');
+  // Make hex upper case
+  scrubbedEdid = scrubbedEdid.toUpperCase(); 
 
+  return scrubbedEdid; 
+}
 /* Test Data
  * 0x00 0x01 0x02 0x03 0x04 0x05 0x06 0x07 0x08 0x09 0x0A 0x0B 0x0C 0x0D 0x0E 0x0F
  * 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
