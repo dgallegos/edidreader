@@ -27,6 +27,7 @@ function EdidCtrl($scope) {
 /* New Test Edid
  * http://www.avsforum.com/t/1253912/first-hdmi-1-4-edid-report
  */
+/*
 $scope.originalEdid =  "00,FF,FF,FF,FF,FF,FF,00,4C,2D,9B,06,01,00,00,00, \n" +
                        "33,13,01,03,80,59,32,78,0A,EE,91,A3,54,4C,99,26, \n" +
                        "0F,50,54,BD,EF,80,71,4F,81,00,81,40,81,80,95,00, \n" +
@@ -43,7 +44,7 @@ $scope.originalEdid =  "00,FF,FF,FF,FF,FF,FF,00,4C,2D,9B,06,01,00,00,00, \n" +
                        "00,1E,01,1D,80,D0,72,1C,16,20,10,2C,25,80,A0,5A, \n" +
                        "00,00,00,9E,00,00,00,00,00,00,00,00,00,00,00,00, \n" +
                        "00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,74";
-    
+ */   
     $scope.edid = new Edid();
 
     $scope.validChecksums = new Array();
@@ -142,11 +143,14 @@ function scrubEdid(edid)
   scrubbedEdid = edid.replace(/,/g,' ');
   // Remove 0x for hex
   scrubbedEdid = scrubbedEdid.replace(/0x/g,' ');
+  // Replace Tabs
+  scrubbedEdid = scrubbedEdid.replace('\t',' ');
+  // Remove all line returns
+  scrubbedEdid = scrubbedEdid.replace(/(\r\n|\n|\r)/gm,' ');
   // Remove multiple spaces
   scrubbedEdid = scrubbedEdid.replace( / +/g,' ');
   // Make hex upper case
-  scrubbedEdid = scrubbedEdid.toUpperCase(); 
-
+  scrubbedEdid = scrubbedEdid.toUpperCase();
   return scrubbedEdid; 
 }
 /* Test Data
