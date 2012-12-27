@@ -521,7 +521,7 @@ Edid.prototype.getNumberExtensions = function()
 Edid.prototype.getChecksum = function()
 {
   var CHECKSUM = 127;
-  return this.edidData[CHECKSUM].toString(16);
+  return this.edidData[CHECKSUM].toString(16).toUpperCase();
 }
 
 Edid.prototype.calcChecksum = function(block)
