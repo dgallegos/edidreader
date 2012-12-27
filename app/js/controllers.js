@@ -13,6 +13,7 @@ MyCtrl2.$inject = [];
 
 function EdidCtrl($scope) {
   // Populated test EDID
+  /*
   $scope.originalEdid = 
 "00 FF FF FF FF FF FF 00 4D D9 FA 06 00 00 00 00 \n" +
 "2D 0C 01 03 90 1F 11 00 EA A8 E0 99 57 4B 92 25 \n" +
@@ -22,16 +23,43 @@ function EdidCtrl($scope) {
 "64 69 61 20 44 65 66 61 75 6C 00 00 00 FC 00 74 \n" +
 "20 46 6C 61 74 20 50 61 6E 65 6C 00 00 00 00 FD \n" +
 "00 00 3D 1D 38 0B 00 00 20 20 20 20 20 00 00 48";
-
+*/
+/* New Test Edid
+ * http://www.avsforum.com/t/1253912/first-hdmi-1-4-edid-report
+ */
+$scope.originalEdid =  "00,FF,FF,FF,FF,FF,FF,00,4C,2D,9B,06,01,00,00,00, \n" +
+                       "33,13,01,03,80,59,32,78,0A,EE,91,A3,54,4C,99,26, \n" +
+                       "0F,50,54,BD,EF,80,71,4F,81,00,81,40,81,80,95,00, \n" +
+                       "95,0F,B3,00,A9,40,02,3A,80,18,71,38,2D,40,58,2C, \n" +
+                       "45,00,A0,5A,00,00,00,1E,66,21,50,B0,51,00,1B,30, \n" +
+                       "40,70,36,00,A0,5A,00,00,00,1E,00,00,00,FD,00,18, \n" +
+                       "4B,1A,51,17,00,0A,20,20,20,20,20,20,00,00,00,FC, \n" +
+                       "00,53,41,4D,53,55,4E,47,0A,20,20,20,20,20,01,7F, \n" +
+                       "02,03,2E,F1,4B,90,1F,04,13,05,14,03,12,20,21,22, \n" +
+                       "23,09,07,07,83,01,00,00,E2,00,0F,E3,05,03,01,6E, \n" +
+                       "03,0C,00,20,00,B8,2D,20,D0,04,01,40,07,3F,02,3A, \n" +
+                       "80,D0,72,38,2D,40,10,2C,45,80,A0,5A,00,00,00,1E, \n" +
+                       "01,1D,00,BC,52,D0,1E,20,B8,28,55,40,A0,5A,00,00, \n" +
+                       "00,1E,01,1D,80,D0,72,1C,16,20,10,2C,25,80,A0,5A, \n" +
+                       "00,00,00,9E,00,00,00,00,00,00,00,00,00,00,00,00, \n" +
+                       "00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,74";
+    
     $scope.edid = new Edid();
 
+    $scope.validChecksums = new Array();
+    $scope.dtdBit2Text = new Array();
+    $scope.dtdBit1Text = new Array();
+    
+    //*********************************
+    // Start Actually Parsing
     $scope.parseEdid = function() {
     // Remove 0x, and Commas
-    $scope.scrubbedEdid = $scope.originalEdid.replace(/,/g," ").replace(/0x/g,"").toUpperCase();
+    $scope.scrubbedEdid = $scope.originalEdid.replace(/,/g," ").replace(/0x/g,"").replace(/ +(?= )/g,'').toUpperCase();
     
     $scope.edid.setEdidData($scope.scrubbedEdid);
     $scope.edid.parse();
     
+    $scope.updateChecksums();
     $scope.edidHeaderInfo = 'partials/edidHeaderInfo.html';
     if($scope.edid.bdp.digitalInput == true)
     {
@@ -45,14 +73,64 @@ function EdidCtrl($scope) {
     $scope.timingBitmap = 'partials/timingBitmap.html';
     $scope.standardTimingInfo = 'partials/standardTimingInformation.html';
     $scope.stdDisplayModes = 'partials/stdDisplayModes.html'
+    $scope.updateDtdBit2Text();
+    $scope.updateDtdBit1Text();
     $scope.detailedTimingDescriptors = 'partials/detailedTimingDescriptors.html'
   };
+  $scope.updateChecksums = function()  
+  {
+    var numberBlocks = $scope.edid.edidData.length / $scope.edid.EDID_BLOCK_LENGTH;
+    for(var index = 0; index < numberBlocks; index++)
+    {
+      $scope.validChecksums[index] = $scope.edid.validChecksum(index).toString().toUpperCase();
+    }
+  }
   $scope.isTimingBitmapSet = function(index)
   {
     var tbLength = $scope.edid.establishedTimingBitmaps.length;
     var msb = 0x800000;
     var isSet = ($scope.edid.timingBitmap & (msb >> index))?true:false;
     return isSet;
+  }
+  $scope.updateDtdBit2Text = function()
+  {
+    for(var index = 0; index < $scope.edid.dtds.length; index++)
+    {
+      var bit2Text = new String();
+      if($scope.edid.dtds[index].syncType == 
+                $scope.edid.syncTypeEnum.DIGITAL_SEPARATE)
+      {
+        bit2Text = "Vertical Sync Polarity: ";
+        bit2Text += $scope.edid.dtds[index].vSyncPolarity;
+      }
+      else
+      {
+        bit2Text = "Vertical Sync Serrated: ";
+        bit2Text += $scope.edid.dtds[index].vSyncSerrated;
+      } 
+      $scope.dtdBit2Text[index] = bit2Text;
+    }
+  }
+  $scope.updateDtdBit1Text = function()
+  {
+    for(var index = 0; index < $scope.edid.dtds.length; index++)
+    {
+      var bit1Text = new String();
+      if(($scope.edid.dtds[index].syncType == 
+                $scope.edid.syncTypeEnum.ANALOG_COMPOSITE) ||
+                ($scope.edid.dtds[index].syncType == 
+                $scope.edid.syncTypeEnum.BIPOLAR_ANALOG_COMPOSITE))
+      {
+        bit1Text = "Sync on all 3 RGB lines: ";
+        bit1Text += $scope.edid.dtds[index].syncAllRGBLines;
+      }
+      else
+      {
+        bit1Text = "HSync polarity: ";
+        bit1Text += $scope.edid.dtds[index].hSyncPolarity;
+      } 
+      $scope.dtdBit1Text[index] = bit1Text;
+    }
   }
 }
 

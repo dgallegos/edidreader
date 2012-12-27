@@ -1,5 +1,5 @@
 function Edid () {
- 
+  this.EDID_BLOCK_LENGTH = 128; 
   this.WhiteAndSyncLevels = ["+0.7/−0.3 V", "+0.714/−0.286 V",
                                "+1.0/−0.4 V", "+0.7/0 V"];
   this.digitalColorSpace = ["RGB 4:4:4", "RGB 4:4:4 + YCrCb 4:4:4",
@@ -24,6 +24,10 @@ function Edid () {
                                     "1024×768 @ 75 Hz",
                                     "1280×1024 @ 75 Hz",
                                     "1152x870 @ 75 Hz"];
+  this.syncTypeEnum = {"ANALOG_COMPOSITE" : 0x00,
+                    "BIPOLAR_ANALOG_COMPOSITE" : 0x01,
+                      "DIGITAL_COMPOSITE" : 0x02,
+                      "DIGITAL_SEPARATE" : 0x03};
 }
 
 Edid.prototype.setEdidData = function(stringEdid)
@@ -456,15 +460,13 @@ Edid.prototype.getDtds = function()
     dtd.stereoMode = ((this.edidData[dtdIndex+17] >> STEREO_MODE_OFFSET) &
                                                      STEREO_MODE_MASK);
     
-    var ANALOG_COMPOSITE = 0x00;
-    var BIPOLAR_ANALOG_COMPOSITE = 0x01;
-    var DIGITAL_SEPARATE = 0x03;
+
     var SYNC_TYPE_OFFSET = 3;
     var SYNC_TYPE_MASK = 0x03;
     dtd.syncType = ((this.edidData[dtdIndex+17] >> SYNC_TYPE_OFFSET) &
                                                      SYNC_TYPE_MASK);
     // Bit is dependent on sync type
-    if(dtd.syncType == DIGITAL_SEPARATE)
+    if(dtd.syncType == this.syncTypeEnum.DIGITAL_SEPARATE)
     {
       var VSYNC_POLARITY_MASK = 0x04; 
       dtd.vSyncPolarity = (this.edidData[dtdIndex+17] & 
@@ -478,8 +480,8 @@ Edid.prototype.getDtds = function()
     }
     
     // Bit is dependent on syn type
-    if((dtd.syncType == ANALOG_COMPOSITE) ||
-                     (dtd.syncType == BIPOLAR_ANALOG_COMPOSITE))
+    if((dtd.syncType == this.syncTypeEnum.ANALOG_COMPOSITE) ||
+                     (dtd.syncType == this.syncTypeEnum.BIPOLAR_ANALOG_COMPOSITE))
     {
       var SYNC_ALL_RGB_MASK = 0x02;
       dtd.syncAllRGBLines = (this.edidData[dtdIndex+17] & 
@@ -514,4 +516,33 @@ Edid.prototype.getChecksum = function()
 {
   var CHECKSUM = 127;
   return this.edidData[CHECKSUM].toString(16);
+}
+
+Edid.prototype.calcChecksum = function(block)
+{
+  var startAddress = block * this.EDID_BLOCK_LENGTH;
+  var endAddress = startAddress + this.EDID_BLOCK_LENGTH - 1;
+  var checksum = 0;
+  for(var index = startAddress; index < endAddress; index++)
+  {
+    checksum += this.edidData[index];
+  }
+  return (256- (checksum % 256));
+}
+
+Edid.prototype.validChecksum = function(block)
+{
+  var checksum = this.edidData[((block+1) * this.EDID_BLOCK_LENGTH) - 1];
+  var calculatedChecksum = this.calcChecksum(block);
+  var validChecksum =  new Boolean();
+  
+  if(checksum == calculatedChecksum)
+  {
+    validChecksum = true;
+  }
+  else
+  {
+    validChecksum = false;
+  }
+  return validChecksum;
 }
