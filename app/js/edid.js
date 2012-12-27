@@ -73,6 +73,12 @@ Edid.prototype.parse = function()
   this.timingBitmap = this.getTimingBitmap();
 
   this.standardDisplayModes = this.getStandardDisplayModes();
+  
+  this.dtds = this.getDtds();
+  
+  this.numberOfExtensions = this.getNumberExtensions();
+
+  this.checksum = this.getChecksum();
 }
 
 Edid.prototype.validateHeader = function()
@@ -364,4 +370,148 @@ Edid.prototype.getStandardDisplayModes = function()
     index += 2;
   }
   return stdDispModesArray;
+}
+
+Edid.prototype.getDtds = function()
+{
+  var dtdArray = new Array();
+  var dtdCounter = 0;
+  
+  var DTD_START = 54;
+  var DTD_END = 125;
+  var DTD_LENGTH = 18;
+  
+  var dtdIndex = DTD_START;
+  
+  // While the pixel clock is not equal to zero and
+  // the DTD index is less than the last byte of the DTD
+  while(((this.edidData[dtdIndex] != 0) || (this.edidData[dtdIndex+1] != 0))
+                                && (dtdIndex < DTD_END))
+  {
+    var dtd = new Object();
+
+    // Pixel Clock in MHz
+    dtd.pixelClock = ((this.edidData[dtdIndex+1] << 8) |
+                           this.edidData[dtdIndex]) / 100;
+    
+    var HOR_ACTIVE_PIX_MASK = 0x0F;
+    dtd.horActivePixels = ((this.edidData[dtdIndex+4] & HOR_ACTIVE_PIX_MASK) << 8) |
+                                this.edidData[dtdIndex+2];
+                      
+    var HOR_BLANK_OFF = 4;
+    var HOR_BLANK_MASK = 0x0F          
+    dtd.horBlankPixels = (((this.edidData[dtdIndex+4] >> HOR_BLANK_OFF)
+                             & HOR_BLANK_MASK) << 8) | this.edidData[dtdIndex+3];
+                             
+    var VERT_ACTIVE_MASK = 0x0F;
+    dtd.vertActivePixels = ((this.edidData[dtdIndex+7] & VERT_ACTIVE_MASK) << 8) |
+                                this.edidData[dtdIndex+5];;
+    var VERT_BLANK_OFF = 4;
+    var VERT_BLANK_MASK = 0x0F;
+    dtd.vertBlankPixels = (((this.edidData[dtdIndex+7] >> VERT_BLANK_OFF)
+                             & VERT_BLANK_MASK)  << 8) | this.edidData[dtdIndex+6];
+    
+    var HOR_SYNC_OFF_OFF = 6;
+    var HOR_SYNC_OFF_MASK = 0x03;
+    dtd.horSyncOff = (((this.edidData[dtdIndex+11] >> HOR_SYNC_OFF_OFF)
+                             & HOR_SYNC_OFF_MASK) << 8) | this.edidData[dtdIndex+8];
+    
+    var HOR_SYNC_PULSE_OFF = 4;
+    var HOR_SYNC_PULSE_MASK = 0x03;
+    dtd.horSyncPulse = (((this.edidData[dtdIndex+11] >> HOR_SYNC_PULSE_OFF)
+                             & HOR_SYNC_PULSE_MASK) << 8)| this.edidData[dtdIndex+9];
+    
+    var VERT_SYNC_OFF_TOP_OFF = 2;
+    var VERT_SYNC_OFF_TOP_MASK = 0x03;
+    var VERT_SYNC_OFF_BOT_OFF = 4;
+    var VERT_SYNC_OFF_BOT_MASK = 0x0F;
+    dtd.vertSyncOff = (((this.edidData[dtdIndex+11] >> VERT_SYNC_OFF_TOP_OFF)
+                             & VERT_SYNC_OFF_TOP_MASK) << 4) | 
+                      ((this.edidData[dtdIndex+10] >> VERT_SYNC_OFF_BOT_OFF) &
+                      VERT_SYNC_OFF_BOT_MASK);
+    
+    var VERT_SYNC_PULSE_TOP_MASK = 0x03;
+    var VERT_SYNC_PULSE_BOT_MASK = 0x0F;
+    dtd.vertSyncPulse = ((this.edidData[dtdIndex+11] & VERT_SYNC_PULSE_TOP_MASK)
+                          << 4) | (this.edidData[dtdIndex+10] & VERT_SYNC_PULSE_BOT_MASK);
+    
+    var HOR_DISPLAY_TOP_OFF = 4;
+    var HOR_DISPLAY_TOP_MASK = 0x0F;
+    dtd.horDisplaySize = (((this.edidData[dtdIndex+14] >> HOR_DISPLAY_TOP_OFF)
+                             & HOR_DISPLAY_TOP_MASK) << 8) | this.edidData[dtdIndex+12];
+    
+    var VERT_DISPLAY_TOP_MASK = 0x0F;
+    dtd.vertDisplaySize = ((this.edidData[dtdIndex+14] & VERT_DISPLAY_TOP_MASK) << 8)
+                                               | this.edidData[dtdIndex+13];
+    
+    dtd.horBorderPixels = this.edidData[dtdIndex+15] * 2;
+    
+    dtd.vertBorderLines = this.edidData[dtdIndex+16] * 2;
+    
+    var INTERLACED_MASK = 0x80;
+    dtd.interlaced = (this.edidData[dtdIndex+17] & INTERLACED_MASK) ? true : false;
+    
+    var STEREO_MODE_OFFSET = 5;
+    var STEREO_MODE_MASK = 0x03;
+    dtd.stereoMode = ((this.edidData[dtdIndex+17] >> STEREO_MODE_OFFSET) &
+                                                     STEREO_MODE_MASK);
+    
+    var ANALOG_COMPOSITE = 0x00;
+    var BIPOLAR_ANALOG_COMPOSITE = 0x01;
+    var DIGITAL_SEPARATE = 0x03;
+    var SYNC_TYPE_OFFSET = 3;
+    var SYNC_TYPE_MASK = 0x03;
+    dtd.syncType = ((this.edidData[dtdIndex+17] >> SYNC_TYPE_OFFSET) &
+                                                     SYNC_TYPE_MASK);
+    // Bit is dependent on sync type
+    if(dtd.syncType == DIGITAL_SEPARATE)
+    {
+      var VSYNC_POLARITY_MASK = 0x04; 
+      dtd.vSyncPolarity = (this.edidData[dtdIndex+17] & 
+                              VSYNC_POLARITY_MASK) ? true : false;
+    }
+    else
+    {
+      var VSYNC_SERRATED_MASK = 0x04;
+      dtd.vSyncSerrated = (this.edidData[dtdIndex+17] & 
+                              VSYNC_SERRATED_MASK) ? true : false;
+    }
+    
+    // Bit is dependent on syn type
+    if((dtd.syncType == ANALOG_COMPOSITE) ||
+                     (dtd.syncType == BIPOLAR_ANALOG_COMPOSITE))
+    {
+      var SYNC_ALL_RGB_MASK = 0x02;
+      dtd.syncAllRGBLines = (this.edidData[dtdIndex+17] & 
+                              SYNC_ALL_RGB_MASK) ? true : false;
+    }
+    else
+    {
+      var HSYNC_POLARY_MASK = 0x02;
+      dtd.hSyncPolarity = (this.edidData[dtdIndex+17] & 
+                              HSYNC_POLARY_MASK) ? true : false;
+    }
+    var TWO_WAY_STEREO_MASK = 0x01;
+    dtd.twoWayStereo = (this.edidData[dtdIndex+17] & TWO_WAY_STEREO_MASK) ? true : false;
+    
+    // Add DTD to the DTD Array
+    dtdArray[dtdCounter] = dtd;
+    // Increment DTD Counter
+    dtdCounter++;
+    // Add a DTD length, to go to the next descriptor
+    dtdIndex += DTD_LENGTH;
+  }
+  return dtdArray;
+}
+
+Edid.prototype.getNumberExtensions = function()
+{
+  var NUMBER_OF_EXTENSIONS = 126;
+  return this.edidData[NUMBER_OF_EXTENSIONS];
+}
+
+Edid.prototype.getChecksum = function()
+{
+  var CHECKSUM = 127;
+  return this.edidData[CHECKSUM].toString(16);
 }

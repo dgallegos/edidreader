@@ -45,6 +45,7 @@ function EdidCtrl($scope) {
     $scope.timingBitmap = 'partials/timingBitmap.html';
     $scope.standardTimingInfo = 'partials/standardTimingInformation.html';
     $scope.stdDisplayModes = 'partials/stdDisplayModes.html'
+    $scope.detailedTimingDescriptors = 'partials/detailedTimingDescriptors.html'
   };
   $scope.isTimingBitmapSet = function(index)
   {

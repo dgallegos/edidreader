@@ -2,7 +2,7 @@
 <html lang="en" ng-app="myApp">
 <head>
   <meta charset="utf-8">
-  <title>My AngularJS App</title>
+  <title>EDID Reader</title>
   <link rel="stylesheet" href="css/app.css"/>
   <link rel="stylesheet" href="css/bootstrap.css">
   <script src="js/jquery-1.8.3.min.js"></script>
@@ -20,7 +20,7 @@
     
     <div id="main">
       <form ng-submit="parseEdid()">
-        <H1>Edid:</H1>
+        <H1>EDID:</H1>
         <textarea id="inputEdid" ng-model="originalEdid" class="field span5" rows="8"></textarea>
         <input type="submit" value="Parse Edid">
       </form>
@@ -46,7 +46,7 @@
         
         <div class="standardTimingInfo" ng-include src="standardTimingInfo">
         </div>
-        
+
       </div>
     </div>
       
