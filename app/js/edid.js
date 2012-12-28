@@ -38,7 +38,6 @@ function Edid () {
 
 Edid.prototype.setEdidData = function(edid)
 {
-  // Convert to integer array
   this.edidData = edid;  
 }
 
@@ -78,6 +77,22 @@ Edid.prototype.parse = function()
   this.numberOfExtensions = this.getNumberExtensions();
 
   this.checksum = this.getChecksum();
+
+  this.exts = new Array();  
+  // Begin Parsing Extension blocks
+  for(var extIndex = 0; extIndex < this.numberOfExtensions; extIndex++)
+  {
+    this.exts[extIndex] = new Object();
+    this.exts[extIndex].extTag = this.getExtTag(extIndex);
+    this.exts[extIndex].revisionNumber = this.getRevisionNumber(extIndex);
+    this.exts[extIndex].dtdStart = this.getDtdStart(extIndex);
+    this.exts[extIndex].numDtds = this.getNumberExtDtds(extIndex);
+    this.exts[extIndex].underscan = this.getUnderscan(extIndex);
+    this.exts[extIndex].basicAudio = this.getBasicAudio(extIndex);
+    this.exts[extIndex].ycbcr444 = this.getYcBcR444(extIndex);
+    this.exts[extIndex].ycbcr422 = this.getYcBcR422(extIndex);
+
+  }
 }
 
 Edid.prototype.validateHeader = function()
@@ -510,7 +525,7 @@ Edid.prototype.getNumberExtensions = function()
 Edid.prototype.getChecksum = function()
 {
   var CHECKSUM = 127;
-  return this.edidData[CHECKSUM].toString(16).toUpperCase();
+  return this.edidData[CHECKSUM];
 }
 
 Edid.prototype.calcChecksum = function(block)
@@ -540,4 +555,65 @@ Edid.prototype.validChecksum = function(block)
     validChecksum = false;
   }
   return validChecksum;
+}
+
+Edid.prototype.getExtTag = function(extIndex)
+{
+  var BLOCK_OFFSET = this.EDID_BLOCK_LENGTH * (extIndex+1);
+  var EXT_TAG = BLOCK_OFFSET + 0;
+  return this.edidData[EXT_TAG];
+}
+
+Edid.prototype.getRevisionNumber = function(extIndex)
+{
+  var BLOCK_OFFSET = this.EDID_BLOCK_LENGTH * (extIndex+1);
+  var REV_NUMBER = BLOCK_OFFSET + 1;
+  return this.edidData[REV_NUMBER];
+}
+
+Edid.prototype.getDtdStart = function(extIndex)
+{
+  var BLOCK_OFFSET = this.EDID_BLOCK_LENGTH * (extIndex+1);
+  var DTD_START = BLOCK_OFFSET + 2;
+  return this.edidData[DTD_START];
+}
+
+Edid.prototype.getNumberExtDtds = function(extIndex)
+{
+  var BLOCK_OFFSET = this.EDID_BLOCK_LENGTH * (extIndex+1);
+  var NUM_DTDS = BLOCK_OFFSET + 3;
+  var NUM_DTDS_MASK = 0x0F;
+  return (this.edidData[NUM_DTDS] & NUM_DTDS_MASK); 
+}
+
+Edid.prototype.getUnderscan = function(extIndex)
+{
+  var BLOCK_OFFSET = this.EDID_BLOCK_LENGTH * (extIndex+1);
+  var UNDERSCAN = BLOCK_OFFSET + 3;
+  var UNDERSCAN_MASK = 0x80;
+  return (this.edidData[UNDERSCAN] & UNDERSCAN_MASK)?true:false; 
+}
+
+Edid.prototype.getBasicAudio = function(extIndex)
+{
+  var BLOCK_OFFSET = this.EDID_BLOCK_LENGTH * (extIndex+1);
+  var BASIC_AUDIO = BLOCK_OFFSET + 3;
+  var BASIC_AUDIO_MASK = 0x40;
+  return (this.edidData[BASIC_AUDIO] & BASIC_AUDIO_MASK)?true:false; 
+}
+
+Edid.prototype.getYcBcR444 = function(extIndex)
+{
+  var BLOCK_OFFSET = this.EDID_BLOCK_LENGTH * (extIndex+1);
+  var YCBCR_444 = BLOCK_OFFSET + 3;
+  var YCBCR_444_MASK = 0x20;
+  return (this.edidData[YCBCR_444] & YCBCR_444_MASK)?true:false; 
+}
+
+Edid.prototype.getYcBcR422 = function(extIndex)
+{
+  var BLOCK_OFFSET = this.EDID_BLOCK_LENGTH * (extIndex+1);
+  var YCBCR_422 = BLOCK_OFFSET + 3;
+  var YCBCR_422_MASK = 0x10;
+  return (this.edidData[YCBCR_422] & YCBCR_422_MASK)?true:false; 
 }

@@ -67,6 +67,12 @@ $scope.originalEdid =  "00,FF,FF,FF,FF,FF,FF,00,4C,2D,9B,06,01,00,00,00, \n" +
     // Setup the View
     $scope.updateOutputEdid();
     $scope.updateChecksums();
+    $scope.updateBlock0();   
+    $scope.updateBlockX();
+  };
+  $scope.updateBlock0 = function()  
+  {
+    $scope.block0 = 'partials/block0.html';
     $scope.edidHeaderInfo = 'partials/edidHeaderInfo.html';
     if($scope.edid.bdp.digitalInput == true)
     {
@@ -83,7 +89,12 @@ $scope.originalEdid =  "00,FF,FF,FF,FF,FF,FF,00,4C,2D,9B,06,01,00,00,00, \n" +
     $scope.updateDtdBit2Text();
     $scope.updateDtdBit1Text();
     $scope.detailedTimingDescriptors = 'partials/detailedTimingDescriptors.html'
-  };
+  } 
+  $scope.updateBlockX = function()  
+  {
+    $scope.blockX = 'partials/blockX.html';
+    $scope.extHeader = 'partials/extHeader.html';
+  }
   $scope.updateOutputEdid = function()  
   {
     var comma;
@@ -181,6 +192,11 @@ $scope.originalEdid =  "00,FF,FF,FF,FF,FF,FF,00,4C,2D,9B,06,01,00,00,00, \n" +
       } 
       $scope.dtdBit1Text[index] = bit1Text;
     }
+  }
+  $scope.accordionIdText = function(blockNumber)
+  {
+    var accordionIdText = "Block"+blockNumber.toString();
+    return accordionIdText;
   }
 }
 

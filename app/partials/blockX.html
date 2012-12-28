@@ -1,0 +1,15 @@
+<div ng-repeat="ext in edid.exts"> 
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href={{accordionIdText($index)}}>
+        <h3>Block {{$index+1}}</h3>
+      </a>
+    </div>
+    <div id={{accordionIdText($index)}} class="accordion-body collapse in">
+      <div class="accordion-inner">
+          <div class="extHeader" ng-include src="extHeader">
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
