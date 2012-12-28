@@ -25,7 +25,10 @@
         <input type="submit" value="Parse Edid">
       </form>
       <p>
-        <textarea id="outputEdid" readonly="true" ng-model="scrubbedEdid" class="field span5" rows="8"></textarea>
+        <input type="checkbox" ng-model="addLineBreaks" ng-click="updateOutputEdid()"> Add Line Breaks <br />
+        <input type="checkbox" ng-model="addCommas" ng-click="updateOutputEdid()"> Add Commas <br />
+        <input type="checkbox" ng-model="addHex" ng-click="updateOutputEdid()"> Add Hex Prefix (0x) <br />
+        <textarea id="outputEdid" readonly="true" ng-model="outputEdid" class="field span5" rows="8"></textarea>
       </p>
     </div>
     

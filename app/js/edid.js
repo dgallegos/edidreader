@@ -36,22 +36,11 @@ function Edid () {
                       "DIGITAL_SEPARATE" : 0x03};
 }
 
-Edid.prototype.setEdidData = function(stringEdid)
+Edid.prototype.setEdidData = function(edid)
 {
   // Convert to integer array
-  this.edidData = convertToIntArray(stringEdid);  
+  this.edidData = edid;  
 }
-
-function convertToIntArray(string)
-{
-  var intArray = string.split(" ");
-  var edidData = [];
-  for(var i=0; i<intArray.length; i++) 
-  { 
-    edidData[i] = parseInt(intArray[i], 16);
-  } 
-  return edidData;
-} 
 
 Edid.prototype.parse = function()
 {

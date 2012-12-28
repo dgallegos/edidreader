@@ -27,7 +27,7 @@ function EdidCtrl($scope) {
 /* New Test Edid
  * http://www.avsforum.com/t/1253912/first-hdmi-1-4-edid-report
  */
-/*
+
 $scope.originalEdid =  "00,FF,FF,FF,FF,FF,FF,00,4C,2D,9B,06,01,00,00,00, \n" +
                        "33,13,01,03,80,59,32,78,0A,EE,91,A3,54,4C,99,26, \n" +
                        "0F,50,54,BD,EF,80,71,4F,81,00,81,40,81,80,95,00, \n" +
@@ -44,7 +44,7 @@ $scope.originalEdid =  "00,FF,FF,FF,FF,FF,FF,00,4C,2D,9B,06,01,00,00,00, \n" +
                        "00,1E,01,1D,80,D0,72,1C,16,20,10,2C,25,80,A0,5A, \n" +
                        "00,00,00,9E,00,00,00,00,00,00,00,00,00,00,00,00, \n" +
                        "00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,74";
- */   
+    
     $scope.edid = new Edid();
 
     $scope.validChecksums = new Array();
@@ -54,12 +54,18 @@ $scope.originalEdid =  "00,FF,FF,FF,FF,FF,FF,00,4C,2D,9B,06,01,00,00,00, \n" +
     //*********************************
     // Start Actually Parsing
     $scope.parseEdid = function() {
-    // Remove 0x, and Commas
+    // Scrub the EDID of all the ugly stuff
     $scope.scrubbedEdid = scrubEdid($scope.originalEdid);
+    // Convert the EDID into an integer array
+    var edidArray = convertToIntArray($scope.scrubbedEdid);
+    // Set EDID data
+    $scope.edid.setEdidData(edidArray);
     
-    $scope.edid.setEdidData($scope.scrubbedEdid);
+    // Parse the EDID
     $scope.edid.parse();
     
+    // Setup the View
+    $scope.updateOutputEdid();
     $scope.updateChecksums();
     $scope.edidHeaderInfo = 'partials/edidHeaderInfo.html';
     if($scope.edid.bdp.digitalInput == true)
@@ -78,6 +84,49 @@ $scope.originalEdid =  "00,FF,FF,FF,FF,FF,FF,00,4C,2D,9B,06,01,00,00,00, \n" +
     $scope.updateDtdBit1Text();
     $scope.detailedTimingDescriptors = 'partials/detailedTimingDescriptors.html'
   };
+  $scope.updateOutputEdid = function()  
+  {
+    var comma;
+    var newLine;
+    var hexPrefix;
+    var edidString = new Array();
+    var lastByte = $scope.scrubbedEdid.length - 1;
+    for(var index = 0; index < $scope.scrubbedEdid.length; index++)
+    {
+      if($scope.addCommas && (index != lastByte))
+      {
+        comma = ",";
+      }
+      else
+      {
+        comma = ""
+      }
+      
+      if($scope.addHex)
+      {
+        hexPrefix = "0x";
+      }
+      else
+      {
+        hexPrefix = "";
+      }
+      if($scope.addLineBreaks && ((index % 16) == 15) && (index != lastByte))
+      {
+        newLine = "\n";
+        if((index % 128) == 127)
+        {
+          newLine += "\n";
+        }
+      }
+      else
+      {
+        newLine = "";
+      }
+      edidString[index] = hexPrefix+$scope.scrubbedEdid[index]+comma+newLine;
+    }
+    
+    $scope.outputEdid = edidString.join(" ");
+  }
   $scope.updateChecksums = function()  
   {
     var numberBlocks = $scope.edid.edidData.length / $scope.edid.EDID_BLOCK_LENGTH;
@@ -151,8 +200,22 @@ function scrubEdid(edid)
   scrubbedEdid = scrubbedEdid.replace( / +/g,' ');
   // Make hex upper case
   scrubbedEdid = scrubbedEdid.toUpperCase();
+  // Convert to string array
+  scrubbedEdid = scrubbedEdid.split(" ");
+
   return scrubbedEdid; 
 }
+
+function convertToIntArray(stringArray)
+{
+  var edidData = [];
+  for(var i=0; i<stringArray.length; i++) 
+  { 
+    edidData[i] = parseInt(stringArray[i], 16);
+  } 
+  return edidData;
+} 
+
 /* Test Data
  * 0x00 0x01 0x02 0x03 0x04 0x05 0x06 0x07 0x08 0x09 0x0A 0x0B 0x0C 0x0D 0x0E 0x0F
  * 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
