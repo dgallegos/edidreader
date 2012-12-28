@@ -195,8 +195,13 @@ $scope.originalEdid =  "00,FF,FF,FF,FF,FF,FF,00,4C,2D,9B,06,01,00,00,00, \n" +
   }
   $scope.accordionIdText = function(blockNumber)
   {
-    var accordionIdText = "Block"+blockNumber.toString();
+    var accordionIdText = "block"+blockNumber+1;
     return accordionIdText;
+  }
+    $scope.accordionHrefText = function(blockNumber)
+  {
+    var accordionHrefText = "#block"+blockNumber+1;
+    return accordionHrefText;
   }
 }
 
