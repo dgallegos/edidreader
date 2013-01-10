@@ -408,22 +408,22 @@ Edid.prototype.getDtds = function()
     dtd.pixelClock = ((this.edidData[dtdIndex+1] << 8) |
                            this.edidData[dtdIndex]) / 100;
     
+    var HOR_ACTIVE_OFF = 4;
     var HOR_ACTIVE_PIX_MASK = 0x0F;
-    dtd.horActivePixels = ((this.edidData[dtdIndex+4] & HOR_ACTIVE_PIX_MASK) << 8) |
+    dtd.horActivePixels = (((this.edidData[dtdIndex+4] >> HOR_ACTIVE_OFF) & HOR_ACTIVE_PIX_MASK) << 8) |
                                 this.edidData[dtdIndex+2];
                       
-    var HOR_BLANK_OFF = 4;
     var HOR_BLANK_MASK = 0x0F          
-    dtd.horBlankPixels = (((this.edidData[dtdIndex+4] >> HOR_BLANK_OFF)
+    dtd.horBlankPixels = (((this.edidData[dtdIndex+4])
                              & HOR_BLANK_MASK) << 8) | this.edidData[dtdIndex+3];
                              
+    var VERT_ACTIVE_OFF = 4;
     var VERT_ACTIVE_MASK = 0x0F;
-    dtd.vertActivePixels = ((this.edidData[dtdIndex+7] & VERT_ACTIVE_MASK) << 8) |
-                                this.edidData[dtdIndex+5];;
-    var VERT_BLANK_OFF = 4;
+    dtd.vertActivePixels = (((this.edidData[dtdIndex+7] >> VERT_ACTIVE_OFF) &
+                                     VERT_ACTIVE_MASK) << 8) | this.edidData[dtdIndex+5];;
     var VERT_BLANK_MASK = 0x0F;
-    dtd.vertBlankPixels = (((this.edidData[dtdIndex+7] >> VERT_BLANK_OFF)
-                             & VERT_BLANK_MASK)  << 8) | this.edidData[dtdIndex+6];
+    dtd.vertBlankPixels = ((this.edidData[dtdIndex+7] & VERT_BLANK_MASK)  << 8)
+                                                       | this.edidData[dtdIndex+6];
     
     var HOR_SYNC_OFF_OFF = 6;
     var HOR_SYNC_OFF_MASK = 0x03;
