@@ -91,7 +91,9 @@ Edid.prototype.parse = function()
     this.exts[extIndex].basicAudio = this.getBasicAudio(extIndex);
     this.exts[extIndex].ycbcr444 = this.getYcBcR444(extIndex);
     this.exts[extIndex].ycbcr422 = this.getYcBcR422(extIndex);
-
+    // If byte 2 not equal to 4
+      // Parse Data Collection block
+    // Parse DTDs
   }
 }
 
