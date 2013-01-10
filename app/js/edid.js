@@ -259,7 +259,7 @@ Edid.prototype.getBasicDisplayParams = function()
   bdp.maxVertImgSize = this.edidData[MAX_VERT_IMG_SIZE];
 
   var DISPLAY_GAMMA = 23;
-  bdp.displayGamma = this.edidData[DISPLAY_GAMMA];
+  bdp.displayGamma = (this.edidData[DISPLAY_GAMMA] * (2.54/255)) + 1;
 
   var SUPPORTED_FEATURES_BITMAP = 24;
   var DPMS_STANDBY = 0x80;
