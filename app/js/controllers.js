@@ -221,6 +221,8 @@ function scrubEdid(edid)
   scrubbedEdid = scrubbedEdid.replace( / +/g,' ');
   // Make hex upper case
   scrubbedEdid = scrubbedEdid.toUpperCase();
+  // Trim Leading and ending white space
+  scrubbedEdid = scrubbedEdid.trim();
   // Convert to string array
   scrubbedEdid = scrubbedEdid.split(" ");
 
