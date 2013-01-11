@@ -680,9 +680,37 @@ Edid.prototype.parseDataBlockCollection = function(extIndex)
 
 Edid.prototype.parseAudioDataBlock = function(startAddress, blockLength)
 {
-  var audioBlock = new Object();
+  var audioBlock = new Array();
+  // Audio blocks are made up of Short Audio Descriptors that are three bytes each
+  var SHORT_AUDIO_DESC_LENGTH = 3;
+  // The number of Short Audio Descriptors is the block length divided by the descriptor size
+  var numberShortAudioDescriptors = blockLength / SHORT_AUDIO_DESC_LENGTH;
+  var shortAudDescIndex = 0;
+  var index = startAddress;
+
+  // Set the Audio Block Tag
   audioBlock.tag = this.dataBlockTypeEnum.AUDIO;
+  // Set the Audio block lenght
   audioBlock.length = blockLength;
+
+  // Parse the short audio descriptors in the Audio Data Block
+  var SHORT_AUDIO_DESC_MASK = 0x0F;
+  var SHORT_AUDIO_DESC_OFF = 3;
+  while(shortAudDescIndex < numberShortAudioDescriptors)
+  {
+    // Each Short Audio Descriptor is a 3 byte object
+    var shortAudDesc = new Object();
+
+    // Parse the format
+    shortAudDesc.format = (this.edidData[index] >> SHORT_AUDIO_DESC_OFF) & SHORT_AUDIO_DESC_MASK;
+
+    // Add Short Audio Descriptor to Audio Data Block
+    audioBlock[shortAudDescIndex] = shortAudDesc;
+    // Move the index to the beginning of the next Short Audio Descriptor
+    index += SHORT_AUDIO_DESC_LENGTH;
+    // Increment the count to the next Short Audio Descriptor
+    shortAudDescIndex++;
+  }
 
   return audioBlock;
 }
