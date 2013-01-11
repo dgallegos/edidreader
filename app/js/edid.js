@@ -91,8 +91,12 @@ Edid.prototype.parse = function()
     this.exts[extIndex].basicAudio = this.getBasicAudio(extIndex);
     this.exts[extIndex].ycbcr444 = this.getYcBcR444(extIndex);
     this.exts[extIndex].ycbcr422 = this.getYcBcR422(extIndex);
-    // If byte 2 not equal to 4
+    // If DTDs don't start at byte 4
+    if(this.exts[extIndex].dtdStart != 4)
+    {
       // Parse Data Collection block
+      this.exts[extIndex].dataBlockCollection = this.parseDataBlockCollection(extIndex);
+    }
     // Parse DTDs
   }
 }
@@ -618,4 +622,36 @@ Edid.prototype.getYcBcR422 = function(extIndex)
   var YCBCR_422 = BLOCK_OFFSET + 3;
   var YCBCR_422_MASK = 0x10;
   return (this.edidData[YCBCR_422] & YCBCR_422_MASK)?true:false; 
+}
+
+Edid.prototype.parseDataBlockCollection = function(extIndex)
+{
+  var BLOCK_OFFSET = this.EDID_BLOCK_LENGTH * (extIndex+1);
+  var START_DATA_BLOCK = 4;
+  var startAddress = BLOCK_OFFSET + START_DATA_BLOCK;
+  var dataBlockLength = this.exts[extIndex].dtdStart - START_DATA_BLOCK;
+  var endAddress = startAddress + dataBlockLength;
+  var dataBlockCollection = new Array();
+  
+  var TAG_CODE_MASK = 0x07;
+  var TAG_CODE_OFFSET = 5;
+  var DATA_BLOCK_LENGTH_MASK = 0x1F;
+  var index = startAddress;
+  var numberDataBlocks = 0;
+  while(index < endAddress)
+  {
+    // Parse tag code
+    var blockTagCode = (this.edidData[index] >> TAG_CODE_OFFSET) & TAG_CODE_MASK;
+    // Parse Length
+    var blockLength = (this.edidData[index] & DATA_BLOCK_LENGTH_MASK);
+
+    var dataBlock = new Object();    
+    // Add the new object to the data block collection
+    dataBlockCollection[numberDataBlocks] = dataBlock;
+    // Increment the Index, to the location of the next block
+    index += (blockLength + 1);
+    // Increment the number of data blocks
+    numberDataBlocks++;
+  }
+  return dataBlockCollection;
 }
