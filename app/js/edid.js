@@ -131,7 +131,7 @@ Edid.prototype.getEisaId = function()
   var EISA_ID_BYTE2 = 9;
   var EISA_LETTER1_OFF = 2
   var EISA_LETTER2_OFF = 5;
-  var LETTER2_TOP_BYTES = 2;
+  var LETTER2_TOP_BYTES = 3;
   var LETTER2_TOP_MASK = 0x03;
   var LETTER2_BOT_MASK = 0x07;
 
