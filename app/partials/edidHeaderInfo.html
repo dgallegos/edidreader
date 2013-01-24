@@ -8,10 +8,10 @@
     <div class="accordion-inner">
       Edid Header: {{edid.validHeader}}  <br />
       EISA ID: {{edid.eisaId}} <br />
-      Product Code: {{edid.productCode}} <br />
+      Product Code: {{edid.productCode.toString(16).toUpperCase()}} <br />
       Serial Number: {{edid.serialNumber}} <br />
       Manufacture Date: {{edid.manufactureDate}} <br />
-      Edid Version: {{edid.edidVersion}} <br />  
+      Edid Version: {{edid.edidVersion}} <br />
     </div>
   </div>
 </div>
