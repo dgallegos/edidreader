@@ -35,7 +35,14 @@ function Edid () {
                       "DIGITAL_COMPOSITE" : 0x02,
                       "DIGITAL_SEPARATE" : 0x03};
 
-  this.dataBlockTypeEnum = {"RESERVED":0,"AUDIO":1,"VIDEO":2,"VENDOR_SPECIFIC":3,"SPEAKER_ALLOCATION":4};
+  this.dataBlockType = {
+    RESERVED : {string:"RESERVED",value:0},
+    AUDIO : {string:"AUDIO",value:1},
+    VIDEO : {string:"VIDEO",value:2},
+    VENDOR_SPECIFIC : {string:"VENDOR SPECIFIC",value:3},
+    SPEAKER_ALLOCATION : {string:"SPEAKER ALLOCATION",value:4}};
+
+  this.audioFormatArray = [1,8,13,14,15]
 }
 
 Edid.prototype.setEdidData = function(edid)
@@ -651,19 +658,19 @@ Edid.prototype.parseDataBlockCollection = function(extIndex)
     var dataBlock;
 
     // Parse the data block by the tag code
-    if(blockTagCode == this.dataBlockTypeEnum.AUDIO)
+    if(blockTagCode == this.dataBlockType.AUDIO.value)
     {
       dataBlock = this.parseAudioDataBlock(index+1,blockLength);
     }
-    else if(blockTagCode == this.dataBlockTypeEnum.VIDEO)
+    else if(blockTagCode == this.dataBlockType.VIDEO.value)
     {
       dataBlock = this.parseVideoDataBlock(index+1,blockLength);
     }
-    else if(blockTagCode == this.dataBlockTypeEnum.VENDOR_SPECIFIC)
+    else if(blockTagCode == this.dataBlockType.VENDOR_SPECIFIC.value)
     {
       dataBlock = this.parseVendorDataBlock(index+1,blockLength);
     }
-    else if(blockTagCode == this.dataBlockTypeEnum.SPEAKER_ALLOCATION)
+    else if(blockTagCode == this.dataBlockType.SPEAKER_ALLOCATION.value)
     {
       dataBlock = this.parseSpeakerDataBlock(index+1,blockLength);
     }
@@ -689,13 +696,15 @@ Edid.prototype.parseAudioDataBlock = function(startAddress, blockLength)
   var index = startAddress;
 
   // Set the Audio Block Tag
-  audioBlock.tag = this.dataBlockTypeEnum.AUDIO;
+  audioBlock.tag = this.dataBlockType.AUDIO;
   // Set the Audio block lenght
   audioBlock.length = blockLength;
 
   // Parse the short audio descriptors in the Audio Data Block
   var SHORT_AUDIO_DESC_MASK = 0x0F;
   var SHORT_AUDIO_DESC_OFF = 3;
+  var MAX_CHANNELS_MASK = 0x07;
+  var SAMPLE_RATE_MASK = 0x7F;
   while(shortAudDescIndex < numberShortAudioDescriptors)
   {
     // Each Short Audio Descriptor is a 3 byte object
@@ -703,6 +712,37 @@ Edid.prototype.parseAudioDataBlock = function(startAddress, blockLength)
 
     // Parse the format
     shortAudDesc.format = (this.edidData[index] >> SHORT_AUDIO_DESC_OFF) & SHORT_AUDIO_DESC_MASK;
+    // Parse max number of channels
+    shortAudDesc.maxChannels = (this.edidData[index] & MAX_CHANNELS_MASK) + 1;
+    // Parse audio sample rates
+    shortAudDesc.sampleRates = this.edidData[index+1] & SAMPLE_RATE_MASK;
+
+    if(shortAudDesc.format <= this.audioFormatArray[0])
+    {
+      var BIT_DEPTH_MASK = 0x07;
+      shortAudDesc.bitDepth = this.edidData[index+2] & BIT_DEPTH_MASK;
+    }
+    else if(shortAudDesc.format <= this.audioFormatArray[1])
+    {
+      var MAX_BIT_RATE_MASK = 0xFF;
+      shortAudDesc.bitRate = this.edidData[index+2] & MAX_BIT_RATE_MASK;
+    }
+    else if(shortAudDesc.format <= this.audioFormatArray[2])
+    {
+      var AUDIO_FORMAT_CODE_MASK = 0xFF;
+      shortAudDesc.audioFormatCode = this.edidData[index+2] & AUDIO_FORMAT_CODE_MASK;
+    }
+    else if(shortAudDesc.format <= this.audioFormatArray[3])
+    {
+      var PROFILE_MASK = 0x07;
+      shortAudDesc.profile = this.edidData[index+2] & PROFILE_MASK;
+    }
+    else if(shortAudDesc.format <= this.audioFormatArray[4])
+    {
+      var FORMAT_CODE_EXT_OFF = 3;
+      var FORMAT_CODE_EXT_MASK = 0x1F;
+      shortAudDesc.profile = (this.edidData[index+2] >> FORMAT_CODE_EXT_OFF) & FORMAT_CODE_EXT_MASK;
+    }
 
     // Add Short Audio Descriptor to Audio Data Block
     audioBlock[shortAudDescIndex] = shortAudDesc;
@@ -718,7 +758,7 @@ Edid.prototype.parseAudioDataBlock = function(startAddress, blockLength)
 Edid.prototype.parseVideoDataBlock = function(startAddress, blockLength)
 {
   var videoBlock = new Object();
-  videoBlock.tag = this.dataBlockTypeEnum.VIDEO;
+  videoBlock.tag = this.dataBlockType.VIDEO;
   videoBlock.length = blockLength;
 
   return videoBlock;
@@ -727,7 +767,7 @@ Edid.prototype.parseVideoDataBlock = function(startAddress, blockLength)
 Edid.prototype.parseVendorDataBlock = function(startAddress, blockLength)
 {
   var vendorBlock = new Object();
-  vendorBlock.tag = this.dataBlockTypeEnum.VENDOR_SPECIFIC;
+  vendorBlock.tag = this.dataBlockType.VENDOR_SPECIFIC;
   vendorBlock.length = blockLength;
 
   return vendorBlock;
@@ -736,7 +776,7 @@ Edid.prototype.parseVendorDataBlock = function(startAddress, blockLength)
 Edid.prototype.parseSpeakerDataBlock = function(startAddress, blockLength)
 {
   var speakerBlock = new Object();
-  speakerBlock.tag = this.dataBlockTypeEnum.SPEAKER_ALLOCATION;
+  speakerBlock.tag = this.dataBlockType.SPEAKER_ALLOCATION;
   speakerBlock.length = blockLength;
 
   return speakerBlock;
