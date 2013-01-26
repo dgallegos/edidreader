@@ -1,0 +1,17 @@
+<div class="accordion-group">
+  <div class="accordion-heading">
+    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#extDataBlock">
+      <h3>CEA Data Block</h3>
+    </a>
+  </div>
+  <div id="extDataBlock" class="accordion-body collapse">
+    <div class="accordion-inner">
+
+      <div ng-repeat="dataBlock in ext.dataBlockCollection">
+          <div class="dataBlock" ng-include src=dataBlockView[dataBlock.tag.value]>
+          </div>
+      </div>
+
+    </div>
+  </div>
+</div>
