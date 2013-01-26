@@ -14,7 +14,7 @@ MyCtrl2.$inject = [];
 function EdidCtrl($scope) {
   // Populated test EDID
   /*
-  $scope.originalEdid = 
+  $scope.originalEdid =
 "00 FF FF FF FF FF FF 00 4D D9 FA 06 00 00 00 00 \n" +
 "2D 0C 01 03 90 1F 11 00 EA A8 E0 99 57 4B 92 25 \n" +
 "1C 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01 \n" +
@@ -44,7 +44,7 @@ $scope.originalEdid =  "00,FF,FF,FF,FF,FF,FF,00,4C,2D,9B,06,01,00,00,00, \n" +
                        "00,00,00,9E,00,00,00,00,00,00,00,00,00,00,00,00, \n" +
                        "00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,74";
     */
-// QuantumData Default Edid 
+// QuantumData Default Edid
 $scope.originalEdid =  "00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 00 00 \n" +
                        "20 13 01 03 80 50 2D 78 0A 0D C9 A0 57 47 98 27 \n" +
                        "12 48 4C 20 00 00 01 01 01 01 01 01 01 01 01 01 \n" +
@@ -63,13 +63,13 @@ $scope.originalEdid =  "00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 00 00 \n" +
                        "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 E3";
 
 
-    
+
     $scope.edid = new Edid();
 
     $scope.validChecksums = new Array();
     $scope.dtdBit2Text = new Array();
     $scope.dtdBit1Text = new Array();
-    
+
     //*********************************
     // Start Actually Parsing
     $scope.parseEdid = function() {
@@ -79,17 +79,23 @@ $scope.originalEdid =  "00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 00 00 \n" +
     var edidArray = convertToIntArray($scope.scrubbedEdid);
     // Set EDID data
     $scope.edid.setEdidData(edidArray);
-    
+
     // Parse the EDID
     $scope.edid.parse();
-    
+
     // Setup the View
     $scope.updateOutputEdid();
     $scope.updateChecksums();
-    $scope.updateBlock0();   
+    $scope.updateBlock0();
+    $scope.dataBlockView = ['partials/dataBlocks/reserved.html',
+                              'partials/dataBlocks/audio.html',
+                              'partials/dataBlocks/video.html',
+                              'partials/dataBlocks/vendorSpecific.html',
+                              'partials/dataBlocks/speakerAllocation.html'];
     $scope.updateBlockX();
+
   };
-  $scope.updateBlock0 = function()  
+  $scope.updateBlock0 = function()
   {
     $scope.block0 = 'partials/block0.html';
     $scope.edidHeaderInfo = 'partials/edidHeaderInfo.html';
@@ -108,13 +114,14 @@ $scope.originalEdid =  "00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 00 00 \n" +
     $scope.updateDtdBit2Text();
     $scope.updateDtdBit1Text();
     $scope.detailedTimingDescriptors = 'partials/detailedTimingDescriptors.html'
-  } 
-  $scope.updateBlockX = function()  
+  }
+  $scope.updateBlockX = function()
   {
     $scope.blockX = 'partials/blockX.html';
     $scope.extHeader = 'partials/extHeader.html';
+    $scope.extDataBlock = 'partials/extDataBlock.html';
   }
-  $scope.updateOutputEdid = function()  
+  $scope.updateOutputEdid = function()
   {
     var comma;
     var newLine;
@@ -131,7 +138,7 @@ $scope.originalEdid =  "00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 00 00 \n" +
       {
         comma = ""
       }
-      
+
       if($scope.addHex)
       {
         hexPrefix = "0x";
@@ -154,10 +161,10 @@ $scope.originalEdid =  "00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 00 00 \n" +
       }
       edidString[index] = hexPrefix+$scope.scrubbedEdid[index]+comma+newLine;
     }
-    
+
     $scope.outputEdid = edidString.join(" ");
   }
-  $scope.updateChecksums = function()  
+  $scope.updateChecksums = function()
   {
     var numberBlocks = $scope.edid.edidData.length / $scope.edid.EDID_BLOCK_LENGTH;
     for(var index = 0; index < numberBlocks; index++)
@@ -177,7 +184,7 @@ $scope.originalEdid =  "00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 00 00 \n" +
     for(var index = 0; index < $scope.edid.dtds.length; index++)
     {
       var bit2Text = new String();
-      if($scope.edid.dtds[index].syncType == 
+      if($scope.edid.dtds[index].syncType ==
                 $scope.edid.syncTypeEnum.DIGITAL_SEPARATE)
       {
         bit2Text = "Vertical Sync Polarity: ";
@@ -187,7 +194,7 @@ $scope.originalEdid =  "00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 00 00 \n" +
       {
         bit2Text = "Vertical Sync Serrated: ";
         bit2Text += $scope.edid.dtds[index].vSyncSerrated;
-      } 
+      }
       $scope.dtdBit2Text[index] = bit2Text;
     }
   }
@@ -196,9 +203,9 @@ $scope.originalEdid =  "00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 00 00 \n" +
     for(var index = 0; index < $scope.edid.dtds.length; index++)
     {
       var bit1Text = new String();
-      if(($scope.edid.dtds[index].syncType == 
+      if(($scope.edid.dtds[index].syncType ==
                 $scope.edid.syncTypeEnum.ANALOG_COMPOSITE) ||
-                ($scope.edid.dtds[index].syncType == 
+                ($scope.edid.dtds[index].syncType ==
                 $scope.edid.syncTypeEnum.BIPOLAR_ANALOG_COMPOSITE))
       {
         bit1Text = "Sync on all 3 RGB lines: ";
@@ -208,7 +215,7 @@ $scope.originalEdid =  "00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 00 00 \n" +
       {
         bit1Text = "HSync polarity: ";
         bit1Text += $scope.edid.dtds[index].hSyncPolarity;
-      } 
+      }
       $scope.dtdBit1Text[index] = bit1Text;
     }
   }
@@ -227,7 +234,7 @@ $scope.originalEdid =  "00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 00 00 \n" +
 function scrubEdid(edid)
 {
   var scrubbedEdid;
-  
+
   // Remove commas, replace with spaces
   scrubbedEdid = edid.replace(/,/g,' ');
   // Remove 0x for hex
@@ -245,18 +252,18 @@ function scrubEdid(edid)
   // Convert to string array
   scrubbedEdid = scrubbedEdid.split(" ");
 
-  return scrubbedEdid; 
+  return scrubbedEdid;
 }
 
 function convertToIntArray(stringArray)
 {
   var edidData = [];
-  for(var i=0; i<stringArray.length; i++) 
-  { 
+  for(var i=0; i<stringArray.length; i++)
+  {
     edidData[i] = parseInt(stringArray[i], 16);
-  } 
+  }
   return edidData;
-} 
+}
 
 /* Test Data
  * 0x00 0x01 0x02 0x03 0x04 0x05 0x06 0x07 0x08 0x09 0x0A 0x0B 0x0C 0x0D 0x0E 0x0F
@@ -281,5 +288,5 @@ function convertToIntArray(stringArray)
 64 69 61 20 44 65 66 61 75 6C 00 00 00 FC 00 74
 20 46 6C 61 74 20 50 61 6E 65 6C 00 00 00 00 FD
 00 00 3D 1D 38 0B 00 00 20 20 20 20 20 00 00 48
- * 
+ *
  */

@@ -2,7 +2,7 @@
 <html lang="en" ng-app="myApp">
 <head>
   <meta charset="utf-8">
-  <title>EDID Reader</title>
+  <title>Web Based EDID Reader</title>
   <meta name="description" content="Free web based EDID Reader">
   <meta name="keywords" content="EDID,EDID Reader,EDID Viewer,EDID Parser, EDID Utility, EDID Software
   HDMI EDID, DVI EDID, VGA EDID,
@@ -21,7 +21,7 @@
 </head>
 <body>
   <div id="wrap" ng-controller="EdidCtrl">
-    
+
     <div id="main">
       <form ng-submit="parseEdid()">
         <H1>EDID:</H1>
@@ -35,20 +35,20 @@
         <textarea id="outputEdid" readonly="true" ng-model="outputEdid" class="field span5" rows="8"></textarea>
       </p>
     </div>
-    
+
     <div id="sidebar">
       <div class="accordion" id="accordion2">
-        
+
           <div class="block0" ng-include src="block0">
           </div>
-          
+
           <div class="blockX" ng-include src="blockX">
           </div>
       </div>
     </div>
-      
-    </div>
-    <script type="text/javascript">
+
+  </div>
+  <script type="text/javascript">
 
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-37270834-1']);
