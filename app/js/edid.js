@@ -697,8 +697,10 @@ Edid.prototype.parseAudioDataBlock = function(startAddress, blockLength)
 
   // Set the Audio Block Tag
   audioBlock.tag = this.dataBlockType.AUDIO;
-  // Set the Audio block lenght
-  audioBlock.length = blockLength;
+  // Set the Audio block length
+  audioBlock.dataLength = blockLength;
+  // Set the number of short audio descriptors
+  audioBlock.length = numberShortAudioDescriptors;
 
   // Parse the short audio descriptors in the Audio Data Block
   var SHORT_AUDIO_DESC_MASK = 0x0F;

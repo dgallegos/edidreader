@@ -229,6 +229,33 @@ $scope.originalEdid =  "00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 00 00 \n" +
     var accordionHrefText = "#block"+blockNumber+1;
     return accordionHrefText;
   }
+  $scope.shortAudioDescView = function(format)
+  {
+    var view;
+
+    if(format <= $scope.edid.audioFormatArray[0])
+    {
+      view = 'partials/dataBlocks/shortAudioDescriptors/lpcm.html';
+    }
+    else if(format <= $scope.edid.audioFormatArray[1])
+    {
+      view = 'partials/dataBlocks/shortAudioDescriptors/twoEight.html';
+    }
+    else if(format <= $scope.edid.audioFormatArray[2])
+    {
+      view = 'partials/dataBlocks/shortAudioDescriptors/nineThirteen.html';
+    }
+    else if(format <= $scope.edid.audioFormatArray[3])
+    {
+      view = 'partials/dataBlocks/shortAudioDescriptors/wmaPro.html';
+    }
+    else if(format <= $scope.edid.audioFormatArray[4])
+    {
+      view = 'partials/dataBlocks/shortAudioDescriptors/extension.html';
+    }
+
+    return view;
+  }
 }
 
 function scrubEdid(edid)
