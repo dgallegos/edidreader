@@ -4,25 +4,25 @@
       <h3>Block 0</h3>
     </a>
   </div>
-  <div id="block0" class="accordion-body collapse in">
+  <div id="block0" class="accordion-body collapse">
     <div class="accordion-inner">
       Valid Checksum: {{validChecksums[0]}}
       <div class="edidHeaderInformation" ng-include src="edidHeaderInfo">
       </div>
-      
+
       <div class="basicDisplayParams" ng-include src="bdpPage">
       </div>
-      
+
       <div class="chromacityCoordinates" ng-include src="chromacityCoords">
       </div>
-            
+
       <div class="timingBitmap" ng-include src="timingBitmap">
       </div>
-      
+
       <div class="standardTimingInfo" ng-include src="standardTimingInfo">
       </div>
       Number of Extensions: {{edid.numberOfExtensions}}  <br />
-      Checksum: 0x{{edid.checksum.toString(16).toUpperCase()}} <br />  
+      Checksum: 0x{{edid.checksum.toString(16).toUpperCase()}} <br />
     </div>
   </div>
 </div>
