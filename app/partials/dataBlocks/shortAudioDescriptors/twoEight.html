@@ -1,8 +1,4 @@
 <div class="shortAudioDescriptor">
-  Format Code: {{edid.shortAudioDescriptors[shortAudioDescriptor.format]}} <br />
-  Max Channels: {{shortAudioDescriptor.maxChannels}} <br />
-  Sample Rates: <br />
-    <div ng-repeat="sampleRate in edid.sadSampleRates">
-      {{sampleRate}}: {{isSampleRateSet(shortAudioDescriptor.sampleRates,$index)}}
-    </div>
+  <div class="sadView" ng-include src="sadView"></div>
+  Maximum Bit Rate: {{shortAudioDescriptor.bitRate}}
 </div>

@@ -120,6 +120,7 @@ $scope.originalEdid =  "00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 00 00 \n" +
     $scope.blockX = 'partials/blockX.html';
     $scope.extHeader = 'partials/extHeader.html';
     $scope.extDataBlock = 'partials/extDataBlock.html';
+    $scope.sadView = 'partials/dataBlocks/shortAudioDescriptors/shortAudioDescriptor.html';
   }
   $scope.updateOutputEdid = function()
   {
@@ -256,9 +257,9 @@ $scope.originalEdid =  "00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 00 00 \n" +
 
     return view;
   }
-  $scope.isSampleRateSet = function(sampleRates,index)
+  $scope.isBitSet = function(testByte,index)
   {
-    var isSet = (sampleRates & (1 << index))?true:false;
+    var isSet = (testByte & (1 << index))?true:false;
     return isSet;
   }
 }

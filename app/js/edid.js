@@ -46,6 +46,7 @@ function Edid () {
   this.shortAudioDescriptors = ["RESERVED","LPCM","AC-3","MPEG-1","MP3","MPEG2","AAC LC",
                                   "DTS","ATRAC","DSD","E-AC-3","DTS-HD","MLP","DST","WMA Pro"];
   this.sadSampleRates = ["32 kHz", "44.1 kHz", "48 kHz", "88.2 kHz", "96 kHz", "176.4 kHz", "192 kHz"];
+  this.sadBitDepths = ["16 bit", "20 bit", "24 bit"];
 }
 
 Edid.prototype.setEdidData = function(edid)
@@ -733,7 +734,7 @@ Edid.prototype.parseAudioDataBlock = function(startAddress, blockLength)
     else if(shortAudDesc.format <= this.audioFormatArray[1])
     {
       var MAX_BIT_RATE_MASK = 0xFF;
-      shortAudDesc.bitRate = this.edidData[index+2] & MAX_BIT_RATE_MASK;
+      shortAudDesc.bitRate = (this.edidData[index+2] & MAX_BIT_RATE_MASK) * 8;
     }
     else if(shortAudDesc.format <= this.audioFormatArray[2])
     {
@@ -749,7 +750,7 @@ Edid.prototype.parseAudioDataBlock = function(startAddress, blockLength)
     {
       var FORMAT_CODE_EXT_OFF = 3;
       var FORMAT_CODE_EXT_MASK = 0x1F;
-      shortAudDesc.profile = (this.edidData[index+2] >> FORMAT_CODE_EXT_OFF) & FORMAT_CODE_EXT_MASK;
+      shortAudDesc.formatCodeExt = (this.edidData[index+2] >> FORMAT_CODE_EXT_OFF) & FORMAT_CODE_EXT_MASK;
     }
 
     // Add Short Audio Descriptor to Audio Data Block
