@@ -6,7 +6,7 @@
   </div>
   <div id="audio{{$index}}" class="accordion-body collapse">
     <div class="accordion-inner">
-      <div ng-repeat="shortAudioDescriptor in dataBlock">
+      <div ng-repeat="shortAudioDescriptor in dataBlock.shortAudioDescriptors">
         <!-- Short Audio Descriptor Partial -->
         <div class="dataBlock" ng-include src=shortAudioDescView(shortAudioDescriptor.format)>
         </div>

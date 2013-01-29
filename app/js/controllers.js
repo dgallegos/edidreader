@@ -224,7 +224,7 @@ $scope.originalEdid =  "00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 00 00 \n" +
     var accordionIdText = "block"+blockNumber+1;
     return accordionIdText;
   }
-    $scope.accordionHrefText = function(blockNumber)
+  $scope.accordionHrefText = function(blockNumber)
   {
     var accordionHrefText = "#block"+blockNumber+1;
     return accordionHrefText;
@@ -255,6 +255,11 @@ $scope.originalEdid =  "00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 00 00 \n" +
     }
 
     return view;
+  }
+  $scope.isSampleRateSet = function(sampleRates,index)
+  {
+    var isSet = (sampleRates & (1 << index))?true:false;
+    return isSet;
   }
 }
 

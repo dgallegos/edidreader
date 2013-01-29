@@ -43,6 +43,9 @@ function Edid () {
     SPEAKER_ALLOCATION : {string:"SPEAKER ALLOCATION",value:4}};
 
   this.audioFormatArray = [1,8,13,14,15]
+  this.shortAudioDescriptors = ["RESERVED","LPCM","AC-3","MPEG-1","MP3","MPEG2","AAC LC",
+                                  "DTS","ATRAC","DSD","E-AC-3","DTS-HD","MLP","DST","WMA Pro"];
+  this.sadSampleRates = ["32 kHz", "44.1 kHz", "48 kHz", "88.2 kHz", "96 kHz", "176.4 kHz", "192 kHz"];
 }
 
 Edid.prototype.setEdidData = function(edid)
@@ -701,6 +704,9 @@ Edid.prototype.parseAudioDataBlock = function(startAddress, blockLength)
   audioBlock.dataLength = blockLength;
   // Set the number of short audio descriptors
   audioBlock.length = numberShortAudioDescriptors;
+  // Create array for short audio descriptors
+  audioBlock.shortAudioDescriptors = new Array();
+
 
   // Parse the short audio descriptors in the Audio Data Block
   var SHORT_AUDIO_DESC_MASK = 0x0F;
@@ -747,7 +753,7 @@ Edid.prototype.parseAudioDataBlock = function(startAddress, blockLength)
     }
 
     // Add Short Audio Descriptor to Audio Data Block
-    audioBlock[shortAudDescIndex] = shortAudDesc;
+    audioBlock.shortAudioDescriptors[shortAudDescIndex] = shortAudDesc;
     // Move the index to the beginning of the next Short Audio Descriptor
     index += SHORT_AUDIO_DESC_LENGTH;
     // Increment the count to the next Short Audio Descriptor
