@@ -6,7 +6,14 @@
   </div>
   <div id="video{{$index}}" class="accordion-body collapse">
     <div class="accordion-inner">
-      Video Audio Descriptor! <br />
+      <div ng-repeat="shortVideoDescriptor in dataBlock.shortVideoDescriptors">
+        Native: {{shortVideoDescriptor.nativeResolution.toString().toUpperCase()}} <br />
+        VIC: {{edid.shortVideoDescriptors[shortVideoDescriptor.vic].vic}} <br />
+        Format: {{edid.shortVideoDescriptors[shortVideoDescriptor.vic].format}} <br />
+        Field Rate: {{edid.shortVideoDescriptors[shortVideoDescriptor.vic].fieldRate}} <br />
+        Picture AR: {{edid.shortVideoDescriptors[shortVideoDescriptor.vic].pictureAspectRatio}} <br />
+        Pixel AR: {{edid.shortVideoDescriptors[shortVideoDescriptor.vic].pixelAspectRatio}} <br />
+      </div>
     </div>
   </div>
 </div>

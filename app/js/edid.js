@@ -838,9 +838,17 @@ Edid.prototype.parseVideoDataBlock = function(startAddress, blockLength)
   var index = 0;
   videoBlock.shortVideoDescriptors = new Array();
 
+  var VIC_MASK = 0x7F;
+  var NATIVE_RESOLUTION_MASK = 0x80;
   while(index < blockLength)
   {
-    videoBlock.shortVideoDescriptors[index] = this.edidData[startAddress+index];
+    shortVideoDescriptor = new Object;
+    shortVideoDescriptor.vic = this.edidData[startAddress+index] & VIC_MASK;
+    shortVideoDescriptor.nativeResolution = (this.edidData[startAddress+index] &
+                                              NATIVE_RESOLUTION_MASK)?true:false;
+
+    videoBlock.shortVideoDescriptors[index] = shortVideoDescriptor;
+
     index++;
   }
 
