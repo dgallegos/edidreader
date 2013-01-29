@@ -47,6 +47,71 @@ function Edid () {
                                   "DTS","ATRAC","DSD","E-AC-3","DTS-HD","MLP","DST","WMA Pro"];
   this.sadSampleRates = ["32 kHz", "44.1 kHz", "48 kHz", "88.2 kHz", "96 kHz", "176.4 kHz", "192 kHz"];
   this.sadBitDepths = ["16 bit", "20 bit", "24 bit"];
+  this.shortVideoDescriptors = [{"vic":0},
+{"vic":1, "format":"640x480p", "fieldRate":"59.94Hz/60Hz", "pictureAspectRatio":"4:3", "pixelAspectRatio":"1:1"},
+{"vic":2, "format":"720x480p", "fieldRate":"59.94Hz/60Hz", "pictureAspectRatio":"4:3", "pixelAspectRatio":"8:9"},
+{"vic":3, "format":"720x480p", "fieldRate":"59.94Hz/60Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"32:27"},
+{"vic":4, "format":"1280x720p", "fieldRate":"59.94Hz/60Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+{"vic":5, "format":"1920x1080i", "fieldRate":"59.94Hz/60Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+{"vic":6, "format":"720(1440)x480i", "fieldRate":"59.94Hz/60Hz", "pictureAspectRatio":"4:3", "pixelAspectRatio":"8:9"},
+{"vic":7, "format":"720(1440)x480i", "fieldRate":"59.94Hz/60Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"32:27"},
+{"vic":8, "format":"720(1440)x240p", "fieldRate":"59.94Hz/60Hz", "pictureAspectRatio":"4:3", "pixelAspectRatio":"4:9"},
+{"vic":9, "format":"720(1440)x240p", "fieldRate":"59.94Hz/60Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"16:27"},
+{"vic":10, "format":"2880x480i", "fieldRate":"59.94Hz/60Hz", "pictureAspectRatio":"4:3", "pixelAspectRatio":"2:9 – 20:9"},
+{"vic":11, "format":"2880x480i", "fieldRate":"59.94Hz/60Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"8:27 -80:27"},
+{"vic":12, "format":"2880x240p", "fieldRate":"59.94Hz/60Hz", "pictureAspectRatio":"4:3", "pixelAspectRatio":"1:9 – 10:9"},
+{"vic":13, "format":"2880x240p", "fieldRate":"59.94Hz/60Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"4:27 – 40:27"},
+{"vic":14, "format":"1440x480p", "fieldRate":"59.94Hz/60Hz", "pictureAspectRatio":"4:3", "pixelAspectRatio":"4:9 or 8:9"},
+{"vic":15, "format":"1440x480p", "fieldRate":"59.94Hz/60Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"16:27 or 32:27"},
+{"vic":16, "format":"1920x1080p", "fieldRate":"59.94Hz/60Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+{"vic":17, "format":"720x576p", "fieldRate":"50Hz", "pictureAspectRatio":"4:3", "pixelAspectRatio":"16:15"},
+{"vic":18, "format":"720x576p", "fieldRate":"50Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"64:45"},
+{"vic":19, "format":"1280x720p", "fieldRate":"50Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+{"vic":20, "format":"1920x1080i", "fieldRate":"50Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+{"vic":21, "format":"720(1440)x576i", "fieldRate":"50Hz", "pictureAspectRatio":"4:3", "pixelAspectRatio":"16:15"},
+{"vic":22, "format":"720(1440)x576i", "fieldRate":"50Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"64:45"},
+{"vic":23, "format":"720(1440)x288p", "fieldRate":"50Hz", "pictureAspectRatio":"4:3", "pixelAspectRatio":"8:15"},
+{"vic":24, "format":"720(1440)x288p", "fieldRate":"50Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"32:45"},
+{"vic":25, "format":"2880x576i", "fieldRate":"50Hz", "pictureAspectRatio":"4:3", "pixelAspectRatio":"2:15 – 20:15"},
+{"vic":26, "format":"2880x576i", "fieldRate":"50Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"16:45-160:45"},
+{"vic":27, "format":"2880x288p", "fieldRate":"50Hz", "pictureAspectRatio":"4:3", "pixelAspectRatio":"1:15 – 10:15"},
+{"vic":28, "format":"2880x288p", "fieldRate":"50Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"8:45 – 80:45"},
+{"vic":29, "format":"1440x576p", "fieldRate":"50Hz", "pictureAspectRatio":"4:3", "pixelAspectRatio":"8:15 or 16:15"},
+{"vic":30, "format":"1440x576p", "fieldRate":"50Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"32:45 or 64:45"},
+{"vic":31, "format":"1920x1080p", "fieldRate":"50Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+{"vic":32, "format":"1920x1080p", "fieldRate":"23.97Hz/24Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+{"vic":33, "format":"1920x1080p", "fieldRate":"25Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+{"vic":34, "format":"1920x1080p", "fieldRate":"29.97Hz/30Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+{"vic":35, "format":"2880x480p", "fieldRate":"59.94Hz/60Hz",  "pictureAspectRatio":"4:3", "pixelAspectRatio":"2:9, 4:9, or 8:9"},
+{"vic":36, "format":"2880x480p", "fieldRate":"59.94Hz/60Hz",  "pictureAspectRatio":"16:9", "pixelAspectRatio":"8:27, 16:27, or 32:27"},
+{"vic":37, "format":"2880x576p", "fieldRate":"50Hz", "pictureAspectRatio":"4:3", "pixelAspectRatio":"4:15, 8:15, or 16:15"},
+{"vic":38, "format":"2880x576p", "fieldRate":"50Hz", "pictureAspectRatio":"16:9",  "pixelAspectRatio":"16:45, 32:45, or 64:45"},
+{"vic":39, "format":"1920x1080i (1250 total)", "fieldRate":"50Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+{"vic":40, "format":"1920x1080i", "fieldRate":"100Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+{"vic":41, "format":"1280x720p", "fieldRate":"100Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+{"vic":42, "format":"720x576p", "fieldRate":"100Hz", "pictureAspectRatio":"4:3", "pixelAspectRatio":"16:15"},
+{"vic":43, "format":"720x576p", "fieldRate":"100Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"64:45"},
+{"vic":44, "format":"720(1440)x576i", "fieldRate":"100Hz", "pictureAspectRatio":"4:3", "pixelAspectRatio":"16:15"},
+{"vic":45, "format":"720(1440)x576i", "fieldRate":"100Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"64:45"},
+{"vic":46, "format":"1920x1080i", "fieldRate":"119.88/120Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+{"vic":47, "format":"1280x720p", "fieldRate":"119.88/120Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+{"vic":48, "format":"720x480p", "fieldRate":"119.88/120Hz", "pictureAspectRatio":"4:3", "pixelAspectRatio":"8:9"},
+{"vic":49, "format":"720x480p", "fieldRate":"119.88/120Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"32:27"},
+{"vic":50, "format":"720(1440)x480i", "fieldRate":"119.88/120Hz", "pictureAspectRatio":"4:3", "pixelAspectRatio":"8:9"},
+{"vic":51, "format":"720(1440)x480i", "fieldRate":"119.88/120Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"32:27"},
+{"vic":52, "format":"720x576p", "fieldRate":"200Hz", "pictureAspectRatio":"4:3", "pixelAspectRatio":"16:15"},
+{"vic":53, "format":"720x576p", "fieldRate":"200Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"64:45"},
+{"vic":54, "format":"720(1440)x576i", "fieldRate":"200Hz", "pictureAspectRatio":"4:3", "pixelAspectRatio":"16:15"},
+{"vic":55, "format":"720(1440)x576i", "fieldRate":"200Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"64:45"},
+{"vic":56, "format":"720x480p", "fieldRate":"239.76/240Hz", "pictureAspectRatio":"4:3", "pixelAspectRatio":"8:9"},
+{"vic":57, "format":"720x480p", "fieldRate":"239.76/240Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"32:27"},
+{"vic":58, "format":"720(1440)x480i", "fieldRate":"239.76/240Hz", "pictureAspectRatio":"4:3", "pixelAspectRatio":"8:9"},
+{"vic":59, "format":"720(1440)x480i", "fieldRate":"239.76/240Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"32:27"},
+{"vic":60, "format":"1280x720p", "fieldRate":"23.97Hz/24Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+{"vic":61, "format":"1280x720p", "fieldRate":"25Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+{"vic":62, "format":"1280x720p", "fieldRate":"29.97Hz/30Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+{"vic":63, "format":"1920x1080p", "fieldRate":"119.88/120Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+{"vic":64, "format":"1920x1080p", "fieldRate":"100Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"}]
 }
 
 Edid.prototype.setEdidData = function(edid)
@@ -769,6 +834,15 @@ Edid.prototype.parseVideoDataBlock = function(startAddress, blockLength)
   var videoBlock = new Object();
   videoBlock.tag = this.dataBlockType.VIDEO;
   videoBlock.length = blockLength;
+
+  var index = 0;
+  videoBlock.shortVideoDescriptors = new Array();
+
+  while(index < blockLength)
+  {
+    videoBlock.shortVideoDescriptors[index] = this.edidData[startAddress+index];
+    index++;
+  }
 
   return videoBlock;
 }
