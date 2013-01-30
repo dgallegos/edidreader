@@ -183,6 +183,9 @@ Edid.prototype.parse = function()
       this.exts[extIndex].dataBlockCollection = this.parseDataBlockCollection(extIndex);
     }
     // Parse DTDs
+
+    // Get Checkum
+    this.exts[extIndex].checksum = this.getExtChecksum(extIndex);
   }
 }
 
@@ -972,4 +975,12 @@ Edid.prototype.parseSpeakerDataBlock = function(startAddress, blockLength)
                           (this.edidData[startAddress]);
 
   return speakerBlock;
+}
+
+Edid.prototype.getExtChecksum = function(extIndex)
+{
+  var BLOCK_OFFSET = this.EDID_BLOCK_LENGTH * (extIndex+1);
+  var CHECKSUM_OFFSET = 127;
+
+  return this.edidData[BLOCK_OFFSET+CHECKSUM_OFFSET];
 }
