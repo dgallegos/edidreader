@@ -1,4 +1,5 @@
 function Edid () {
+
   this.EDID_BLOCK_LENGTH = 128;
   this.WhiteAndSyncLevels = ["+0.7/−0.3 V", "+0.714/−0.286 V",
                                "+1.0/−0.4 V", "+0.7/0 V"];
