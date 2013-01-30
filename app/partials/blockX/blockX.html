@@ -7,6 +7,7 @@
     </div>
     <div id={{accordionIdText($index)}} class="accordion-body collapse">
       <div class="accordion-inner">
+          Valid Checksum: {{validChecksums[$index+1]}}
           <div class="extHeader" ng-include src="extHeader"></div>
           <div class="extDataBlock" ng-include src="extDataBlock"></div>
           Checksum: 0x{{ext.checksum.toString(16).toUpperCase()}} <br />
