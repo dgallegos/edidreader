@@ -87,40 +87,40 @@ $scope.originalEdid =  "00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 00 00 \n" +
     $scope.updateOutputEdid();
     $scope.updateChecksums();
     $scope.updateBlock0();
-    $scope.dataBlockView = ['partials/dataBlocks/reserved.html',
-                              'partials/dataBlocks/audio.html',
-                              'partials/dataBlocks/video.html',
-                              'partials/dataBlocks/vendorSpecific.html',
-                              'partials/dataBlocks/speakerAllocation.html'];
+    $scope.dataBlockView = ['partials/blockX/dataBlocks/reserved.html',
+                              'partials/blockX/dataBlocks/audio.html',
+                              'partials/blockX/dataBlocks/video.html',
+                              'partials/blockX/dataBlocks/vendorSpecific.html',
+                              'partials/blockX/dataBlocks/speakerAllocation.html'];
     $scope.updateBlockX();
 
   };
   $scope.updateBlock0 = function()
   {
-    $scope.block0 = 'partials/block0.html';
-    $scope.edidHeaderInfo = 'partials/edidHeaderInfo.html';
+    $scope.block0 = 'partials/block0/block0.html';
+    $scope.edidHeaderInfo = 'partials/block0/edidHeaderInfo.html';
     if($scope.edid.bdp.digitalInput == true)
     {
-      $scope.bdpPage = 'partials/bdp/digital.html';
+      $scope.bdpPage = 'partials/block0/bdp/digital.html';
     }
     else
     {
-      $scope.bdpPage = 'partials/bdp/analog.html';
+      $scope.bdpPage = 'partials/block0/bdp/analog.html';
     }
-    $scope.chromacityCoords = 'partials/chromacityCoords.html';
-    $scope.timingBitmap = 'partials/timingBitmap.html';
-    $scope.standardTimingInfo = 'partials/standardTimingInformation.html';
-    $scope.stdDisplayModes = 'partials/stdDisplayModes.html'
+    $scope.chromacityCoords = 'partials/block0/chromacityCoords.html';
+    $scope.timingBitmap = 'partials/block0/timingBitmap.html';
+    $scope.standardTimingInfo = 'partials/block0/standardTimingInformation.html';
+    $scope.stdDisplayModes = 'partials/block0/stdDisplayModes.html'
     $scope.updateDtdBit2Text();
     $scope.updateDtdBit1Text();
-    $scope.detailedTimingDescriptors = 'partials/detailedTimingDescriptors.html'
+    $scope.detailedTimingDescriptors = 'partials/block0/detailedTimingDescriptors.html'
   }
   $scope.updateBlockX = function()
   {
-    $scope.blockX = 'partials/blockX.html';
-    $scope.extHeader = 'partials/extHeader.html';
-    $scope.extDataBlock = 'partials/extDataBlock.html';
-    $scope.sadView = 'partials/dataBlocks/shortAudioDescriptors/shortAudioDescriptor.html';
+    $scope.blockX = 'partials/blockX/blockX.html';
+    $scope.extHeader = 'partials/blockX/extHeader.html';
+    $scope.extDataBlock = 'partials/blockX/extDataBlock.html';
+    $scope.sadView = 'partials/blockX/dataBlocks/shortAudioDescriptors/shortAudioDescriptor.html';
   }
   $scope.updateOutputEdid = function()
   {
@@ -236,23 +236,23 @@ $scope.originalEdid =  "00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 00 00 \n" +
 
     if(format <= $scope.edid.audioFormatArray[0])
     {
-      view = 'partials/dataBlocks/shortAudioDescriptors/lpcm.html';
+      view = 'partials/blockX/dataBlocks/shortAudioDescriptors/lpcm.html';
     }
     else if(format <= $scope.edid.audioFormatArray[1])
     {
-      view = 'partials/dataBlocks/shortAudioDescriptors/twoEight.html';
+      view = 'partials/blockX/dataBlocks/shortAudioDescriptors/twoEight.html';
     }
     else if(format <= $scope.edid.audioFormatArray[2])
     {
-      view = 'partials/dataBlocks/shortAudioDescriptors/nineThirteen.html';
+      view = 'partials/blockX/dataBlocks/shortAudioDescriptors/nineThirteen.html';
     }
     else if(format <= $scope.edid.audioFormatArray[3])
     {
-      view = 'partials/dataBlocks/shortAudioDescriptors/wmaPro.html';
+      view = 'partials/blockX/dataBlocks/shortAudioDescriptors/wmaPro.html';
     }
     else if(format <= $scope.edid.audioFormatArray[4])
     {
-      view = 'partials/dataBlocks/shortAudioDescriptors/extension.html';
+      view = 'partials/blockX/dataBlocks/shortAudioDescriptors/extension.html';
     }
 
     return view;
