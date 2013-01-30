@@ -262,6 +262,12 @@ $scope.originalEdid =  "00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 00 00 \n" +
     var isSet = (testByte & (1 << index))?true:false;
     return isSet;
   }
+  $scope.pad = function(num, size)
+  {
+    var s = num+"";
+    while (s.length < size) s = "0" + s;
+    return s;
+  }
 }
 
 function scrubEdid(edid)
@@ -297,6 +303,7 @@ function convertToIntArray(stringArray)
   }
   return edidData;
 }
+
 
 /* Test Data
  * 0x00 0x01 0x02 0x03 0x04 0x05 0x06 0x07 0x08 0x09 0x0A 0x0B 0x0C 0x0D 0x0E 0x0F

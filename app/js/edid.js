@@ -879,7 +879,7 @@ Edid.prototype.parseVendorDataBlock = function(startAddress, blockLength)
                       (this.edidData[vsdbAddress+PHYSICAL_ADDRESS_2]);
 
   var AI_DC_DUAL_ADDRESS = 6;
-  if(blockLength > AI_DC_DUAL_ADDRESS)
+  if(blockLength >= AI_DC_DUAL_ADDRESS)
   {
     var SUPPORT_AI_MASK = 0x80;
     // Parse Supports ACP, ISRC1, ISRC2
@@ -904,16 +904,15 @@ Edid.prototype.parseVendorDataBlock = function(startAddress, blockLength)
   }
 
   var MAX_TMDS_CLOCK_ADDRESS = 7;
-  if(blockLength > MAX_TMDS_CLOCK_ADDRESS)
+  if(blockLength >= MAX_TMDS_CLOCK_ADDRESS)
   {
     // Parse Max TMDS rate, the edid has TMDS clock. Multiply TMDS clock x 5Mhz
     // and you'll get max TMDS rate
     vendorBlock.maxTmdsRate = this.edidData[vsdbAddress+MAX_TMDS_CLOCK_ADDRESS] * 5;
   }
 
-
   var LATENCY_PRESENT_ADDRESS = 8;
-  if(blockLength > LATENCY_PRESENT_ADDRESS)
+  if(blockLength >= LATENCY_PRESENT_ADDRESS)
   {
     var LATENCY_FIELDS_PRESENT_MASK = 0x80;
     vendorBlock.latencyPresent = (this.edidData[vsdbAddress+LATENCY_PRESENT_ADDRESS] & LATENCY_FIELDS_PRESENT_MASK)
@@ -924,25 +923,32 @@ Edid.prototype.parseVendorDataBlock = function(startAddress, blockLength)
                                         ?true:false;
   }
 
-
   // If Latency fields are present
-  if(vendorBlock.latencyPresent && (blockLength > AUDIO_LATENCY_ADDRESS))
+  if(vendorBlock.latencyPresent && (blockLength >= AUDIO_LATENCY_ADDRESS))
   {
     var VIDEO_LATENCY_ADDRESS = 9;
-    vendorBlock.videoLatency = this.edidData[vsdbAddress+VIDEO_LATENCY_ADDRESS];
+    // TODO: Add description
+    vendorBlock.videoLatency = ((this.edidData[vsdbAddress+VIDEO_LATENCY_ADDRESS] - 1)
+                                  *2);
 
     var AUDIO_LATENCY_ADDRESS = 10;
-    vendorBlock.audioLatency = this.edidData[vsdbAddress+AUDIO_LATENCY_ADDRESS];
+    // TODO: Add description
+    vendorBlock.audioLatency = ((this.edidData[vsdbAddress+AUDIO_LATENCY_ADDRESS] - 1)
+                                  *2);
   }
 
   // If Interlaced Latency fields are present
-  if(vendorBlock.iLatencyPresent && (blockLength > I_AUDIO_LATENCY_ADDRESS))
+  if(vendorBlock.iLatencyPresent && (blockLength >= I_AUDIO_LATENCY_ADDRESS))
   {
     var I_VIDEO_LATENCY_ADDRESS = 11;
-    vendorBlock.iVideoLatency = this.edidData[vsdbAddress+I_VIDEO_LATENCY_ADDRESS];
+    // TODO: Add description
+    vendorBlock.iVideoLatency = ((this.edidData[vsdbAddress+I_VIDEO_LATENCY_ADDRESS] - 1)
+                                  *2);
 
     var I_AUDIO_LATENCY_ADDRESS = 12;
-    vendorBlock.iAudioLatency = this.edidData[vsdbAddress+I_AUDIO_LATENCY_ADDRESS];
+    // TODO: Add description
+    vendorBlock.iAudioLatency = ((this.edidData[vsdbAddress+I_AUDIO_LATENCY_ADDRESS] - 1)
+                                  *2);
   }
 
   return vendorBlock;
