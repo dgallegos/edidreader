@@ -1,6 +1,6 @@
 # EdidReader
 
-This project is an open source EDID parser.
+An open source online EDID parser.
 
 
 ## Website
