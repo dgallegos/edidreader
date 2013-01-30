@@ -2,6 +2,9 @@
 
 This project is an open source EDID parser.
 
-## Contact
 
+## Website
+www.edidreader.com
+
+## Contact
 For more information on EdidReader please contact david@davidgallegos.net
