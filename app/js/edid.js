@@ -112,6 +112,13 @@ function Edid () {
     {"vic":62, "format":"1280x720p", "fieldRate":"29.97Hz/30Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
     {"vic":63, "format":"1920x1080p", "fieldRate":"119.88/120Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
     {"vic":64, "format":"1920x1080p", "fieldRate":"100Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"}]
+  this.speakerAllocation = ["Front Left/Front Right (FL/FR)", "Low Frequency Effort (LFE)",
+                    "Front Center (FC)", "Rear Left/Rear Right (RL/RR)",
+                    "Rear Center (RC)", "Front Left Center/Front Right Center (FLC/FRC)",
+                    "Rear Left Center/Rear Right Center (RLC/RRC)",
+                    "Front Left Wide/Front Right Wide (FLW/FRW)",
+                    "Front Left High/Frong Right High (FLH/FRH)",
+                    "Top Center (TC)", "Front Center High (FCH)"];
 }
 
 Edid.prototype.setEdidData = function(edid)
@@ -959,6 +966,10 @@ Edid.prototype.parseSpeakerDataBlock = function(startAddress, blockLength)
   var speakerBlock = new Object();
   speakerBlock.tag = this.dataBlockType.SPEAKER_ALLOCATION;
   speakerBlock.length = blockLength;
+
+  speakerBlock.payload = (this.edidData[startAddress+2] << 16) |
+                          (this.edidData[startAddress+1] << 8) |
+                          (this.edidData[startAddress]);
 
   return speakerBlock;
 }

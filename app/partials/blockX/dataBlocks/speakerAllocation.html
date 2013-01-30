@@ -6,7 +6,10 @@
   </div>
   <div id="speakerAllocation{{$index}}" class="accordion-body collapse">
     <div class="accordion-inner">
-      Insert Descriptor! <br />
+
+      <div ng-repeat="speakerAllocation in edid.speakerAllocation">
+        {{speakerAllocation}}: {{isBitSet(dataBlock.payload,$index)}}
+      </div>
     </div>
   </div>
 </div>

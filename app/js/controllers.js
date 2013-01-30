@@ -260,7 +260,7 @@ $scope.originalEdid =  "00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 00 00 \n" +
   $scope.isBitSet = function(testByte,index)
   {
     var isSet = (testByte & (1 << index))?true:false;
-    return isSet;
+    return isSet.toString().toUpperCase();
   }
   $scope.pad = function(num, size)
   {
