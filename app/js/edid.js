@@ -24,6 +24,7 @@ function Edid () {
                                     "1024×768 @ 75 Hz",
                                     "1280×1024 @ 75 Hz",
                                     "1152x870 @ 75 Hz"];
+  this.DTD_LENGTH = 18;
 
   this.xyPixelRatioEnum = [{"string":"16:10"},
                            {"string":"4:3"},
@@ -183,7 +184,7 @@ Edid.prototype.parse = function()
       this.exts[extIndex].dataBlockCollection = this.parseDataBlockCollection(extIndex);
     }
     // Parse DTDs
-
+    this.exts[extIndex].dtds = this.getExtDtds(extIndex,this.exts[extIndex].dtdStart);
     // Get Checkum
     this.exts[extIndex].checksum = this.getExtChecksum(extIndex);
   }
@@ -480,22 +481,8 @@ Edid.prototype.getStandardDisplayModes = function()
   return stdDispModesArray;
 }
 
-Edid.prototype.getDtds = function()
+Edid.prototype.parseDtd = function(dtdIndex)
 {
-  var dtdArray = new Array();
-  var dtdCounter = 0;
-
-  var DTD_START = 54;
-  var DTD_END = 125;
-  var DTD_LENGTH = 18;
-
-  var dtdIndex = DTD_START;
-
-  // While the pixel clock is not equal to zero and
-  // the DTD index is less than the last byte of the DTD
-  while(((this.edidData[dtdIndex] != 0) || (this.edidData[dtdIndex+1] != 0))
-                                && (dtdIndex < DTD_END))
-  {
     var dtd = new Object();
 
     // Pixel Clock in MHz
@@ -552,9 +539,9 @@ Edid.prototype.getDtds = function()
     dtd.vertDisplaySize = ((this.edidData[dtdIndex+14] & VERT_DISPLAY_TOP_MASK) << 8)
                                                | this.edidData[dtdIndex+13];
 
-    dtd.horBorderPixels = this.edidData[dtdIndex+15] * 2;
+    dtd.horBorderPixels = this.edidData[dtdIndex+15];
 
-    dtd.vertBorderLines = this.edidData[dtdIndex+16] * 2;
+    dtd.vertBorderLines = this.edidData[dtdIndex+16];
 
     var INTERLACED_MASK = 0x80;
     dtd.interlaced = (this.edidData[dtdIndex+17] & INTERLACED_MASK) ? true : false;
@@ -600,12 +587,31 @@ Edid.prototype.getDtds = function()
     var TWO_WAY_STEREO_MASK = 0x01;
     dtd.twoWayStereo = (this.edidData[dtdIndex+17] & TWO_WAY_STEREO_MASK) ? true : false;
 
+  return dtd;
+}
+
+Edid.prototype.getDtds = function()
+{
+  var dtdArray = new Array();
+  var dtdCounter = 0;
+
+  var DTD_START = 54;
+  var DTD_END = 125;
+
+  var dtdIndex = DTD_START;
+
+  // While the pixel clock is not equal to zero and
+  // the DTD index is less than the last byte of the DTD
+  while(((this.edidData[dtdIndex] != 0) || (this.edidData[dtdIndex+1] != 0))
+                                && (dtdIndex < DTD_END))
+  {
+    var dtd = this.parseDtd(dtdIndex);
     // Add DTD to the DTD Array
     dtdArray[dtdCounter] = dtd;
     // Increment DTD Counter
     dtdCounter++;
     // Add a DTD length, to go to the next descriptor
-    dtdIndex += DTD_LENGTH;
+    dtdIndex += this.DTD_LENGTH;
   }
   return dtdArray;
 }
@@ -983,4 +989,26 @@ Edid.prototype.getExtChecksum = function(extIndex)
   var CHECKSUM_OFFSET = 127;
 
   return this.edidData[BLOCK_OFFSET+CHECKSUM_OFFSET];
+}
+
+Edid.prototype.getExtDtds = function(extIndex,startAddress)
+{
+  var BLOCK_OFFSET = this.EDID_BLOCK_LENGTH * (extIndex+1);
+  var dtdArray = new Array();
+  var dtdCounter = 0;
+  var dtdIndex = startAddress + BLOCK_OFFSET;
+  var endAddress = (this.EDID_BLOCK_LENGTH * (extIndex+2)) - 2;
+
+  while(((this.edidData[dtdIndex] != 0) || (this.edidData[dtdIndex+1] != 0))
+                                && (dtdIndex < endAddress))
+  {
+    var dtd = this.parseDtd(dtdIndex);
+    // Add DTD to the DTD Array
+    dtdArray[dtdCounter] = dtd;
+    // Increment DTD Counter
+    dtdCounter++;
+    // Add a DTD length, to go to the next descriptor
+    dtdIndex += this.DTD_LENGTH;
+  }
+  return dtdArray;
 }
