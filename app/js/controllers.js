@@ -121,6 +121,7 @@ $scope.originalEdid =  "00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 00 00 \n" +
     $scope.extHeader = 'partials/blockX/extHeader.html';
     $scope.extDataBlock = 'partials/blockX/extDataBlock.html';
     $scope.sadView = 'partials/blockX/dataBlocks/shortAudioDescriptors/shortAudioDescriptor.html';
+    $scope.extDtds = 'partials/blockX/extDtds.html';
   }
   $scope.updateOutputEdid = function()
   {
