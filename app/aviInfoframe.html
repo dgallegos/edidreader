@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en" ng-app="myApp">
+<head>
+  <meta charset="utf-8">
+  <title>Web Based AVI Infoframe Reader</title>
+  <meta name="description" content="Free web based AVI Infoframe Reader">
+  <meta name="keywords" content="AVI, AVI infoframe, AVI Infoframe Reader">
+  <link rel="stylesheet" href="css/app.css"/>
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <script src="js/jquery-1.8.3.min.js"></script>
+  <script src="lib/angular/angular.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/bootstrap.js"></script>
+  <script src="js/services.js"></script>
+  <script src="js/controllers.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/directives.js"></script>
+  <script src="js/aviInfoframe.js"></script>
+</head>
+<body>
+  <div id="wrap" ng-controller="aviCtrl">
+
+    <div id="main">
+      <form ng-submit="parse()">
+        <H1>AVI Infoframe:</H1>
+        <textarea id="inputText" ng-model="aviData" class="field span5" rows="8"></textarea>
+        <input type="submit" value="Parse">
+      </form>
+      <p>
+        <input type="checkbox" ng-model="addLineBreaks" ng-click="updateTextBox()"> Add Line Breaks <br />
+        <input type="checkbox" ng-model="addCommas" ng-click="updateTextBox()"> Add Commas <br />
+        <input type="checkbox" ng-model="addHex" ng-click="updateTextBox()"> Add Hex Prefix (0x) <br />
+      </p>
+    </div>
+
+    <div id="sidebar">
+      <div class="aviParsed" ng-include src="aviParsedPartial">
+      </div>
+    </div>
+
+  </div>
+  <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-37270834-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+</html>

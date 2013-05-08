@@ -331,3 +331,30 @@ function convertToIntArray(stringArray)
 00 00 3D 1D 38 0B 00 00 20 20 20 20 20 00 00 48
  *
  */
+
+function aviCtrl($scope) {
+
+  $scope.aviData = "0x82 0x02 0x0D 0x03 0x0A 0xA8 0x06 0x07 0x08 0x09 0x0A 0x0B 0x0C 0x0D 0x0E 0x0F";
+  $scope.avi = new AviInfoframe();
+
+  $scope.parse = function()
+  {
+    // Scrub the EDID of all the ugly stuff
+    $scope.aviData = scrubHexData($scope.aviData);
+    // Convert the EDID into an integer array
+    $scope.aviArray = convertToIntArray($scope.aviData);
+
+    // Set AVI Infoframe Data
+    $scope.avi.setAviData($scope.aviArray);
+    // Parse AVI data
+    $scope.avi.parse();
+
+    $scope.updateTextBox();
+    $scope.aviParsedPartial = 'partials/aviInfoframe/_parsedData.html'
+  }
+
+  $scope.updateTextBox = function()
+  {
+    $scope.aviData = convertToHexString($scope.aviArray, $scope.addCommas, $scope.addHex, $scope.addLineBreaks)
+  }
+}
