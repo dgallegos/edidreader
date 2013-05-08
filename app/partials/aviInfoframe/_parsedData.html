@@ -1,23 +1,26 @@
-Type: 0x{{avi.headerType.toString(16).toUpperCase()}} </br>
-Version: 0x{{avi.headerVersion.toString(16).toUpperCase()}} </br>
-Length: 0x{{avi.headerLength.toString(16).toUpperCase()}} </br>
-Checksum: 0x{{avi.checksum.toString(16).toUpperCase()}} </br>
-Scan Information: {{avi.getScanInformationString()}} </br>
-Bar Data: {{avi.getBarDataString()}} </br>
-Active Format Present: {{avi.activeFormatPresent.toString().toUpperCase()}} </br>
-Color Space: {{avi.getColorSpaceString()}} </br>
-Active Portion Aspect Ratio: {{avi.getActivePortionAspectRatioString()}} </br>
-Coded Frame Aspect Ratio: {{avi.getCodedFrameAspectRatioString()}} </br>
-Colorimetry: {{avi.getColorimetryString()}} </br>
-Non-Uniform Scaling Picture: {{avi.getNonUniformPictureScalingString()}} </br>
-RGB Quantization: {{avi.getRgbQuantizationRangeString()}} </br>
-Extended Colorimetry: {{avi.getExtendedColorimetryString()}} </br>
-IT Content: {{avi.itContent.toString().toUpperCase()}} </br>
-VIC: {{avi.vic}} </br>
-Pixel Repetition: {{avi.pixelRepetition + 1}}x </br>
-IT Content Type: {{avi.getITContentTypeString()}} </br>
-YCC Quantization Range: {{avi.getYCCQuantizationRangeString()}} </br>
-End of Top Bar (ETB): {{avi.etb}} </br>
-Start of Bottom Bar (SBB): {{avi.sbb}} </br>
-End of Left Bar (ELB): {{avi.elb}} </br>
-Start of Right Bar (SRB): {{avi.srb}} </br>
+
+<table class="table table-condensed">
+  <tr><td>Type: 0x{{avi.headerType.toString(16).toUpperCase()}} </td></tr>
+  <tr><td>Version: 0x{{avi.headerVersion.toString(16).toUpperCase()}} </td></tr>
+  <tr><td>Length: 0x{{avi.headerLength.toString(16).toUpperCase()}} </td></tr>
+  <tr><td>Checksum: 0x{{avi.checksum.toString(16).toUpperCase()}} </td></tr>
+  <tr><td>Scan Information: {{avi.getScanInformationString()}} </td></tr>
+  <tr><td>Bar Data: {{avi.getBarDataString()}} </td></tr>
+  <tr><td>Active Format Present: {{avi.activeFormatPresent.toString().toUpperCase()}} </td></tr>
+  <tr><td>Color Space: {{avi.getColorSpaceString()}} </td></tr>
+  <tr><td>Active Portion Aspect Ratio: {{avi.getActivePortionAspectRatioString()}} </td></tr>
+  <tr><td>Coded Frame Aspect Ratio: {{avi.getCodedFrameAspectRatioString()}} </td></tr>
+  <tr><td>Colorimetry: {{avi.getColorimetryString()}} </td></tr>
+  <tr><td>Non-Uniform Scaling Picture: {{avi.getNonUniformPictureScalingString()}} </td></tr>
+  <tr><td>RGB Quantization: {{avi.getRgbQuantizationRangeString()}} </td></tr>
+  <tr><td>Extended Colorimetry: {{avi.getExtendedColorimetryString()}} </td></tr>
+  <tr><td>IT Content: {{avi.itContent.toString().toUpperCase()}} </td></tr>
+  <tr><td>VIC: {{avi.vic}} </td></tr>
+  <tr><td>Pixel Repetition: {{avi.pixelRepetition + 1}}x </td></tr>
+  <tr><td>IT Content Type: {{avi.getITContentTypeString()}} </td></tr>
+  <tr><td>YCC Quantization Range: {{avi.getYCCQuantizationRangeString()}} </td></tr>
+  <tr><td>End of Top Bar (ETB): {{avi.etb}} </td></tr>
+  <tr><td>Start of Bottom Bar (SBB): {{avi.sbb}} </td></tr>
+  <tr><td>End of Left Bar (ELB): {{avi.elb}} </td></tr>
+  <tr><td>Start of Right Bar (SRB): {{avi.srb}} </td></tr>
+</table>
