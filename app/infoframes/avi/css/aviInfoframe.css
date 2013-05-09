@@ -1,10 +1,19 @@
 #aviWrapper {
-width:auto;
+  width:auto;
 }
 
 #aviParsed {
-float:right;
+  float:right;
 }
 #inputTextBox {
-float:left;
+  float:left;
+  position:relative;
+}
+
+#inputText {
+  resize: none;
+}
+#parseButton {
+  position:absolute;
+  right:0px;
 }

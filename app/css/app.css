@@ -43,6 +43,9 @@ float:left;
 width:200px;
 }
 
-#inputEdid, #outputEdid {
-  resize: none;
+#footer {
+ clear: both;
+ position: relative;
+ padding:3em;
+ text-align:center;
 }
