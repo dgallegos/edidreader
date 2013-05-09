@@ -30,13 +30,13 @@
 }
 
 #wrap {
-width:950px;
+width:1000px;
 margin:0 auto;
 padding-top:50px;
 }
 #main {
 float:right;
-width:750px;
+width:800px;
 }
 #sidebar {
 float:left;

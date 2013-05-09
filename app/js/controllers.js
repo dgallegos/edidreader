@@ -45,7 +45,7 @@ $scope.originalEdid =  "00,FF,FF,FF,FF,FF,FF,00,4C,2D,9B,06,01,00,00,00, \n" +
                        "00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,74";
     */
 // QuantumData Default Edid
-$scope.originalEdid =  "00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 00 00 \n" +
+$scope.inputTextbox =  {originalEdid:"00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 00 00 \n" +
                        "20 13 01 03 80 50 2D 78 0A 0D C9 A0 57 47 98 27 \n" +
                        "12 48 4C 20 00 00 01 01 01 01 01 01 01 01 01 01 \n" +
                        "01 01 01 01 01 01 01 1D 80 18 71 1C 16 20 58 2C \n" +
@@ -60,11 +60,12 @@ $scope.originalEdid =  "00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 00 00 \n" +
                        "1D 1E 1F 5F 20 21 22 23 24 25 26 27 28 29 2A 2B \n" +
                        "2C 2D 2E 2F 30 31 32 33 34 35 36 37 38 39 3A 3B \n" +
                        "3C 3D 3E 00 00 00 00 00 00 00 00 00 00 00 00 00 \n" +
-                       "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 E3";
+                       "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 E3"};
 
 
 
     $scope.edid = new Edid();
+    $scope.checkbox = {addLine:false,addCommas:false,addHex:true};
 
     $scope.validChecksums = new Array();
     $scope.dtdBit2Text = new Array();
@@ -74,7 +75,7 @@ $scope.originalEdid =  "00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 00 00 \n" +
     // Start Actually Parsing
     $scope.parseEdid = function() {
     // Scrub the EDID of all the ugly stuff
-    $scope.scrubbedEdid = scrubEdid($scope.originalEdid);
+    $scope.scrubbedEdid = scrubEdid($scope.inputTextbox.originalEdid);
     // Convert the EDID into an integer array
     var edidArray = convertToIntArray($scope.scrubbedEdid);
     // Set EDID data
@@ -132,7 +133,7 @@ $scope.originalEdid =  "00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 00 00 \n" +
     var lastByte = $scope.scrubbedEdid.length - 1;
     for(var index = 0; index < $scope.scrubbedEdid.length; index++)
     {
-      if($scope.addCommas && (index != lastByte))
+      if($scope.checkbox.addCommas && (index != lastByte))
       {
         comma = ",";
       }
@@ -141,7 +142,7 @@ $scope.originalEdid =  "00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 00 00 \n" +
         comma = ""
       }
 
-      if($scope.addHex)
+      if($scope.checkbox.addHex)
       {
         hexPrefix = "0x";
       }
@@ -149,7 +150,7 @@ $scope.originalEdid =  "00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 00 00 \n" +
       {
         hexPrefix = "";
       }
-      if($scope.addLineBreaks && ((index % 16) == 15) && (index != lastByte))
+      if($scope.checkbox.addLineBreaks && ((index % 16) == 15) && (index != lastByte))
       {
         newLine = "\n";
         if((index % 128) == 127)
@@ -165,6 +166,8 @@ $scope.originalEdid =  "00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 00 00 \n" +
     }
 
     $scope.outputEdid = edidString.join(" ");
+    // Straight up HACK, and just set output edid to original EDID.
+    $scope.inputTextbox.originalEdid = $scope.outputEdid;
   }
   $scope.updateChecksums = function()
   {

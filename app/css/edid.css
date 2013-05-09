@@ -1,0 +1,16 @@
+#edidWrapper {
+  width:auto;
+}
+
+#edidParsed {
+  float:right;
+  width:400px;
+}
+#inputTextBox {
+  float:left;
+  position:relative;
+}
+#parseButton {
+  position:absolute;
+  right:0px;
+}

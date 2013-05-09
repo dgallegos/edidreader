@@ -1,0 +1,20 @@
+  <H1>EDID:</H1>
+
+<table>
+  <tr>
+    <td>
+      <input type="checkbox" ng-model="checkbox.addLineBreaks" ng-click="updateOutputEdid()"> Add Line Breaks <br />
+    </td>
+    <td>
+      <input type="checkbox" ng-model="checkbox.addCommas" ng-click="updateOutputEdid()"> Add Commas <br />
+    </td>
+    <td>
+      <input type="checkbox" ng-model="checkbox.addHex" ng-click="updateOutputEdid()"> Add Hex Prefix (0x) <br />
+    </td>
+  </tr>
+</table>
+
+<form ng-submit="parseEdid()">
+  <textarea id="inputEdid" ng-model="inputTextbox.originalEdid" class="field span5" rows="8"></textarea><br>
+  <input id="parseButton" type="submit" value="Parse Edid">
+</form>
