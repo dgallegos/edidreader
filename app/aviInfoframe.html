@@ -4,9 +4,12 @@
   <meta charset="utf-8">
   <title>Web Based AVI Infoframe Reader</title>
   <meta name="description" content="Free web based AVI Infoframe Reader">
-  <meta name="keywords" content="AVI, AVI infoframe, AVI Infoframe Reader">
+  <meta name="keywords" content="AVI, AVI infoframe, AVI Infoframe Reader, AVI Infoframe Parser,
+  Infoframes, HDMI Infoframes, HDMI Infoframe Parser, HDMI Infoframe Reader">
   <link rel="stylesheet" href="css/app.css"/>
   <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/docs.css">
+  <link rel="stylesheet" href="css/aviInfoframe.css">
   <script src="js/jquery-1.8.3.min.js"></script>
   <script src="lib/angular/angular.js"></script>
   <script src="lib/ui-bootstrap-0.3.0.min.js"></script>
@@ -20,24 +23,12 @@
   <script src="js/aviInfoframe.js"></script>
 </head>
 <body>
-  <div id="wrap" ng-controller="aviCtrl">
+  <div id="wrap">
 
-    <div id="main">
-      <form ng-submit="parse()">
-        <H1>AVI Infoframe:</H1>
-        <textarea id="inputText" ng-model="aviData" class="field span5" rows="8"></textarea>
-        <input type="submit" value="Parse">
-      </form>
-      <p>
-        <input type="checkbox" ng-model="addLineBreaks" ng-click="updateTextBox()"> Add Line Breaks <br />
-        <input type="checkbox" ng-model="addCommas" ng-click="updateTextBox()"> Add Commas <br />
-        <input type="checkbox" ng-model="addHex" ng-click="updateTextBox()"> Add Hex Prefix (0x) <br />
-      </p>
+    <div id="main" ng-include src="'/partials/aviInfoframe/_aviInfoframe.html'">
     </div>
 
-    <div id="sidebar">
-      <div class="aviParsed" ng-include src="aviParsedPartial">
-      </div>
+    <div id="sidebar" ng-include src="'/partials/_sidebar.html'">
     </div>
 
   </div>

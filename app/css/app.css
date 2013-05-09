@@ -30,17 +30,17 @@
 }
 
 #wrap {
-width:850px;
+width:950px;
 margin:0 auto;
 padding-top:50px;
 }
 #main {
-float:left;
-width:550px;
+float:right;
+width:750px;
 }
 #sidebar {
-float:right;
-width:300px;
+float:left;
+width:200px;
 }
 
 #inputEdid, #outputEdid {

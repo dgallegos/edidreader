@@ -334,15 +334,16 @@ function convertToIntArray(stringArray)
 
 function aviCtrl($scope) {
 
-  $scope.aviData = "0x82 0x02 0x0D 0x03 0x0A 0xA8 0x06 0x07 0x08 0x09 0x0A 0x0B 0x0C 0x0D 0x0E 0x0F";
+  $scope.inputText = {data:"0x82 0x02 0x0D 0x03 0x0A 0xA8 0x06 0x07 0x08 0x09 0x0A 0x0B 0x0C 0x0D 0x0E 0x0F"};
   $scope.avi = new AviInfoframe();
+  $scope.checkbox = {addLine:false,addCommas:false,addHex:true};
 
   $scope.parse = function()
   {
     // Scrub the EDID of all the ugly stuff
-    $scope.aviData = scrubHexData($scope.aviData);
+    $scope.inputText.data = scrubHexData($scope.inputText.data);
     // Convert the EDID into an integer array
-    $scope.aviArray = convertToIntArray($scope.aviData);
+    $scope.aviArray = convertToIntArray($scope.inputText.data);
 
     // Set AVI Infoframe Data
     $scope.avi.setAviData($scope.aviArray);
@@ -355,6 +356,7 @@ function aviCtrl($scope) {
 
   $scope.updateTextBox = function()
   {
-    $scope.aviData = convertToHexString($scope.aviArray, $scope.addCommas, $scope.addHex, $scope.addLineBreaks)
+    $scope.inputText.data = convertToHexString($scope.aviArray, $scope.checkbox.addCommas,
+                                 $scope.checkbox.addHex, $scope.checkbox.addLineBreaks)
   }
 }
