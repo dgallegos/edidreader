@@ -29,10 +29,15 @@
   padding: 0;
 }
 
+html body {
+background-color:#EEEEEE;
+}
+
 #wrap {
 width:1000px;
 margin:0 auto;
 padding-top:50px;
+background-color:#EEEEEE;
 }
 #main {
 float:right;
