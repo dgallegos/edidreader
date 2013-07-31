@@ -249,8 +249,8 @@ Edid.prototype.getProductCode = function()
   var PRODUCT_CODE1 = 10;
   var PRODUCT_CODE2 = 11;
 
-   return this.edidData[PRODUCT_CODE1] << 8 |
-                 this.edidData[PRODUCT_CODE2];
+   return this.edidData[PRODUCT_CODE2] << 8 |
+                 this.edidData[PRODUCT_CODE1];
 }
 
 
