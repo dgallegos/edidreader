@@ -1,8 +1,22 @@
-<div class="accordion" id="accordion2">
+<div id="edidTreeviewWrapper">
+    <div
+    data-angular-treeview="true"
+    data-tree-model="treedata"
+    data-node-id="id"
+    data-node-label="label"
+    data-node-children="children">
+    </div>
+</div>
+
+<div id="edidDataWrapper">
+    <div id="edidData" ng-include src="edidData"></div>
+</div>
+
+<!-- <div class="accordion" id="accordion2">
 
     <div class="block0" ng-include src="block0">
     </div>
 
     <div class="blockX" ng-include src="blockX">
     </div>
-</div>
+</div> -->

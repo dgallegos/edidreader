@@ -1,34 +1,23 @@
-<div ng-repeat="dtd in edid.dtds"> 
-<div class="accordion-group">
-  <div class="accordion-heading">
-    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#dtd{{$index}}">
-      <h5>Detailed Timing Descriptor {{$index+1}}</h5>
-    </a>
-  </div>
-  <div id="dtd{{$index}}" class="accordion-body collapse">
-    <div class="accordion-inner">
 
-      Pixel Clock: {{dtd.pixelClock}}MHz <br />
-      Horizontal Active: {{dtd.horActivePixels}} <br />
-      Horizontal Blanking: {{dtd.horBlankPixels}} <br />
-      Vertical Active: {{dtd.vertActivePixels}} <br />
-      Vertical Blanking: {{dtd.vertBlankPixels}} <br />
-      Horizontal Sync Offset: {{dtd.horSyncOff}} <br />
-      Horizontal Sync Pulse: {{dtd.horSyncPulse}} <br />
-      Vertical Sync Offset: {{dtd.vertSyncOff}} <br />
-      Vertical Sync Pulse: {{dtd.vertSyncPulse}} <br />
-      Horizontal Display Size: {{dtd.horDisplaySize}} <br />
-      Vertical Display Size: {{dtd.vertDisplaySize}} <br />
-      Horizontal Border: {{dtd.horBorderPixels}} <br />
-      Vertical Border: {{dtd.vertBorderLines}} <br />
-      Interlaced: {{dtd.interlaced}} <br />
-      Stereo Mode: {{dtd.stereoMode}} <br />
-      Sync Type: {{dtd.syncType}} <br />
-      {{dtdBit2Text[$index]}} <br />
-      {{dtdBit1Text[$index]}}  <br />
-      2-Way Line-Interleaved Stereo: {{dtd.twoWayStereo}} <br />
-      
-    </div>
-  </div>
-</div>
-</div>
+<h3>Detailed Timing Descriptor</h3>
+  
+
+Pixel Clock: {{dtd.pixelClock}}MHz <br />
+Horizontal Active: {{dtd.horActivePixels}} <br />
+Horizontal Blanking: {{dtd.horBlankPixels}} <br />
+Vertical Active: {{dtd.vertActivePixels}} <br />
+Vertical Blanking: {{dtd.vertBlankPixels}} <br />
+Horizontal Sync Offset: {{dtd.horSyncOff}} <br />
+Horizontal Sync Pulse: {{dtd.horSyncPulse}} <br />
+Vertical Sync Offset: {{dtd.vertSyncOff}} <br />
+Vertical Sync Pulse: {{dtd.vertSyncPulse}} <br />
+Horizontal Display Size: {{dtd.horDisplaySize}} <br />
+Vertical Display Size: {{dtd.vertDisplaySize}} <br />
+Horizontal Border: {{dtd.horBorderPixels}} <br />
+Vertical Border: {{dtd.vertBorderLines}} <br />
+Interlaced: {{dtd.interlaced}} <br />
+Stereo Mode: {{dtd.stereoMode}} <br />
+Sync Type: {{dtd.syncType}} <br />
+{{dtd.dtdBit2Text}} <br />
+{{dtd.dtdBit1Text}}  <br />
+2-Way Line-Interleaved Stereo: {{dtd.twoWayStereo}} <br />

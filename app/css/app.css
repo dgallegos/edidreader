@@ -34,14 +34,14 @@ background-color:#EEEEEE;
 }
 
 #wrap {
-width:1000px;
+width:1200px;
 margin:0 auto;
 padding-top:50px;
 background-color:#EEEEEE;
 }
 #main {
 float:right;
-width:800px;
+width:1000px;
 min-height:300px;
 }
 #sidebar {

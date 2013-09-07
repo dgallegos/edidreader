@@ -1,18 +1,10 @@
-<div class="accordion-group">
-  <div class="accordion-heading">
-    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#stdDisplayModes">
-      <h5>Standard Display Modes</h5>
-    </a>
-  </div>
-  <div id="stdDisplayModes" class="accordion-body collapse">
-    <div class="accordion-inner">
 
-      <div ng-repeat="dispMode in edid.standardDisplayModes"> 
-        X Resolution: {{dispMode.xResolution}} <br />
-        X:Y Pixel Ratio: {{edid.xyPixelRatioEnum[dispMode.xyPixelRatio].string}} <br />
-        Vertical Frequency: {{dispMode.vertFreq}} <br />
-      </div>
-        
-    </div>
-  </div>
-</div>
+<h5>Standard Display Modes</h5>
+
+<table class="table table-striped">
+  <tr ng-repeat="dispMode in edid.standardDisplayModes"><td>
+      X Resolution: {{dispMode.xResolution}} <br />
+      X:Y Pixel Ratio: {{edid.xyPixelRatioEnum[dispMode.xyPixelRatio].string}} <br/>
+      Vertical Frequency: {{dispMode.vertFreq}} <br />
+  </td></tr>
+</table>

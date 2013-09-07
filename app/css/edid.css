@@ -4,7 +4,7 @@
 
 #edidParsed {
   float:right;
-  width:400px;
+  width:600px;
 }
 #inputTextBox {
   float:left;
@@ -17,4 +17,15 @@
 
 #inputEdid, #outputEdid {
   resize: none;
+}
+
+#edidTreeviewWrapper {
+  float:left;
+  width:250px;
+}
+#edidDataWrapper {
+    /*padding-top:25px;*/
+    /*padding-bottom:25px;*/
+    float:right;
+    width:350px;
 }

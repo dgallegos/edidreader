@@ -1,17 +1,8 @@
 'use strict';
 
 /* Controllers */
-
-
-function MyCtrl1() {}
-MyCtrl1.$inject = [];
-
-
-function MyCtrl2() {
-}
-MyCtrl2.$inject = [];
-
 function EdidCtrl($scope) {
+
   // Populated test EDID
   /*
   $scope.originalEdid =
@@ -27,6 +18,7 @@ function EdidCtrl($scope) {
 
 /* New Test Edid
  * http://www.avsforum.com/t/1253912/first-hdmi-1-4-edid-report
+ */
 $scope.originalEdid =  "00,FF,FF,FF,FF,FF,FF,00,4C,2D,9B,06,01,00,00,00, \n" +
                        "33,13,01,03,80,59,32,78,0A,EE,91,A3,54,4C,99,26, \n" +
                        "0F,50,54,BD,EF,80,71,4F,81,00,81,40,81,80,95,00, \n" +
@@ -43,26 +35,32 @@ $scope.originalEdid =  "00,FF,FF,FF,FF,FF,FF,00,4C,2D,9B,06,01,00,00,00, \n" +
                        "00,1E,01,1D,80,D0,72,1C,16,20,10,2C,25,80,A0,5A, \n" +
                        "00,00,00,9E,00,00,00,00,00,00,00,00,00,00,00,00, \n" +
                        "00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,74";
-    */
-// QuantumData Default Edid
-$scope.inputTextbox =  {originalEdid:"00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 00 00 \n" +
-                       "20 13 01 03 80 50 2D 78 0A 0D C9 A0 57 47 98 27 \n" +
-                       "12 48 4C 20 00 00 01 01 01 01 01 01 01 01 01 01 \n" +
-                       "01 01 01 01 01 01 01 1D 80 18 71 1C 16 20 58 2C \n" +
-                       "25 00 C4 8E 21 00 00 9E 8C 0A D0 8A 20 E0 2D 10 \n" +
-                       "10 3E 96 00 13 8E 21 00 00 18 00 00 00 FC 00 48 \n" +
-                       "44 4D 49 20 41 6E 61 6C 79 7A 65 72 00 00 00 FD \n" +
-                       "00 17 F1 08 8C 11 00 0A 20 20 20 20 20 20 01 0C \n" +
-                       "02 03 63 71 83 4F 00 00 67 03 0C 00 10 00 38 21 \n" +
-                       "32 0F 7F 07 17 7F FF 3F 7F FF 57 7F 00 5F 7F 01 \n" +
-                       "67 7F 00 5F 85 02 03 04 01 06 07 08 09 0A 0B 0C \n" +
-                       "0D 0E 0F 10 11 12 13 14 15 16 17 18 19 1A 1B 1C \n" +
-                       "1D 1E 1F 5F 20 21 22 23 24 25 26 27 28 29 2A 2B \n" +
-                       "2C 2D 2E 2F 30 31 32 33 34 35 36 37 38 39 3A 3B \n" +
-                       "3C 3D 3E 00 00 00 00 00 00 00 00 00 00 00 00 00 \n" +
-                       "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 E3"};
+    
 
-
+  $scope.treeCallback = function(node){
+    $scope.edidData = node.url;
+  };
+  $scope.bdpHandler = function(node){
+    if($scope.edid.bdp.digitalInput == true)
+    {
+      $scope.edidData = 'partials/block0/bdp/digital.html';
+    }
+    else
+    {
+      $scope.edidData = 'partials/block0/bdp/analog.html';
+    }
+  }
+  $scope.dtdHandler = function(node){
+    // Parse Block and dtd number
+    var blockDescriptor  = node.id.replace("block","").split("Descriptor")
+    var index = blockDescriptor[1]-1;
+    $scope.dtd = $scope.edid.dtds[index];
+    $scope.updateDtdBit2Text(index);
+    $scope.updateDtdBit1Text(index);
+    $scope.edidData = node.url;
+  }
+    // QuantumData Default Edid
+    $scope.inputTextbox =  {originalEdid:$scope.originalEdid};
 
     $scope.edid = new Edid();
     $scope.checkbox = {addLine:false,addCommas:false,addHex:true};
@@ -98,22 +96,77 @@ $scope.inputTextbox =  {originalEdid:"00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 
   };
   $scope.updateBlock0 = function()
   {
-    $scope.block0 = 'partials/block0/block0.html';
-    $scope.edidHeaderInfo = 'partials/block0/edidHeaderInfo.html';
-    if($scope.edid.bdp.digitalInput == true)
+    var block0 = {label:"Block 0", 
+      id:"tBlock0",
+      callback:$scope.treeCallback,
+      children: []};
+    
+    var headerInfo = {label:"Header Information",
+          id: "tHeaderInfo",
+          callback:$scope.treeCallback,
+          url:'partials/block0/edidHeaderInfo.html',
+          "children" : []};
+    block0.children.push(headerInfo);
+
+    var bdp = {label:"Basic Display Parameters",
+          id:"tBDP",
+          callback:$scope.bdpHandler,
+          "children":[]};
+    block0.children.push(bdp);
+
+    var chromacityColors = {label:"Chormacity Colors",
+          id:"tChromacityColors",
+          callback:$scope.treeCallback,
+          url:'partials/block0/chromacityCoords.html',
+          "children" : [] };
+    block0.children.push(chromacityColors);
+
+    var timingBitmap = {label:"Timing Bitmap",
+          id:"tTimingBitmap",
+          callback:$scope.treeCallback,
+          url:'partials/block0/timingBitmap.html',
+          "children" : [] }
+    block0.children.push(timingBitmap);
+
+    var standardTimingInfo = {label:"Standard Timing Information", 
+          id: "tStandardTimingInfo",
+          callback:$scope.treeCallback,
+          "children" : []};
+    var standardDisplayModes = {label:"Standard Display Modes",
+             id: "role151",
+             callback:$scope.treeCallback,
+             url:'partials/block0/stdDisplayModes.html',
+              "children" : [] };
+    standardTimingInfo.children.push(standardDisplayModes);
+    
+    // For Each Block 0 Descriptor
+    for(var index = 0; index < $scope.edid.dtds.length; index++)
     {
-      $scope.bdpPage = 'partials/block0/bdp/digital.html';
+      // We should have a url variable, determine what type of descriptor it
+      // is, then change the URL, base on the type of descriptor
+      // Also, this needs it's own call back, so if it gets DTD callback,
+      // we can properly identify and update
+      // Create an Object
+      var descriptorNumber = index+1;
+      var descriptor = {label:"Descriptor " + descriptorNumber,
+             id: "block0Descriptor"+descriptorNumber,
+             callback:$scope.dtdHandler,
+             url:'partials/block0/detailedTimingDescriptors.html',
+              "children" : []};
+      // Add the object to the Standard Timing Info Children
+      standardTimingInfo.children.push(descriptor);
     }
-    else
-    {
-      $scope.bdpPage = 'partials/block0/bdp/analog.html';
-    }
-    $scope.chromacityCoords = 'partials/block0/chromacityCoords.html';
-    $scope.timingBitmap = 'partials/block0/timingBitmap.html';
-    $scope.standardTimingInfo = 'partials/block0/standardTimingInformation.html';
-    $scope.stdDisplayModes = 'partials/block0/stdDisplayModes.html'
-    $scope.updateDtdBit2Text();
-    $scope.updateDtdBit1Text();
+
+    
+    // Add Standard Timing Info to Block 0
+    block0.children.push(standardTimingInfo);
+
+    $scope.treedata = [];
+    $scope.treedata.push(block0);
+   
+    // Default Data showing is EDID Header Info
+    $scope.edidData = 'partials/block0/edidHeaderInfo.html';
+
     $scope.detailedTimingDescriptors = 'partials/block0/detailedTimingDescriptors.html'
   }
   $scope.updateBlockX = function()
@@ -184,10 +237,8 @@ $scope.inputTextbox =  {originalEdid:"00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 
     var isSet = ($scope.edid.timingBitmap & (msb >> index))?true:false;
     return isSet;
   }
-  $scope.updateDtdBit2Text = function()
+  $scope.updateDtdBit2Text = function(index)
   {
-    for(var index = 0; index < $scope.edid.dtds.length; index++)
-    {
       var bit2Text = new String();
       if($scope.edid.dtds[index].syncType ==
                 $scope.edid.syncTypeEnum.DIGITAL_SEPARATE)
@@ -200,13 +251,10 @@ $scope.inputTextbox =  {originalEdid:"00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 
         bit2Text = "Vertical Sync Serrated: ";
         bit2Text += $scope.edid.dtds[index].vSyncSerrated;
       }
-      $scope.dtdBit2Text[index] = bit2Text;
-    }
+      $scope.dtd.dtdBit2Text = bit2Text;
   }
-  $scope.updateDtdBit1Text = function()
+  $scope.updateDtdBit1Text = function(index)
   {
-    for(var index = 0; index < $scope.edid.dtds.length; index++)
-    {
       var bit1Text = new String();
       if(($scope.edid.dtds[index].syncType ==
                 $scope.edid.syncTypeEnum.ANALOG_COMPOSITE) ||
@@ -221,8 +269,7 @@ $scope.inputTextbox =  {originalEdid:"00 FF FF FF FF FF FF 00 44 89 B2 00 05 00 
         bit1Text = "HSync polarity: ";
         bit1Text += $scope.edid.dtds[index].hSyncPolarity;
       }
-      $scope.dtdBit1Text[index] = bit1Text;
-    }
+      $scope.dtd.dtdBit1Text = bit1Text;
   }
   $scope.accordionIdText = function(blockNumber)
   {
@@ -337,7 +384,7 @@ function convertToIntArray(stringArray)
 
 function aviCtrl($scope) {
 
-  $scope.inputText = {data:"0x82 0x02 0x0D 0x03 0x0A 0xA8 0x06 0x07 0x08 0x09 0x0A 0x0B 0x0C 0x0D 0x0E 0x0F"};
+  $scope.inputText = {data:""};
   $scope.avi = new AviInfoframe();
   $scope.checkbox = {addLine:false,addCommas:false,addHex:true};
 

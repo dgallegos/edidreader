@@ -1,14 +1,8 @@
-<div class="accordion-group">
-  <div class="accordion-heading">
-    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#timingBitmap">
-      <h3>Timing Bitmap</h3>
-    </a>
-  </div>
-  <div id="timingBitmap" class="accordion-body collapse">
-    <div class="accordion-inner">
-      <div ng-repeat="tb in edid.establishedTimingBitmaps">	
-        {{tb}}: {{isTimingBitmapSet($index)}}
-      </div>
-    </div>
-  </div>
-</div>      
+
+<h3>Timing Bitmap</h3>
+
+
+<div ng-repeat="tb in edid.establishedTimingBitmaps">	
+{{tb}}: {{isTimingBitmapSet($index)}}
+</div>
+
