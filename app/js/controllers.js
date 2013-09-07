@@ -19,35 +19,35 @@ function EdidCtrl($scope) {
 /* New Test Edid
  * http://www.avsforum.com/t/1253912/first-hdmi-1-4-edid-report
  */
-// $scope.originalEdid =  "00,FF,FF,FF,FF,FF,FF,00,4C,2D,9B,06,01,00,00,00, \n" +
-//                        "33,13,01,03,80,59,32,78,0A,EE,91,A3,54,4C,99,26, \n" +
-//                        "0F,50,54,BD,EF,80,71,4F,81,00,81,40,81,80,95,00, \n" +
-//                        "95,0F,B3,00,A9,40,02,3A,80,18,71,38,2D,40,58,2C, \n" +
-//                        "45,00,A0,5A,00,00,00,1E,66,21,50,B0,51,00,1B,30, \n" +
-//                        "40,70,36,00,A0,5A,00,00,00,1E,00,00,00,FD,00,18, \n" +
-//                        "4B,1A,51,17,00,0A,20,20,20,20,20,20,00,00,00,FC, \n" +
-//                        "00,53,41,4D,53,55,4E,47,0A,20,20,20,20,20,01,7F, \n" +
-//                        "02,03,2E,F1,4B,90,1F,04,13,05,14,03,12,20,21,22, \n" +
-//                        "23,09,07,07,83,01,00,00,E2,00,0F,E3,05,03,01,6E, \n" +
-//                        "03,0C,00,20,00,B8,2D,20,D0,04,01,40,07,3F,02,3A, \n" +
-//                        "80,D0,72,38,2D,40,10,2C,45,80,A0,5A,00,00,00,1E, \n" +
-//                        "01,1D,00,BC,52,D0,1E,20,B8,28,55,40,A0,5A,00,00, \n" +
-//                        "00,1E,01,1D,80,D0,72,1C,16,20,10,2C,25,80,A0,5A, \n" +
-//                        "00,00,00,9E,00,00,00,00,00,00,00,00,00,00,00,00, \n" +
-//                        "00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,74";
-    
+  // $scope.originalEdid =  "00,FF,FF,FF,FF,FF,FF,00,4C,2D,9B,06,01,00,00,00, \n" +
+  //                        "33,13,01,03,80,59,32,78,0A,EE,91,A3,54,4C,99,26, \n" +
+  //                        "0F,50,54,BD,EF,80,71,4F,81,00,81,40,81,80,95,00, \n" +
+  //                        "95,0F,B3,00,A9,40,02,3A,80,18,71,38,2D,40,58,2C, \n" +
+  //                        "45,00,A0,5A,00,00,00,1E,66,21,50,B0,51,00,1B,30, \n" +
+  //                        "40,70,36,00,A0,5A,00,00,00,1E,00,00,00,FD,00,18, \n" +
+  //                        "4B,1A,51,17,00,0A,20,20,20,20,20,20,00,00,00,FC, \n" +
+  //                        "00,53,41,4D,53,55,4E,47,0A,20,20,20,20,20,01,7F, \n" +
+  //                        "02,03,2E,F1,4B,90,1F,04,13,05,14,03,12,20,21,22, \n" +
+  //                        "23,09,07,07,83,01,00,00,E2,00,0F,E3,05,03,01,6E, \n" +
+  //                        "03,0C,00,20,00,B8,2D,20,D0,04,01,40,07,3F,02,3A, \n" +
+  //                        "80,D0,72,38,2D,40,10,2C,45,80,A0,5A,00,00,00,1E, \n" +
+  //                        "01,1D,00,BC,52,D0,1E,20,B8,28,55,40,A0,5A,00,00, \n" +
+  //                        "00,1E,01,1D,80,D0,72,1C,16,20,10,2C,25,80,A0,5A, \n" +
+  //                        "00,00,00,9E,00,00,00,00,00,00,00,00,00,00,00,00, \n" +
+  //                        "00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,74";
+      
 
   $scope.treeCallback = function(node){
-    $scope.edidData = node.url;
+    $scope.edidData = node.url+"?"+Math.random();
   };
   $scope.bdpHandler = function(node){
     if($scope.edid.bdp.digitalInput == true)
     {
-      $scope.edidData = 'partials/block0/bdp/digital.html';
+      $scope.edidData = 'partials/block0/bdp/digital.html'+"?"+Math.random();
     }
     else
     {
-      $scope.edidData = 'partials/block0/bdp/analog.html';
+      $scope.edidData = 'partials/block0/bdp/analog.html'+"?"+Math.random();
     }
   }
   $scope.dtdHandler = function(node){
@@ -57,7 +57,7 @@ function EdidCtrl($scope) {
     $scope.dtd = $scope.edid.dtds[index];
     $scope.updateDtdBit2Text(index);
     $scope.updateDtdBit1Text(index);
-    $scope.edidData = node.url;
+    $scope.edidData = node.url+"?"+Math.random();
   }
   $scope.blockXHandler = function(node){
     // Parse Block Extension Number
@@ -66,7 +66,7 @@ function EdidCtrl($scope) {
     $scope.ext = $scope.edid.exts[index];
 
     // Set the EDID Data View to load the node's URL
-    $scope.edidData = node.url; 
+    $scope.edidData = node.url+"?"+Math.random(); 
   }
   $scope.ceaHandler = function(node){
     // Parse Block and CEA number
@@ -109,7 +109,7 @@ function EdidCtrl($scope) {
       $scope.ceaDataBlock = $scope.ext.dataBlockCollection[ceaBlockNumber];
     }
     // Set the EDID Data View to load the node's URL
-    $scope.edidData = node.url; 
+    $scope.edidData = node.url+"?"+Math.random(); 
   }
   $scope.extDtdHandler = function(node){
     var blockNumber = node.id.replace("tBlock","").charAt(0);
@@ -119,7 +119,7 @@ function EdidCtrl($scope) {
     var dtdIndex = dtdNumber -1;
     $scope.dtd = $scope.ext.dtds[dtdIndex];
 
-    $scope.edidData = node.url; 
+    $scope.edidData = node.url+"?"+Math.random(); 
   }
     // QuantumData Default Edid
     $scope.inputTextbox =  {originalEdid:$scope.originalEdid};
@@ -229,7 +229,7 @@ function EdidCtrl($scope) {
     $scope.treedata.push(block0);
    
     // Default Data showing is EDID Header Info
-    $scope.edidData = 'partials/block0/edidHeaderInfo.html';
+    $scope.edidData = 'partials/block0/edidHeaderInfo.html'+"?"+Math.random();
 
     $scope.detailedTimingDescriptors = 'partials/block0/detailedTimingDescriptors.html'
   }
