@@ -1,6 +1,9 @@
 Format Code: {{edid.shortAudioDescriptors[shortAudioDescriptor.format]}} <br />
 Max Channels: {{shortAudioDescriptor.maxChannels}} <br />
-Sample Rates: <br />
+<strong>Sample Rates: </strong><br />
   <div ng-repeat="sampleRate in edid.sadSampleRates">
-    {{sampleRate}}: {{isBitSet(shortAudioDescriptor.sampleRates,$index)}}
+    <input type="checkbox" 
+    disabled="disabled" 
+    ng-checked="isBitSet(shortAudioDescriptor.sampleRates,$index)">
+    {{sampleRate}}
   </div>

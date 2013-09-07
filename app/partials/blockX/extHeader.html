@@ -1,14 +1,31 @@
 
 <h3>Extension Header Information</h3>
+Valid Checksum: {{validChecksums[ext.blockNumber]}} <br/>
 
 Extension Tag: {{ext.extTag}} <br />
 Revision Number: {{ext.revisionNumber}} <br />
 DTD Start: 0x{{ext.dtdStart.toString(16).toUpperCase()}} <br />
-Number of DTDs: {{ext.numDtds}} <br />
-Supports Underscan: {{ext.underscan}} <br />
-Supports Basic Audio: {{ext.basicAudio}} <br />
-Supports YcBcR 4:4:4: {{ext.ycbcr444}} <br />
-Supports YcBcR 4:2:2: {{ext.ycbcr422}} <br />
+Number of Native DTDs: {{ext.numDtds}} <br />
+
+<input type="checkbox" 
+disabled="disabled" 
+ng-checked="ext.underscan">
+Supports Underscan <br />
+
+<input type="checkbox" 
+disabled="disabled" 
+ng-checked="ext.basicAudio">
+Supports Basic Audio<br />
+
+<input type="checkbox" 
+disabled="disabled" 
+ng-checked="ext.ycbcr444">
+Supports YcBcR 4:4:4<br />
+
+<input type="checkbox" 
+disabled="disabled" 
+ng-checked="ext.ycbcr422">
+Supports YcBcR 4:2:2 <br />
 <br />
 <br />
 Checksum: 0x{{ext.checksum.toString(16).toUpperCase()}} <br />

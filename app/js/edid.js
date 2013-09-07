@@ -169,6 +169,7 @@ Edid.prototype.parse = function()
   for(var extIndex = 0; extIndex < this.numberOfExtensions; extIndex++)
   {
     this.exts[extIndex] = new Object();
+    this.exts[extIndex].blockNumber = extIndex+1;
     this.exts[extIndex].extTag = this.getExtTag(extIndex);
     this.exts[extIndex].revisionNumber = this.getRevisionNumber(extIndex);
     this.exts[extIndex].dtdStart = this.getDtdStart(extIndex);

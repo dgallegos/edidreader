@@ -1,8 +1,11 @@
 <div class="shortAudioDescriptor">
   <div class="sadView" ng-include src="sadView"></div>
-    Bit Depth:
+    <strong>Bit Depth:</strong>
   <div ng-repeat="bitDepth in edid.sadBitDepths">
-    {{bitDepth}}: {{isBitSet(shortAudioDescriptor.bitDepth,$index)}}
+    <input type="checkbox" 
+    disabled="disabled" 
+    ng-checked="isBitSet(shortAudioDescriptor.bitDepth,$index)">
+    {{bitDepth}}
   </div>
 
 </div>

@@ -2,6 +2,6 @@
 <h2>Timing Bitmap</h2>
 
 <div ng-repeat="tb in edid.establishedTimingBitmaps">	
-{{tb}}: {{isTimingBitmapSet($index)}}
+ <input type="checkbox" disabled="disabled" ng-checked="isTimingBitmapSet($index)">
+ {{tb}}
 </div>
-

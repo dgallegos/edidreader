@@ -3,12 +3,36 @@
 
 IEEE OUI: {{pad(ceaDataBlock.ieeeIdentifier.toString(16).toUpperCase(),6)}} <br />
 Source Physical Address: {{ceaDataBlock.physicalAddress.toString(16).toUpperCase()}} <br />
-Supports ACP, ISRC1, ISRC2: {{ceaDataBlock.supportsAI.toString().toUpperCase()}} <br />
-Supports 48 bits/pixel (16 bits/color): {{ceaDataBlock.deepColor48.toString().toUpperCase()}} <br />
-Supports 36 bits/pixel (12 bits/color): {{ceaDataBlock.deepColor36.toString().toUpperCase()}} <br />
-Supports 30 bits/pixel (10 bits/color): {{ceaDataBlock.deepColor30.toString().toUpperCase()}} <br />
-Supports YCbCr 4:4:4 Deep Color: {{ceaDataBlock.deepColorY444.toString().toUpperCase()}} <br />
-Supports Dual DVI: {{ceaDataBlock.dualDvi.toString().toUpperCase()}} <br />
+
+<input type="checkbox" 
+disabled="disabled" 
+ng-checked="ceaDataBlock.supportsAI">
+Supports ACP, ISRC1, ISRC2<br />
+
+<input type="checkbox" 
+disabled="disabled" 
+ng-checked="ceaDataBlock.deepColor48">
+Supports 48 bits/pixel (16 bits/color)<br />
+
+<input type="checkbox" 
+disabled="disabled" 
+ng-checked="ceaDataBlock.deepColor36">
+Supports 36 bits/pixel (12 bits/color)<br />
+
+<input type="checkbox" 
+disabled="disabled" 
+ng-checked="ceaDataBlock.deepColor30">
+Supports 30 bits/pixel (10 bits/color)<br />
+
+<input type="checkbox" 
+disabled="disabled" 
+ng-checked="ceaDataBlock.deepColorY444">
+Supports YCbCr 4:4:4 Deep Color<br />
+
+<input type="checkbox" 
+disabled="disabled" 
+ng-checked="ceaDataBlock.dualDvi">
+Supports Dual DVI<br />
 Max TMDS Clock Rate: {{ceaDataBlock.maxTmdsRate}} MHz <br />
 Video/Audio Latency Fields Present: {{ceaDataBlock.latencyPresent.toString().toUpperCase()}} <br />
 Video Latency: {{ceaDataBlock.videoLatency}} ms <br />

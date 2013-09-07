@@ -3,5 +3,8 @@
 
 <table class="table table-striped">
 <tr ng-repeat="speakerAllocation in edid.speakerAllocation"><td>
-  {{speakerAllocation}}: {{isBitSet(ceaDataBlock.payload,$index)}}
+    <input type="checkbox" 
+    disabled="disabled" 
+    ng-checked="isBitSet(ceaDataBlock.payload,$index)">
+  {{speakerAllocation}}
 </td></tr>
