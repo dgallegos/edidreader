@@ -59,6 +59,68 @@ $scope.originalEdid =  "00,FF,FF,FF,FF,FF,FF,00,4C,2D,9B,06,01,00,00,00, \n" +
     $scope.updateDtdBit1Text(index);
     $scope.edidData = node.url;
   }
+  $scope.blockXHandler = function(node){
+    // Parse Block Extension Number
+    var blockNumber = node.id.replace("tBlock","").charAt(0);
+    var index = blockNumber - 1;
+    $scope.ext = $scope.edid.exts[index];
+
+    // Set the EDID Data View to load the node's URL
+    $scope.edidData = node.url; 
+  }
+  $scope.ceaHandler = function(node){
+    // Parse Block and CEA number
+    var blockNumber = node.id.replace("tBlock","").charAt(0);
+    var index = blockNumber - 1;
+    $scope.ext = $scope.edid.exts[index];
+    
+    var dataBlock = node.id.replace("tBlock","").substring(1);
+    var ceaBlockNumber;
+    if(dataBlock.substring(0,5) == 
+      $scope.edid.dataBlockType.RESERVED.string.substring(0,5))
+    {
+      // Should be able to get away with doing nothing!
+    }
+    else if(dataBlock.substring(0,5) == 
+      $scope.edid.dataBlockType.AUDIO.string.substring(0,5))
+    {
+      // Parse CEA Data Block Number
+      ceaBlockNumber = dataBlock.substring($scope.edid.dataBlockType.AUDIO.string.length);
+      $scope.ceaDataBlock = $scope.ext.dataBlockCollection[ceaBlockNumber];
+    }
+    else if(dataBlock.substring(0,5) == 
+      $scope.edid.dataBlockType.VIDEO.string.substring(0,5))
+    {
+      ceaBlockNumber = dataBlock.substring($scope.edid.dataBlockType.VIDEO.string.length);
+      $scope.ceaDataBlock = $scope.ext.dataBlockCollection[ceaBlockNumber];
+    }
+    else if(dataBlock.substring(0,5) == 
+      $scope.edid.dataBlockType.VENDOR_SPECIFIC.string.substring(0,5))
+    {
+      ceaBlockNumber = dataBlock.substring(
+                $scope.edid.dataBlockType.VENDOR_SPECIFIC.string.length);
+      $scope.ceaDataBlock = $scope.ext.dataBlockCollection[ceaBlockNumber];
+    }
+    else if(dataBlock.substring(0,5) == 
+      $scope.edid.dataBlockType.SPEAKER_ALLOCATION.string.substring(0,5))
+    {
+      ceaBlockNumber = dataBlock.substring(
+                $scope.edid.dataBlockType.SPEAKER_ALLOCATION.string.length);
+      $scope.ceaDataBlock = $scope.ext.dataBlockCollection[ceaBlockNumber];
+    }
+    // Set the EDID Data View to load the node's URL
+    $scope.edidData = node.url; 
+  }
+  $scope.extDtdHandler = function(node){
+    var blockNumber = node.id.replace("tBlock","").charAt(0);
+    var index = blockNumber - 1;
+    $scope.ext = $scope.edid.exts[index];
+    var dtdNumber = node.id.replace("tBlock","").substring(1).replace("Dtd","");
+    var dtdIndex = dtdNumber -1;
+    $scope.dtd = $scope.ext.dtds[dtdIndex];
+
+    $scope.edidData = node.url; 
+  }
     // QuantumData Default Edid
     $scope.inputTextbox =  {originalEdid:$scope.originalEdid};
 
@@ -85,6 +147,9 @@ $scope.originalEdid =  "00,FF,FF,FF,FF,FF,FF,00,4C,2D,9B,06,01,00,00,00, \n" +
     // Setup the View
     $scope.updateOutputEdid();
     $scope.updateChecksums();
+    
+    // Clear out Our tree
+    $scope.treedata = [];
     $scope.updateBlock0();
     $scope.dataBlockView = ['partials/blockX/dataBlocks/reserved.html',
                               'partials/blockX/dataBlocks/audio.html',
@@ -161,7 +226,6 @@ $scope.originalEdid =  "00,FF,FF,FF,FF,FF,FF,00,4C,2D,9B,06,01,00,00,00, \n" +
     // Add Standard Timing Info to Block 0
     block0.children.push(standardTimingInfo);
 
-    $scope.treedata = [];
     $scope.treedata.push(block0);
    
     // Default Data showing is EDID Header Info
@@ -171,8 +235,103 @@ $scope.originalEdid =  "00,FF,FF,FF,FF,FF,FF,00,4C,2D,9B,06,01,00,00,00, \n" +
   }
   $scope.updateBlockX = function()
   {
+    for(var index = 0; index < $scope.edid.exts.length; index++)
+    {
+      var blockNumber = index+1;
+      var blockLabel = "Block "+blockNumber;
+      var id = "tBlock"+blockNumber;
+
+      // Add Block 
+      var blockX = {label:blockLabel, 
+                    id:id,
+                    callback:$scope.blockXHandler,
+                    children: []};
+      
+      var extHeader = {label:"Extenstion Header Information",
+                      id: id+"ExtensionHeaderInfo",
+                      callback:$scope.blockXHandler,
+                      url:'partials/blockX/extHeader.html',
+                      "children" : []};
+      blockX.children.push(extHeader);
+      
+      var ceaDataBlock = {label:"CEA Data Block",
+                      id: id+"CeaDataBlock",
+                      callback:$scope.blockXHandler,
+                      "children" : []};
+      // For Each CEA Data Block
+      for(var ceaIndex = 0; 
+            ceaIndex < $scope.edid.exts[index].dataBlockCollection.length; 
+            ceaIndex++)
+      {
+        var dataBlock = $scope.edid.exts[index].dataBlockCollection[ceaIndex];
+        var treeDataBlock = {};
+                              
+        if(dataBlock.tag == $scope.edid.dataBlockType.RESERVED)
+        {
+          treeDataBlock = {label:"Reserved Data Block",
+                            id: id+$scope.edid.dataBlockType.RESERVED.string+ceaIndex,
+                            callback:$scope.ceaHandler,
+                            url:'partials/blockX/dataBlocks/reserved.html',
+                            "children" : []};
+        }
+        else if(dataBlock.tag == $scope.edid.dataBlockType.AUDIO)
+        {
+          treeDataBlock = {label:"Audio Data Block",
+                            id: id+$scope.edid.dataBlockType.AUDIO.string+ceaIndex,
+                            callback:$scope.ceaHandler,
+                            url:'partials/blockX/dataBlocks/audio.html',
+                            "children" : []};
+        }
+        else if(dataBlock.tag == $scope.edid.dataBlockType.VIDEO)
+        {
+          treeDataBlock = {label:"Video Data Block",
+                            id: id+$scope.edid.dataBlockType.VIDEO.string+ceaIndex,
+                            callback:$scope.ceaHandler,
+                            url:'partials/blockX/dataBlocks/video.html',
+                            "children" : []};
+        }        
+        else if(dataBlock.tag == $scope.edid.dataBlockType.VENDOR_SPECIFIC)
+        {
+          treeDataBlock = {label:"Vendor Specific Data Block",
+                            id: id+$scope.edid.dataBlockType.VENDOR_SPECIFIC.string+ceaIndex,
+                            callback:$scope.ceaHandler,
+                            url:'partials/blockX/dataBlocks/vendorSpecific.html',
+                            "children" : []};
+        }        
+        else if(dataBlock.tag == $scope.edid.dataBlockType.SPEAKER_ALLOCATION)
+        {
+          treeDataBlock = {label:"Speaker Allocation Data Block",
+                            id: id+$scope.edid.dataBlockType.SPEAKER_ALLOCATION.string+ceaIndex,
+                            callback:$scope.ceaHandler,
+                            url:'partials/blockX/dataBlocks/speakerAllocation.html',
+                            "children" : []};
+        }
+        ceaDataBlock.children.push(treeDataBlock);
+      }
+
+      blockX.children.push(ceaDataBlock);
+
+      // For each extension DTD, build the tree object then add it to blockX
+      for(var extDtdIndex = 0; 
+      extDtdIndex < $scope.edid.exts[index].dtds.length; 
+      extDtdIndex++)
+      {
+        var dtd = $scope.edid.exts[index].dtds[extDtdIndex];
+        var dtdNumber = extDtdIndex+1;
+        var dtdTree = {label:"Detailed Timing Descriptor "+dtdNumber,
+                            id: id+"Dtd"+dtdNumber,
+                            callback:$scope.extDtdHandler,
+                            url:'partials/blockX/extDtds.html',
+                            "children" : []};
+        blockX.children.push(dtdTree);
+      }
+
+      // Add BlockX to treeData
+      $scope.treedata.push(blockX);
+    }
+
+
     $scope.blockX = 'partials/blockX/blockX.html';
-    $scope.extHeader = 'partials/blockX/extHeader.html';
     $scope.extDataBlock = 'partials/blockX/extDataBlock.html';
     $scope.sadView = 'partials/blockX/dataBlocks/shortAudioDescriptors/shortAudioDescriptor.html';
     $scope.extDtds = 'partials/blockX/extDtds.html';

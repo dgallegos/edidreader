@@ -1,8 +1,13 @@
-<h3>Header Information</h3>
-
-Edid Header: {{edid.validHeader}}  <br />
+<h2>Header Information</h2>
+Valid Checksum: {{validChecksums[0]}} <br />
+EDID Header: {{edid.validHeader}}  <br />
 EISA ID: {{edid.eisaId}} <br />
 Product Code: {{edid.productCode.toString(16).toUpperCase()}} <br />
 Serial Number: {{edid.serialNumber}} <br />
 Manufacture Date: {{edid.manufactureDate}} <br />
-Edid Version: {{edid.edidVersion}} <br />
+EDID Version: {{edid.edidVersion}} <br />
+
+<br>
+<br>
+Number of Extensions: {{edid.numberOfExtensions}}  <br />
+Checksum: 0x{{edid.checksum.toString(16).toUpperCase()}} <br />

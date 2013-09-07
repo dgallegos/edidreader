@@ -1,19 +1,13 @@
-<div class="accordion-group">
-  <div class="accordion-heading">
-    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#video{{$index}}">
-      <h5>Video Data Block</h5>
-    </a>
-  </div>
-  <div id="video{{$index}}" class="accordion-body collapse">
-    <div class="accordion-inner">
-      <div ng-repeat="shortVideoDescriptor in dataBlock.shortVideoDescriptors">
-        Native: {{shortVideoDescriptor.nativeResolution.toString().toUpperCase()}} <br />
-        VIC: {{edid.shortVideoDescriptors[shortVideoDescriptor.vic].vic}} <br />
-        Format: {{edid.shortVideoDescriptors[shortVideoDescriptor.vic].format}} <br />
-        Field Rate: {{edid.shortVideoDescriptors[shortVideoDescriptor.vic].fieldRate}} <br />
-        Picture AR: {{edid.shortVideoDescriptors[shortVideoDescriptor.vic].pictureAspectRatio}} <br />
-        Pixel AR: {{edid.shortVideoDescriptors[shortVideoDescriptor.vic].pixelAspectRatio}} <br />
-      </div>
-    </div>
-  </div>
-</div>
+
+<h3>Video Data Block</h3>
+
+<table class="table table-striped">
+<tr ng-repeat="shortVideoDescriptor in ceaDataBlock.shortVideoDescriptors"><td>
+  Native: {{shortVideoDescriptor.nativeResolution.toString().toUpperCase()}} <br />
+  VIC: {{edid.shortVideoDescriptors[shortVideoDescriptor.vic].vic}} <br />
+  Format: {{edid.shortVideoDescriptors[shortVideoDescriptor.vic].format}} <br />
+  Field Rate: {{edid.shortVideoDescriptors[shortVideoDescriptor.vic].fieldRate}} <br />
+  Picture AR: {{edid.shortVideoDescriptors[shortVideoDescriptor.vic].pictureAspectRatio}} <br />
+  Pixel AR: {{edid.shortVideoDescriptors[shortVideoDescriptor.vic].pixelAspectRatio}} <br />
+</td></tr>
+</table>

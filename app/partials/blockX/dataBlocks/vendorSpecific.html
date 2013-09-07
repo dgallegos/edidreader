@@ -1,26 +1,18 @@
-<div class="accordion-group">
-  <div class="accordion-heading">
-    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#vendorSpecific{{$index}}">
-      <h5>Vendor Specific Data Block</h5>
-    </a>
-  </div>
-  <div id="vendorSpecific{{$index}}" class="accordion-body collapse">
-    <div class="accordion-inner">
-      IEEE OUI: {{pad(dataBlock.ieeeIdentifier.toString(16).toUpperCase(),6)}} <br />
-      Source Physical Address: {{dataBlock.physicalAddress.toString(16).toUpperCase()}} <br />
-      Supports ACP, ISRC1, ISRC2: {{dataBlock.supportsAI.toString().toUpperCase()}} <br />
-      Supports 48 bits/pixel (16 bits/color): {{dataBlock.deepColor48.toString().toUpperCase()}} <br />
-      Supports 36 bits/pixel (12 bits/color): {{dataBlock.deepColor36.toString().toUpperCase()}} <br />
-      Supports 30 bits/pixel (10 bits/color): {{dataBlock.deepColor30.toString().toUpperCase()}} <br />
-      Supports YCbCr 4:4:4 Deep Color: {{dataBlock.deepColorY444.toString().toUpperCase()}} <br />
-      Supports Dual DVI: {{dataBlock.dualDvi.toString().toUpperCase()}} <br />
-      Max TMDS Clock Rate: {{dataBlock.maxTmdsRate}} MHz <br />
-      Video/Audio Latency Fields Present: {{dataBlock.latencyPresent.toString().toUpperCase()}} <br />
-      Video Latency: {{dataBlock.videoLatency}} ms <br />
-      Audio Latency: {{dataBlock.audioLatency}} ms <br />
-      Interlaced Video/Audio Latency Fields Present: {{dataBlock..iLatencyPresent.toString().toUpperCase()}} <br />
-      Interlaced Video Latency: {{dataBlock.iVideoLatency}} ms <br />
-      Interlaced Audio Latency: {{dataBlock.iAudioLatency}} ms <br />
-    </div>
-  </div>
-</div>
+
+<h3>Vendor Specific Data Block</h3>
+
+IEEE OUI: {{pad(ceaDataBlock.ieeeIdentifier.toString(16).toUpperCase(),6)}} <br />
+Source Physical Address: {{ceaDataBlock.physicalAddress.toString(16).toUpperCase()}} <br />
+Supports ACP, ISRC1, ISRC2: {{ceaDataBlock.supportsAI.toString().toUpperCase()}} <br />
+Supports 48 bits/pixel (16 bits/color): {{ceaDataBlock.deepColor48.toString().toUpperCase()}} <br />
+Supports 36 bits/pixel (12 bits/color): {{ceaDataBlock.deepColor36.toString().toUpperCase()}} <br />
+Supports 30 bits/pixel (10 bits/color): {{ceaDataBlock.deepColor30.toString().toUpperCase()}} <br />
+Supports YCbCr 4:4:4 Deep Color: {{ceaDataBlock.deepColorY444.toString().toUpperCase()}} <br />
+Supports Dual DVI: {{ceaDataBlock.dualDvi.toString().toUpperCase()}} <br />
+Max TMDS Clock Rate: {{ceaDataBlock.maxTmdsRate}} MHz <br />
+Video/Audio Latency Fields Present: {{ceaDataBlock.latencyPresent.toString().toUpperCase()}} <br />
+Video Latency: {{ceaDataBlock.videoLatency}} ms <br />
+Audio Latency: {{ceaDataBlock.audioLatency}} ms <br />
+Interlaced Video/Audio Latency Fields Present: {{ceaDataBlock..iLatencyPresent.toString().toUpperCase()}} <br />
+Interlaced Video Latency: {{ceaDataBlock.iVideoLatency}} ms <br />
+Interlaced Audio Latency: {{ceaDataBlock.iAudioLatency}} ms <br />

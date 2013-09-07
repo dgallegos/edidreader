@@ -1,19 +1,14 @@
-<div class="accordion-group">
-  <div class="accordion-heading">
-    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#extHeaderInfo">
-      <h3>Extension Header Info</h3>
-    </a>
-  </div>
-  <div id="extHeaderInfo" class="accordion-body collapse">
-    <div class="accordion-inner">
-      Extension Tag: {{ext.extTag}} <br />
-      Revision Number: {{ext.revisionNumber}} <br />
-      DTD Start: 0x{{ext.dtdStart.toString(16).toUpperCase()}} <br />
-      Number of DTDs: {{ext.numDtds}} <br />
-      Supports Underscan: {{ext.underscan}} <br />
-      Supports Basic Audio: {{ext.basicAudio}} <br />
-      Supports YcBcR 4:4:4: {{ext.ycbcr444}} <br />
-      Supports YcBcR 4:2:2: {{ext.ycbcr422}} <br />
-    </div>
-  </div>
-</div>
+
+<h3>Extension Header Information</h3>
+
+Extension Tag: {{ext.extTag}} <br />
+Revision Number: {{ext.revisionNumber}} <br />
+DTD Start: 0x{{ext.dtdStart.toString(16).toUpperCase()}} <br />
+Number of DTDs: {{ext.numDtds}} <br />
+Supports Underscan: {{ext.underscan}} <br />
+Supports Basic Audio: {{ext.basicAudio}} <br />
+Supports YcBcR 4:4:4: {{ext.ycbcr444}} <br />
+Supports YcBcR 4:2:2: {{ext.ycbcr422}} <br />
+<br />
+<br />
+Checksum: 0x{{ext.checksum.toString(16).toUpperCase()}} <br />
