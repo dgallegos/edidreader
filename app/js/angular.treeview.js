@@ -84,7 +84,12 @@
 								//Collapse or Expand
 								selectedNode.collapsed = !selectedNode.collapsed;
 							}
-							scope.currentNode.callback(selectedNode);
+
+							if(scope.currentNode.callback)
+							{
+								scope.currentNode.callback(selectedNode);
+							}
+
 						};
 					}
 

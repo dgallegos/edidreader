@@ -167,7 +167,6 @@ function EdidCtrl($scope) {
   {
     var block0 = {label:"Block 0", 
       id:"tBlock0",
-      callback:$scope.treeCallback,
       children: []};
     
     var headerInfo = {label:"Header Information",
@@ -199,7 +198,6 @@ function EdidCtrl($scope) {
 
     var standardTimingInfo = {label:"Standard Timing Information", 
           id: "tStandardTimingInfo",
-          callback:$scope.treeCallback,
           "children" : []};
     var standardDisplayModes = {label:"Standard Display Modes",
              id: "role151",
@@ -248,7 +246,6 @@ function EdidCtrl($scope) {
       // Add Block 
       var blockX = {label:blockLabel, 
                     id:id,
-                    callback:$scope.blockXHandler,
                     children: []};
       
       var extHeader = {label:"Extenstion Header Information",
@@ -260,7 +257,6 @@ function EdidCtrl($scope) {
       
       var ceaDataBlock = {label:"CEA Data Block",
                       id: id+"CeaDataBlock",
-                      callback:$scope.blockXHandler,
                       "children" : []};
       // For Each CEA Data Block
       for(var ceaIndex = 0; 
