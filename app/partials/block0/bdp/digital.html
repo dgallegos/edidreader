@@ -1,15 +1,47 @@
 
 <h2>Basic Display Parameters</h2>
 
-Digital Input: {{edid.bdp.digitalInput}} <br />
-Compatible with VESA DFP: {{edid.bdp.vesaDfpCompatible}} <br />
+
+<input type="checkbox" 
+        disabled="disabled" 
+        ng-checked="edid.bdp.digitalInput">
+Digital Input<br />
+
+<input type="checkbox" 
+        disabled="disabled" 
+        ng-checked="edid.bdp.vesaDfpCompatible">
+Compatible with VESA DFP<br />
 Maximum Horizontal Image Size: {{edid.bdp.maxHorImgSize}} <br />
 Maximum Vertical Image Size: {{edid.bdp.maxVertImgSize}} <br />
 Display Gamma: {{edid.bdp.displayGamma.toFixed(2)}} <br />
-DPMS Standby: {{edid.bdp.dpmsStandby}} <br />
-DPMS Suspend: {{edid.bdp.dpmsSuspend}} <br />
-DPMS Active-Off: {{edid.bdp.dpmsActiveOff}} <br />
+
+<input type="checkbox" 
+        disabled="disabled" 
+        ng-checked="edid.bdp.dpmsStandby">
+DPMS Standby<br />
+
+<input type="checkbox" 
+        disabled="disabled" 
+        ng-checked="edid.bdp.dpmsSuspend">
+DPMS Suspend<br />
+
+<input type="checkbox" 
+        disabled="disabled" 
+        ng-checked="edid.bdp.dpmsActiveOff">
+DPMS Active-Off<br />
 Display Type: {{edid.digitalColorSpace[edid.bdp.displayType]}} <br />
-Standard sRGB Color Space: {{edid.bdp.standardSRgb}} <br />
-Preferred Timing Mode: {{edid.bdp.preferredTiming}} <br />
-GTF Supported: {{edid.bdp.gtfSupported}} <br />
+
+<input type="checkbox" 
+        disabled="disabled" 
+        ng-checked="edid.bdp.standardSRgb">
+Standard sRGB Color Space<br />
+
+<input type="checkbox" 
+        disabled="disabled" 
+        ng-checked="edid.bdp.preferredTiming">
+Preferred Timing Mode<br />
+
+<input type="checkbox" 
+        disabled="disabled" 
+        ng-checked="edid.bdp.gtfSupported">
+GTF Supported<br />
