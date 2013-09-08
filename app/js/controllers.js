@@ -35,7 +35,7 @@ function EdidCtrl($scope) {
   //                        "00,1E,01,1D,80,D0,72,1C,16,20,10,2C,25,80,A0,5A, \n" +
   //                        "00,00,00,9E,00,00,00,00,00,00,00,00,00,00,00,00, \n" +
   //                        "00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,74";
-      
+ 
 
   $scope.treeCallback = function(node){
     $scope.edidData = node.url+"?"+Math.random();
@@ -55,8 +55,9 @@ function EdidCtrl($scope) {
     var blockDescriptor  = node.id.replace("block","").split("Descriptor")
     var index = blockDescriptor[1]-1;
     $scope.dtd = $scope.edid.dtds[index];
-    $scope.updateDtdBit2Text(index);
-    $scope.updateDtdBit1Text(index);
+    var block = 0;
+    $scope.updateDtdBit2Text(block,index);
+    $scope.updateDtdBit1Text(block,index);
     $scope.edidData = node.url+"?"+Math.random();
   }
   $scope.blockXHandler = function(node){
@@ -118,7 +119,8 @@ function EdidCtrl($scope) {
     var dtdNumber = node.id.replace("tBlock","").substring(1).replace("Dtd","");
     var dtdIndex = dtdNumber -1;
     $scope.dtd = $scope.ext.dtds[dtdIndex];
-
+    $scope.updateDtdBit2Text(blockNumber,dtdIndex);
+    $scope.updateDtdBit1Text(blockNumber,dtdIndex);
     $scope.edidData = node.url+"?"+Math.random(); 
   }
     // QuantumData Default Edid
@@ -396,37 +398,58 @@ function EdidCtrl($scope) {
     var isSet = ($scope.edid.timingBitmap & (msb >> index))?true:false;
     return isSet;
   }
-  $scope.updateDtdBit2Text = function(index)
+  $scope.updateDtdBit2Text = function(block,index)
   {
       var bit2Text = new String();
-      if($scope.edid.dtds[index].syncType ==
+      var dtd = {};
+      if(block == 0)
+      {
+        dtd = $scope.edid.dtds[index];
+      }
+      else
+      {
+        dtd = $scope.edid.exts[block-1].dtds[index];
+      }
+
+      if(dtd.syncType ==
                 $scope.edid.syncTypeEnum.DIGITAL_SEPARATE)
       {
         bit2Text = "Vertical Sync Polarity: ";
-        bit2Text += $scope.edid.dtds[index].vSyncPolarity;
+        bit2Text += dtd.vSyncPolarity;
       }
       else
       {
         bit2Text = "Vertical Sync Serrated: ";
-        bit2Text += $scope.edid.dtds[index].vSyncSerrated;
+        bit2Text += dtd.vSyncSerrated;
       }
       $scope.dtd.dtdBit2Text = bit2Text;
   }
-  $scope.updateDtdBit1Text = function(index)
+  $scope.updateDtdBit1Text = function(block,index)
   {
       var bit1Text = new String();
-      if(($scope.edid.dtds[index].syncType ==
+      var dtd = {};
+      
+      if(block == 0)
+      {
+        dtd = $scope.edid.dtds[index];
+      }
+      else
+      {
+        dtd = $scope.edid.exts[block-1].dtds[index];
+      }
+
+      if((dtd.syncType ==
                 $scope.edid.syncTypeEnum.ANALOG_COMPOSITE) ||
-                ($scope.edid.dtds[index].syncType ==
+                (dtd.syncType ==
                 $scope.edid.syncTypeEnum.BIPOLAR_ANALOG_COMPOSITE))
       {
         bit1Text = "Sync on all 3 RGB lines: ";
-        bit1Text += $scope.edid.dtds[index].syncAllRGBLines;
+        bit1Text += dtd.syncAllRGBLines;
       }
       else
       {
         bit1Text = "HSync polarity: ";
-        bit1Text += $scope.edid.dtds[index].hSyncPolarity;
+        bit1Text += dtd.hSyncPolarity;
       }
       $scope.dtd.dtdBit1Text = bit1Text;
   }

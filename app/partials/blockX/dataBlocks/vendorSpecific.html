@@ -34,9 +34,16 @@ disabled="disabled"
 ng-checked="ceaDataBlock.dualDvi">
 Supports Dual DVI<br />
 Max TMDS Clock Rate: {{ceaDataBlock.maxTmdsRate}} MHz <br />
-Video/Audio Latency Fields Present: {{ceaDataBlock.latencyPresent.toString().toUpperCase()}} <br />
+
+<input type="checkbox" 
+disabled="disabled" 
+ng-checked="ceaDataBlock.latencyPresent">
+Video/Audio Latency Fields Present<br />
+<div ng-show="ceaDataBlock.latencyPresent">
 Video Latency: {{ceaDataBlock.videoLatency}} ms <br />
 Audio Latency: {{ceaDataBlock.audioLatency}} ms <br />
 Interlaced Video/Audio Latency Fields Present: {{ceaDataBlock..iLatencyPresent.toString().toUpperCase()}} <br />
 Interlaced Video Latency: {{ceaDataBlock.iVideoLatency}} ms <br />
 Interlaced Audio Latency: {{ceaDataBlock.iAudioLatency}} ms <br />
+</div>
+
