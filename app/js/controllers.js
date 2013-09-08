@@ -35,19 +35,21 @@ function EdidCtrl($scope) {
   //                        "00,1E,01,1D,80,D0,72,1C,16,20,10,2C,25,80,A0,5A, \n" +
   //                        "00,00,00,9E,00,00,00,00,00,00,00,00,00,00,00,00, \n" +
   //                        "00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,74";
- 
 
+  $scope.getRevision = function(){
+    return 1.1;
+  };
   $scope.treeCallback = function(node){
-    $scope.edidData = node.url+"?"+Math.random();
+    $scope.edidData = node.url+"?"+$scope.getRevision();
   };
   $scope.bdpHandler = function(node){
     if($scope.edid.bdp.digitalInput == true)
     {
-      $scope.edidData = 'partials/block0/bdp/digital.html'+"?"+Math.random();
+      $scope.edidData = 'partials/block0/bdp/digital.html'+"?"+$scope.getRevision();
     }
     else
     {
-      $scope.edidData = 'partials/block0/bdp/analog.html'+"?"+Math.random();
+      $scope.edidData = 'partials/block0/bdp/analog.html'+"?"+$scope.getRevision();
     }
   }
   $scope.dtdHandler = function(node){
@@ -58,7 +60,7 @@ function EdidCtrl($scope) {
     var block = 0;
     $scope.updateDtdBit2Text(block,index);
     $scope.updateDtdBit1Text(block,index);
-    $scope.edidData = node.url+"?"+Math.random();
+    $scope.edidData = node.url+"?"+$scope.getRevision();
   }
   $scope.blockXHandler = function(node){
     // Parse Block Extension Number
@@ -67,7 +69,7 @@ function EdidCtrl($scope) {
     $scope.ext = $scope.edid.exts[index];
 
     // Set the EDID Data View to load the node's URL
-    $scope.edidData = node.url+"?"+Math.random(); 
+    $scope.edidData = node.url+"?"+$scope.getRevision(); 
   }
   $scope.ceaHandler = function(node){
     // Parse Block and CEA number
@@ -110,7 +112,7 @@ function EdidCtrl($scope) {
       $scope.ceaDataBlock = $scope.ext.dataBlockCollection[ceaBlockNumber];
     }
     // Set the EDID Data View to load the node's URL
-    $scope.edidData = node.url+"?"+Math.random(); 
+    $scope.edidData = node.url+"?"+$scope.getRevision(); 
   }
   $scope.extDtdHandler = function(node){
     var blockNumber = node.id.replace("tBlock","").charAt(0);
@@ -121,7 +123,7 @@ function EdidCtrl($scope) {
     $scope.dtd = $scope.ext.dtds[dtdIndex];
     $scope.updateDtdBit2Text(blockNumber,dtdIndex);
     $scope.updateDtdBit1Text(blockNumber,dtdIndex);
-    $scope.edidData = node.url+"?"+Math.random(); 
+    $scope.edidData = node.url+"?"+$scope.getRevision(); 
   }
     // QuantumData Default Edid
     $scope.inputTextbox =  {originalEdid:$scope.originalEdid};
@@ -231,7 +233,7 @@ function EdidCtrl($scope) {
     $scope.treedata.push(block0);
    
     // Default Data showing is EDID Header Info
-    $scope.edidData = 'partials/block0/edidHeaderInfo.html'+"?"+Math.random();
+    $scope.edidData = 'partials/block0/edidHeaderInfo.html'+"?"+$scope.getRevision();
 
     $scope.detailedTimingDescriptors = 'partials/block0/detailedTimingDescriptors.html'
   }
