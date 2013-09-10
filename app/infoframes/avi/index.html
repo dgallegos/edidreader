@@ -23,14 +23,15 @@
   <script src="/js/filters.js"></script>
   <script src="/js/directives.js"></script>
   <script src="/js/aviInfoframe.js"></script>
+  <script src="/js/navBarController.js"></script>
 </head>
 <body>
   <div id="wrap">
-
-    <div id="main" ng-include src="'partials/_aviInfoframe.html'">
+    
+    <div id="navBarTop" ng-include src="'/partials/_navBarTop.html'">
     </div>
 
-    <div id="sidebar" ng-include src="'/partials/_sidebar.html'">
+    <div id="main" ng-include src="'partials/_aviInfoframe.html'">
     </div>
 
     <div id="footer" ng-include src="'/partials/_footer.html'"></div>
