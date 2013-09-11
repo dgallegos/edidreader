@@ -145,11 +145,6 @@ function EdidCtrl($scope) {
     // Clear out Our tree
     $scope.treedata = [];
     $scope.updateBlock0();
-    $scope.dataBlockView = ['partials/blockX/dataBlocks/reserved.html',
-                              'partials/blockX/dataBlocks/audio.html',
-                              'partials/blockX/dataBlocks/video.html',
-                              'partials/blockX/dataBlocks/vendorSpecific.html',
-                              'partials/blockX/dataBlocks/speakerAllocation.html'];
     $scope.updateBlockX();
 
   };
@@ -320,12 +315,8 @@ function EdidCtrl($scope) {
       // Add BlockX to treeData
       $scope.treedata.push(blockX);
     }
-
-
-    $scope.blockX = 'partials/blockX/blockX.html';
-    $scope.extDataBlock = 'partials/blockX/extDataBlock.html';
+    // Used as a header for a lot of the Short Audio Descriptors
     $scope.sadView = 'partials/blockX/dataBlocks/shortAudioDescriptors/shortAudioDescriptor.html';
-    $scope.extDtds = 'partials/blockX/extDtds.html';
   }
   $scope.updateOutputEdid = function()
   {
@@ -441,16 +432,6 @@ function EdidCtrl($scope) {
         bit1Text += dtd.hSyncPolarity;
       }
       $scope.dtd.dtdBit1Text = bit1Text;
-  }
-  $scope.accordionIdText = function(blockNumber)
-  {
-    var accordionIdText = "block"+blockNumber+1;
-    return accordionIdText;
-  }
-  $scope.accordionHrefText = function(blockNumber)
-  {
-    var accordionHrefText = "#block"+blockNumber+1;
-    return accordionHrefText;
   }
   $scope.shortAudioDescView = function(format)
   {
