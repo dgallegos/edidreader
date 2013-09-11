@@ -17,6 +17,19 @@ Vertical Border: {{dtd.vertBorderLines}} <br />
 Interlaced: {{dtd.interlaced}} <br />
 Stereo Mode: {{dtd.stereoMode}} <br />
 Sync Type: {{dtd.syncType}} <br />
-{{dtd.dtdBit2Text}} <br />
-{{dtd.dtdBit1Text}}  <br />
+<span ng-show="dtd.syncType == edid.syncTypeEnum.DIGITAL_SEPARATE">
+    Vertical Sync Polarity: {{dtd.vSyncPolarity}} <br/>
+</span>
+<span ng-show="dtd.syncType != edid.syncTypeEnum.DIGITAL_SEPARATE">
+    Vertical Sync Serrated: {{dtd.vSyncSerrated}} <br />
+</span>
+
+<span ng-show="(dtd.syncType == edid.syncTypeEnum.ANALOG_COMPOSITE) ||
+                (dtd.syncType == edid.syncTypeEnum.BIPOLAR_ANALOG_COMPOSITE)">
+    Sync on all 3 RGB lines: {{dtd.syncAllRGBLines}} <br/>
+</span>
+<span ng-show="(dtd.syncType != edid.syncTypeEnum.ANALOG_COMPOSITE) &&
+                (dtd.syncType != edid.syncTypeEnum.BIPOLAR_ANALOG_COMPOSITE)">
+    HSync polarity: {{dtd.hSyncPolarity}} <br />
+</span>
 2-Way Line-Interleaved Stereo: {{dtd.twoWayStereo}} <br />

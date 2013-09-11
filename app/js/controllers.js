@@ -48,8 +48,6 @@ function EdidCtrl($scope) {
     var index = blockDescriptor[1]-1;
     $scope.dtd = $scope.edid.dtds[index];
     var block = 0;
-    $scope.updateDtdBit2Text(block,index);
-    $scope.updateDtdBit1Text(block,index);
     $scope.edidData = node.url+"?"+$scope.getRevision();
   }
   $scope.blockXHandler = function(node){
@@ -111,8 +109,6 @@ function EdidCtrl($scope) {
     var dtdNumber = node.id.replace("tBlock","").substring(1).replace("Dtd","");
     var dtdIndex = dtdNumber -1;
     $scope.dtd = $scope.ext.dtds[dtdIndex];
-    $scope.updateDtdBit2Text(blockNumber,dtdIndex);
-    $scope.updateDtdBit1Text(blockNumber,dtdIndex);
     $scope.edidData = node.url+"?"+$scope.getRevision(); 
   }
     // QuantumData Default Edid
@@ -377,61 +373,6 @@ function EdidCtrl($scope) {
     var msb = 0x800000;
     var isSet = ($scope.edid.timingBitmap & (msb >> index))?true:false;
     return isSet;
-  }
-  $scope.updateDtdBit2Text = function(block,index)
-  {
-      var bit2Text = new String();
-      var dtd = {};
-      if(block == 0)
-      {
-        dtd = $scope.edid.dtds[index];
-      }
-      else
-      {
-        dtd = $scope.edid.exts[block-1].dtds[index];
-      }
-
-      if(dtd.syncType ==
-                $scope.edid.syncTypeEnum.DIGITAL_SEPARATE)
-      {
-        bit2Text = "Vertical Sync Polarity: ";
-        bit2Text += dtd.vSyncPolarity;
-      }
-      else
-      {
-        bit2Text = "Vertical Sync Serrated: ";
-        bit2Text += dtd.vSyncSerrated;
-      }
-      $scope.dtd.dtdBit2Text = bit2Text;
-  }
-  $scope.updateDtdBit1Text = function(block,index)
-  {
-      var bit1Text = new String();
-      var dtd = {};
-      
-      if(block == 0)
-      {
-        dtd = $scope.edid.dtds[index];
-      }
-      else
-      {
-        dtd = $scope.edid.exts[block-1].dtds[index];
-      }
-
-      if((dtd.syncType ==
-                $scope.edid.syncTypeEnum.ANALOG_COMPOSITE) ||
-                (dtd.syncType ==
-                $scope.edid.syncTypeEnum.BIPOLAR_ANALOG_COMPOSITE))
-      {
-        bit1Text = "Sync on all 3 RGB lines: ";
-        bit1Text += dtd.syncAllRGBLines;
-      }
-      else
-      {
-        bit1Text = "HSync polarity: ";
-        bit1Text += dtd.hSyncPolarity;
-      }
-      $scope.dtd.dtdBit1Text = bit1Text;
   }
   $scope.shortAudioDescView = function(format)
   {
