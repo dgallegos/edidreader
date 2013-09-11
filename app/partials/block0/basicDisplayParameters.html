@@ -1,0 +1,115 @@
+
+<h2>Basic Display Parameters</h2>
+
+<div id="digitalBDP" ng-show="edid.bdp.digitalInput">
+    <input type="checkbox" 
+            disabled="disabled" 
+            ng-checked="edid.bdp.digitalInput">
+    Digital Input<br />
+
+    <input type="checkbox" 
+            disabled="disabled" 
+            ng-checked="edid.bdp.vesaDfpCompatible">
+    Compatible with VESA DFP<br />
+    Maximum Horizontal Image Size: {{edid.bdp.maxHorImgSize}} <br />
+    Maximum Vertical Image Size: {{edid.bdp.maxVertImgSize}} <br />
+    Display Gamma: {{edid.bdp.displayGamma.toFixed(2)}} <br />
+
+    <input type="checkbox" 
+            disabled="disabled" 
+            ng-checked="edid.bdp.dpmsStandby">
+    DPMS Standby<br />
+
+    <input type="checkbox" 
+            disabled="disabled" 
+            ng-checked="edid.bdp.dpmsSuspend">
+    DPMS Suspend<br />
+
+    <input type="checkbox" 
+            disabled="disabled" 
+            ng-checked="edid.bdp.dpmsActiveOff">
+    DPMS Active-Off<br />
+    Display Type: {{edid.digitalColorSpace[edid.bdp.displayType]}} <br />
+
+    <input type="checkbox" 
+            disabled="disabled" 
+            ng-checked="edid.bdp.standardSRgb">
+    Standard sRGB Color Space<br />
+
+    <input type="checkbox" 
+            disabled="disabled" 
+            ng-checked="edid.bdp.preferredTiming">
+    Preferred Timing Mode<br />
+
+    <input type="checkbox" 
+            disabled="disabled" 
+            ng-checked="edid.bdp.gtfSupported">
+    GTF Supported<br />
+
+</div>
+<div id="analogBDP" ng-hide="edid.bdp.digitalInput">
+    <input type="checkbox" 
+            disabled="disabled" 
+            ng-checked="edid.bdp.digitalInput">
+    Digital Input<br />
+    Video white and sync levels, relative to blank: {{edid.WhiteAndSyncLevels[edid.bdp.whiteSyncLevels]}} <br />
+
+    <input type="checkbox" 
+            disabled="disabled" 
+            ng-checked="edid.bdp.blankToBlack">
+    Blank-to-black setup (pedestal) expected<br />
+
+    <input type="checkbox" 
+            disabled="disabled" 
+            ng-checked="edid.bdp.separateSyncSupported">
+    Separate sync supported<br />
+
+    <input type="checkbox" 
+            disabled="disabled" 
+            ng-checked="edid.bdp.compositeSyncSupported">
+    Composite sync (on HSync) supported<br />
+
+    <input type="checkbox" 
+            disabled="disabled" 
+            ng-checked="edid.bdp.synOnGreen">
+    Sync on green supported<br />
+
+    <input type="checkbox" 
+            disabled="disabled" 
+            ng-checked="edid.bdp.vsyncSerrated">
+    VSync pulse must be serrated<br />
+    Maximum Horizontal Image Size: {{edid.bdp.maxHorImgSize}} <br />
+    Maximum Vertical Image Size: {{edid.bdp.maxVertImgSize}} <br />
+    Display Gamma: {{edid.bdp.displayGamma.toFixed(2)}} <br />
+
+    <input type="checkbox" 
+            disabled="disabled" 
+            ng-checked="edid.bdp.dpmsStandby">
+    DPMS Standby<br />
+
+    <input type="checkbox" 
+            disabled="disabled" 
+            ng-checked="edid.bdp.dpmsSuspend">
+    DPMS Suspend<br />
+
+    <input type="checkbox" 
+            disabled="disabled" 
+            ng-checked="edid.bdp.dpmsActiveOff">
+    DPMS Active-Off<br />
+    Display Type: {{edid.digitalColorSpace[edid.bdp.displayType]}} <br />
+
+    <input type="checkbox" 
+            disabled="disabled" 
+            ng-checked="edid.bdp.standardSRgb">
+    Standard sRGB Color Space<br />
+
+    <input type="checkbox" 
+            disabled="disabled" 
+            ng-checked="edid.bdp.preferredTiming">
+    Preferred Timing Mode<br />
+
+    <input type="checkbox" 
+            disabled="disabled" 
+            ng-checked="edid.bdp.gtfSupported">
+    GTF Supported<br />
+</div>

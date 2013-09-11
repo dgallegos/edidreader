@@ -42,16 +42,6 @@ function EdidCtrl($scope) {
   $scope.treeCallback = function(node){
     $scope.edidData = node.url+"?"+$scope.getRevision();
   };
-  $scope.bdpHandler = function(node){
-    if($scope.edid.bdp.digitalInput == true)
-    {
-      $scope.edidData = 'partials/block0/bdp/digital.html'+"?"+$scope.getRevision();
-    }
-    else
-    {
-      $scope.edidData = 'partials/block0/bdp/analog.html'+"?"+$scope.getRevision();
-    }
-  }
   $scope.dtdHandler = function(node){
     // Parse Block and dtd number
     var blockDescriptor  = node.id.replace("block","").split("Descriptor")
@@ -178,7 +168,8 @@ function EdidCtrl($scope) {
 
     var bdp = {label:"Basic Display Parameters",
           id:"tBDP",
-          callback:$scope.bdpHandler,
+          callback:$scope.treeCallback,
+          url:'partials/block0/basicDisplayParameters.html',
           "children":[]};
     block0.children.push(bdp);
 
