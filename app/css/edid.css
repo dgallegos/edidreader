@@ -17,6 +17,7 @@
 
 #inputEdid, #outputEdid {
   resize: none;
+  font-family: Consolas,"Liberation Mono",Courier,monospace;
 }
 
 #edidTreeviewWrapper {
