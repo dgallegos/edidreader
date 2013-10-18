@@ -7,8 +7,8 @@ function scrubHexData(hexData)
   scrubbedHexData = hexData.replace(/,/g,' ');
   // Remove 0x for hex
   scrubbedHexData = scrubbedHexData.replace(/0x/g,' ');
-  // Replace Tabs
-  scrubbedHexData = scrubbedHexData.replace('\t',' ');
+  // Replace all Tabs
+  scrubbedHexData = scrubbedHexData.replace(/\t/g,' ');
   // Remove all line returns
   scrubbedHexData = scrubbedHexData.replace(/(\r\n|\n|\r)/gm,' ');
   // Remove multiple spaces
