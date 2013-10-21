@@ -428,7 +428,7 @@ function scrubEdid(edid)
   // Remove 0x for hex
   scrubbedEdid = scrubbedEdid.replace(/0x/g,' ');
   // Replace Tabs
-  scrubbedEdid = scrubbedEdid.replace('\t',' ');
+  scrubbedEdid = scrubbedEdid.replace(/\t/g,' ');
   // Remove all line returns
   scrubbedEdid = scrubbedEdid.replace(/(\r\n|\n|\r)/gm,' ');
   // Remove multiple spaces
