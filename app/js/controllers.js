@@ -237,61 +237,66 @@ function EdidCtrl($scope) {
                       "children" : []};
       blockX.children.push(extHeader);
       
-      var ceaDataBlock = {label:"CEA Data Block",
-                      id: id+"CeaDataBlock",
-                      "children" : []};
-      // For Each CEA Data Block
-      for(var ceaIndex = 0; 
-            ceaIndex < $scope.edid.exts[index].dataBlockCollection.length; 
-            ceaIndex++)
+      // If there is a collection of data blocks in this extension
+      if($scope.edid.exts[index].dataBlockCollection)
       {
-        var dataBlock = $scope.edid.exts[index].dataBlockCollection[ceaIndex];
-        var treeDataBlock = {};
-                              
-        if(dataBlock.tag == $scope.edid.dataBlockType.RESERVED)
+        var ceaDataBlock = {label:"CEA Data Block",
+                        id: id+"CeaDataBlock",
+                        "children" : []};
+        // For Each CEA Data Block
+        for(var ceaIndex = 0; 
+              ceaIndex < $scope.edid.exts[index].dataBlockCollection.length; 
+              ceaIndex++)
         {
-          treeDataBlock = {label:"Reserved Data Block",
-                            id: id+$scope.edid.dataBlockType.RESERVED.string+ceaIndex,
-                            callback:$scope.ceaHandler,
-                            url:'partials/blockX/dataBlocks/reserved.html',
-                            "children" : []};
+          var dataBlock = $scope.edid.exts[index].dataBlockCollection[ceaIndex];
+          var treeDataBlock = {};
+                                
+          if(dataBlock.tag == $scope.edid.dataBlockType.RESERVED)
+          {
+            treeDataBlock = {label:"Reserved Data Block",
+                              id: id+$scope.edid.dataBlockType.RESERVED.string+ceaIndex,
+                              callback:$scope.ceaHandler,
+                              url:'partials/blockX/dataBlocks/reserved.html',
+                              "children" : []};
+          }
+          else if(dataBlock.tag == $scope.edid.dataBlockType.AUDIO)
+          {
+            treeDataBlock = {label:"Audio Data Block",
+                              id: id+$scope.edid.dataBlockType.AUDIO.string+ceaIndex,
+                              callback:$scope.ceaHandler,
+                              url:'partials/blockX/dataBlocks/audio.html',
+                              "children" : []};
+          }
+          else if(dataBlock.tag == $scope.edid.dataBlockType.VIDEO)
+          {
+            treeDataBlock = {label:"Video Data Block",
+                              id: id+$scope.edid.dataBlockType.VIDEO.string+ceaIndex,
+                              callback:$scope.ceaHandler,
+                              url:'partials/blockX/dataBlocks/video.html',
+                              "children" : []};
+          }        
+          else if(dataBlock.tag == $scope.edid.dataBlockType.VENDOR_SPECIFIC)
+          {
+            treeDataBlock = {label:"Vendor Specific Data Block",
+                              id: id+$scope.edid.dataBlockType.VENDOR_SPECIFIC.string+ceaIndex,
+                              callback:$scope.ceaHandler,
+                              url:'partials/blockX/dataBlocks/vendorSpecific.html',
+                              "children" : []};
+          }        
+          else if(dataBlock.tag == $scope.edid.dataBlockType.SPEAKER_ALLOCATION)
+          {
+            treeDataBlock = {label:"Speaker Allocation Data Block",
+                              id: id+$scope.edid.dataBlockType.SPEAKER_ALLOCATION.string+ceaIndex,
+                              callback:$scope.ceaHandler,
+                              url:'partials/blockX/dataBlocks/speakerAllocation.html',
+                              "children" : []};
+          }
+          ceaDataBlock.children.push(treeDataBlock);
         }
-        else if(dataBlock.tag == $scope.edid.dataBlockType.AUDIO)
-        {
-          treeDataBlock = {label:"Audio Data Block",
-                            id: id+$scope.edid.dataBlockType.AUDIO.string+ceaIndex,
-                            callback:$scope.ceaHandler,
-                            url:'partials/blockX/dataBlocks/audio.html',
-                            "children" : []};
-        }
-        else if(dataBlock.tag == $scope.edid.dataBlockType.VIDEO)
-        {
-          treeDataBlock = {label:"Video Data Block",
-                            id: id+$scope.edid.dataBlockType.VIDEO.string+ceaIndex,
-                            callback:$scope.ceaHandler,
-                            url:'partials/blockX/dataBlocks/video.html',
-                            "children" : []};
-        }        
-        else if(dataBlock.tag == $scope.edid.dataBlockType.VENDOR_SPECIFIC)
-        {
-          treeDataBlock = {label:"Vendor Specific Data Block",
-                            id: id+$scope.edid.dataBlockType.VENDOR_SPECIFIC.string+ceaIndex,
-                            callback:$scope.ceaHandler,
-                            url:'partials/blockX/dataBlocks/vendorSpecific.html',
-                            "children" : []};
-        }        
-        else if(dataBlock.tag == $scope.edid.dataBlockType.SPEAKER_ALLOCATION)
-        {
-          treeDataBlock = {label:"Speaker Allocation Data Block",
-                            id: id+$scope.edid.dataBlockType.SPEAKER_ALLOCATION.string+ceaIndex,
-                            callback:$scope.ceaHandler,
-                            url:'partials/blockX/dataBlocks/speakerAllocation.html',
-                            "children" : []};
-        }
-        ceaDataBlock.children.push(treeDataBlock);
+
+        blockX.children.push(ceaDataBlock);
       }
 
-      blockX.children.push(ceaDataBlock);
 
       // For each extension DTD, build the tree object then add it to blockX
       for(var extDtdIndex = 0; 
