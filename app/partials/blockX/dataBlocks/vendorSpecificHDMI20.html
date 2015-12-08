@@ -1,0 +1,53 @@
+
+<h3>Vendor Specific Data Block HDMI 2.0</h3>
+
+IEEE OUI: {{pad(ceaDataBlock.ieeeIdentifier.toString(16).toUpperCase(),6)}} <br />
+
+Version: {{ceaDataBlock.versionHF}} <br />
+Max TMDS Clock Rate: {{ceaDataBlock.maxTmdsRateHF}} MHz <br />
+
+<input type="checkbox" 
+disabled="disabled" 
+ng-checked="ceaDataBlock.supportsSCDC">
+Supports SCDC<br />
+
+<input type="checkbox" 
+disabled="disabled" 
+ng-checked="ceaDataBlock.supportsSCDCRR">
+Supports SCDC Read Request<br />
+
+<input type="checkbox" 
+disabled="disabled" 
+ng-checked="ceaDataBlock.supportsLTE340scramble">
+Supports Scrambling for less &lt;=340MHz<br />
+
+<input type="checkbox" 
+disabled="disabled" 
+ng-checked="ceaDataBlock.supports3DIV">
+Supports 3D Independent View<br />
+
+<input type="checkbox" 
+disabled="disabled" 
+ng-checked="ceaDataBlock.supports3DDV">
+Supports 3D Dual View<br />
+
+<input type="checkbox" 
+disabled="disabled" 
+ng-checked="ceaDataBlock.supports3DOSD">
+Supports 3D OSD Disparity<br />
+
+<input type="checkbox" 
+disabled="disabled" 
+ng-checked="ceaDataBlock.deepColorY420_30">
+Supports 30 bits/pixel (10 bits/color) for Deep Color YCbCr 4:2:0<br />
+
+<input type="checkbox" 
+disabled="disabled" 
+ng-checked="ceaDataBlock.deepColorY420_36">
+Supports 36 bits/pixel (12 bits/color) for Deep Color YCbCr 4:2:0<br />
+
+<input type="checkbox" 
+disabled="disabled" 
+ng-checked="ceaDataBlock.deepColorY420_48">
+Supports 48 bits/pixel (16 bits/color) for Deep Color YCbCr 4:2:0<br />
+

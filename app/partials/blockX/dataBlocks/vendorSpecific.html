@@ -2,48 +2,5 @@
 <h3>Vendor Specific Data Block</h3>
 
 IEEE OUI: {{pad(ceaDataBlock.ieeeIdentifier.toString(16).toUpperCase(),6)}} <br />
-Source Physical Address: {{ceaDataBlock.physicalAddress.toString(16).toUpperCase()}} <br />
-
-<input type="checkbox" 
-disabled="disabled" 
-ng-checked="ceaDataBlock.supportsAI">
-Supports ACP, ISRC1, ISRC2<br />
-
-<input type="checkbox" 
-disabled="disabled" 
-ng-checked="ceaDataBlock.deepColor48">
-Supports 48 bits/pixel (16 bits/color)<br />
-
-<input type="checkbox" 
-disabled="disabled" 
-ng-checked="ceaDataBlock.deepColor36">
-Supports 36 bits/pixel (12 bits/color)<br />
-
-<input type="checkbox" 
-disabled="disabled" 
-ng-checked="ceaDataBlock.deepColor30">
-Supports 30 bits/pixel (10 bits/color)<br />
-
-<input type="checkbox" 
-disabled="disabled" 
-ng-checked="ceaDataBlock.deepColorY444">
-Supports YCbCr 4:4:4 Deep Color<br />
-
-<input type="checkbox" 
-disabled="disabled" 
-ng-checked="ceaDataBlock.dualDvi">
-Supports Dual DVI<br />
-Max TMDS Clock Rate: {{ceaDataBlock.maxTmdsRate}} MHz <br />
-
-<input type="checkbox" 
-disabled="disabled" 
-ng-checked="ceaDataBlock.latencyPresent">
-Video/Audio Latency Fields Present<br />
-<div ng-show="ceaDataBlock.latencyPresent">
-Video Latency: {{ceaDataBlock.videoLatency}} ms <br />
-Audio Latency: {{ceaDataBlock.audioLatency}} ms <br />
-Interlaced Video/Audio Latency Fields Present: {{ceaDataBlock..iLatencyPresent.toString().toUpperCase()}} <br />
-Interlaced Video Latency: {{ceaDataBlock.iVideoLatency}} ms <br />
-Interlaced Audio Latency: {{ceaDataBlock.iAudioLatency}} ms <br />
 </div>
 

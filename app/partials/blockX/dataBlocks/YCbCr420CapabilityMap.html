@@ -1,0 +1,15 @@
+
+<h3>YCbCr 4:2:0 Capability Map Data Block</h3>
+
+The following modes support YCbCr 4:2:0 in addition to other color formats.<br />
+
+<table class="table table-striped">
+<tr ng-repeat="shortVideoDescriptor in ceaDataBlock.YCbCr420CapableShortVideoDescriptors"><td>
+  Native: {{shortVideoDescriptor.nativeResolution.toString().toUpperCase()}} <br />
+  VIC: {{edid.shortVideoDescriptors[shortVideoDescriptor.vic].vic}} <br />
+  Format: {{edid.shortVideoDescriptors[shortVideoDescriptor.vic].format}} <br />
+  Field Rate: {{edid.shortVideoDescriptors[shortVideoDescriptor.vic].fieldRate}} <br />
+  Picture AR: {{edid.shortVideoDescriptors[shortVideoDescriptor.vic].pictureAspectRatio}} <br />
+  Pixel AR: {{edid.shortVideoDescriptors[shortVideoDescriptor.vic].pixelAspectRatio}} <br />
+</td></tr>
+</table>

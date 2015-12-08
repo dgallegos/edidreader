@@ -1,0 +1,15 @@
+
+<h3>YCbCr 4:2:0 Video Data Block</h3>
+
+The following modes support <b>only</b> YCbCr 4:2:0 color format.<br />
+
+<table class="table table-striped">
+<tr ng-repeat="shortVideoDescriptor in ceaDataBlock.YCbCr420OnlyShortVideoDescriptors"><td>
+  Native: {{shortVideoDescriptor.nativeResolution.toString().toUpperCase()}} <br />
+  VIC: {{edid.shortVideoDescriptors[shortVideoDescriptor.vic].vic}} <br />
+  Format: {{edid.shortVideoDescriptors[shortVideoDescriptor.vic].format}} <br />
+  Field Rate: {{edid.shortVideoDescriptors[shortVideoDescriptor.vic].fieldRate}} <br />
+  Picture AR: {{edid.shortVideoDescriptors[shortVideoDescriptor.vic].pictureAspectRatio}} <br />
+  Pixel AR: {{edid.shortVideoDescriptors[shortVideoDescriptor.vic].pixelAspectRatio}} <br />
+</td></tr>
+</table>

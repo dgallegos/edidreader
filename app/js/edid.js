@@ -41,7 +41,20 @@ function Edid () {
     AUDIO : {string:"AUDIO",value:1},
     VIDEO : {string:"VIDEO",value:2},
     VENDOR_SPECIFIC : {string:"VENDOR SPECIFIC",value:3},
-    SPEAKER_ALLOCATION : {string:"SPEAKER ALLOCATION",value:4}};
+    SPEAKER_ALLOCATION : {string:"SPEAKER ALLOCATION",value:4},
+    EXTENDED_TAG : {string:"EXTENDED TAG",value:7}};
+
+  this.extendedDataBlockType = {
+    VIDEO_CAPABILITY : {string:"VIDEO CAPABILITY",value:0},
+    COLORIMETRY : {string:"COLORIMETRY",value:5},
+    YCBCR420_VIDEO : {string:"YCBCR420 VIDEO DATA",value:14},
+    YCBCR420_CAPABILITY_MAP : {string:"YCBCR420_CAPABILITY_MAP",value:15}};
+
+  this.ieeeOuiType = {
+    HDMI14 : {string:"HDMI14",value:0x000C03},
+    HDMI20 : {string:"HDMI20",value:0xC45DD8}};
+
+  this.overscanBehavior = ["No data", "Always overscanned", "Always underscanned", "Supports both overscan and underscan"];
 
   this.audioFormatArray = [1,8,13,14,15]
   this.shortAudioDescriptors = ["RESERVED","LPCM","AC-3","MPEG-1","MP3","MPEG2","AAC LC",
@@ -113,49 +126,50 @@ function Edid () {
     {"vic":62, "format":"1280x720p", "fieldRate":"29.97Hz/30Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
     {"vic":63, "format":"1920x1080p", "fieldRate":"119.88/120Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
     {"vic":64, "format":"1920x1080p", "fieldRate":"100Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
-    {"vic":65, "format":"1280x720p", "fieldRate":"24Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
+    {"vic":65, "format":"1280x720p", "fieldRate":"23.98Hz/24Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
     {"vic":66, "format":"1280x720p", "fieldRate":"25Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
-    {"vic":67, "format":"1280x720p", "fieldRate":"30Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
+    {"vic":67, "format":"1280x720p", "fieldRate":"29.97Hz/30Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
     {"vic":68, "format":"1280x720p", "fieldRate":"50Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
-    {"vic":69, "format":"1280x720p", "fieldRate":"60Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
+    {"vic":69, "format":"1280x720p", "fieldRate":"59.94Hz/60Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
     {"vic":70, "format":"1280x720p", "fieldRate":"100Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
-    {"vic":71, "format":"1280x720p", "fieldRate":"120Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
-    {"vic":72, "format":"1920x1080p", "fieldRate":"24Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
+    {"vic":71, "format":"1280x720p", "fieldRate":"119.88Hz/120Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
+    {"vic":72, "format":"1920x1080p", "fieldRate":"23.98Hz/24Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
     {"vic":73, "format":"1920x1080p", "fieldRate":"25Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
-    {"vic":74, "format":"1920x1080p", "fieldRate":"30Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
+    {"vic":74, "format":"1920x1080p", "fieldRate":"29.97Hz/30Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
     {"vic":75, "format":"1920x1080p", "fieldRate":"50Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
-    {"vic":76, "format":"1920x1080p", "fieldRate":"60Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
+    {"vic":76, "format":"1920x1080p", "fieldRate":"59.94Hz/60Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
     {"vic":77, "format":"1920x1080p", "fieldRate":"100Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
-    {"vic":78, "format":"1920x1080p", "fieldRate":"120Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
-    {"vic":79, "format":"1680x720p", "fieldRate":"24Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"64:63"},
+    {"vic":78, "format":"1920x1080p", "fieldRate":"119.88Hz/120Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
+    {"vic":79, "format":"1680x720p", "fieldRate":"23.98Hz/24Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"64:63"},
     {"vic":80, "format":"1680x720p", "fieldRate":"25Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"64:63"},
-    {"vic":81, "format":"1680x720p", "fieldRate":"30Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"64:63"},
+    {"vic":81, "format":"1680x720p", "fieldRate":"29.97Hz/30Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"64:63"},
     {"vic":82, "format":"1680x720p", "fieldRate":"50Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"64:63"},
-    {"vic":83, "format":"1680x720p", "fieldRate":"60Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"64:63"},
+    {"vic":83, "format":"1680x720p", "fieldRate":"59.94Hz/60Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"64:63"},
     {"vic":84, "format":"1680x720p", "fieldRate":"100Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"64:63"},
-    {"vic":85, "format":"1680x720p", "fieldRate":"120Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"64:63"},
-    {"vic":86, "format":"2560x1080p", "fieldRate":"24Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
-    {"vic":87, "format":"2560x1080p", "fieldRate":"25Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
-    {"vic":88, "format":"2560x1080p", "fieldRate":"30Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
-    {"vic":89, "format":"2560x1080p", "fieldRate":"50Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
-    {"vic":90, "format":"2560x1080p", "fieldRate":"60Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
-    {"vic":91, "format":"2560x1080p", "fieldRate":"100Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
-    {"vic":92, "format":"2560x1080p", "fieldRate":"120Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
-    {"vic":93, "format":"3840x2160p", "fieldRate":"24Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+    {"vic":85, "format":"1680x720p", "fieldRate":"119.88Hz/120Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"64:63"},
+    {"vic":86, "format":"2560p1080p", "fieldRate":"23.98Hz/24Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
+    {"vic":87, "format":"2560p1080p", "fieldRate":"25Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
+    {"vic":88, "format":"2560p1080p", "fieldRate":"29.97Hz/30Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
+    {"vic":89, "format":"2560p1080p", "fieldRate":"50Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
+    {"vic":90, "format":"2560p1080p", "fieldRate":"59.94Hz/60Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
+    {"vic":91, "format":"2560p1080p", "fieldRate":"100Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
+    {"vic":92, "format":"2560p1080p", "fieldRate":"119.88Hz/120Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
+    {"vic":93, "format":"3840x2160p", "fieldRate":"23.98Hz/24Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
     {"vic":94, "format":"3840x2160p", "fieldRate":"25Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
-    {"vic":95, "format":"3840x2160p", "fieldRate":"30Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+    {"vic":95, "format":"3840x2160p", "fieldRate":"29.97Hz/30Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
     {"vic":96, "format":"3840x2160p", "fieldRate":"50Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
-    {"vic":97, "format":"3840x2160p", "fieldRate":"60Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
-    {"vic":98, "format":"4096x2160p", "fieldRate":"24Hz", "pictureAspectRatio":"256:135", "pixelAspectRatio":"1:1"},
+    {"vic":97, "format":"3840x2160p", "fieldRate":"59.94Hz/60Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+    {"vic":98, "format":"4096x2160p", "fieldRate":"23.98Hz/24Hz", "pictureAspectRatio":"256:135", "pixelAspectRatio":"1:1"},
     {"vic":99, "format":"4096x2160p", "fieldRate":"25Hz", "pictureAspectRatio":"256:135", "pixelAspectRatio":"1:1"},
-    {"vic":100, "format":"4096x2160p", "fieldRate":"30Hz", "pictureAspectRatio":"256:135", "pixelAspectRatio":"1:1"},
+    {"vic":100, "format":"4096x2160p", "fieldRate":"29.97Hz/30Hz", "pictureAspectRatio":"256:135", "pixelAspectRatio":"1:1"},
     {"vic":101, "format":"4096x2160p", "fieldRate":"50Hz", "pictureAspectRatio":"256:135", "pixelAspectRatio":"1:1"},
-    {"vic":102, "format":"4096x2160p", "fieldRate":"60Hz", "pictureAspectRatio":"256:135", "pixelAspectRatio":"1:1"},
-    {"vic":103, "format":"3840x2160p", "fieldRate":"24Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
-    {"vic":104, "format":"3840x2160p", "fieldRate":"25Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
-    {"vic":105, "format":"3840x2160p", "fieldRate":"30Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
-    {"vic":106, "format":"3840x2160p", "fieldRate":"50Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
-    {"vic":107, "format":"3840x2160p", "fieldRate":"60Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"}]
+    {"vic":102, "format":"4096x2160p", "fieldRate":"59.94Hz/60Hz", "pictureAspectRatio":"256:135", "pixelAspectRatio":"1:1"},
+    {"vic":103, "format":"3840x2160p", "fieldRate":"23.98Hz/24Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+    {"vic":104, "format":"3840x2160p", "fieldRate":"25Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+    {"vic":105, "format":"3840x2160p", "fieldRate":"29.97Hz/30Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+    {"vic":106, "format":"3840x2160p", "fieldRate":"50Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+    {"vic":107, "format":"3840x2160p", "fieldRate":"59.94Hz/60Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+  ]
   this.speakerAllocation = ["Front Left/Front Right (FL/FR)", "Low Frequency Effort (LFE)",
                     "Front Center (FC)", "Rear Left/Rear Right (RL/RR)",
                     "Rear Center (RC)", "Front Left Center/Front Right Center (FLC/FRC)",
@@ -803,6 +817,10 @@ Edid.prototype.parseDataBlockCollection = function(extIndex)
     {
       dataBlock = this.parseSpeakerDataBlock(index+1,blockLength);
     }
+    else if(blockTagCode == this.dataBlockType.EXTENDED_TAG.value)
+    {
+      dataBlock = this.parseExtendedTagDataBlock(index+1,blockLength);
+    }
 
     // Add the new object to the data block collection
     dataBlockCollection[numberDataBlocks] = dataBlock;
@@ -898,39 +916,40 @@ Edid.prototype.parseVideoDataBlock = function(startAddress, blockLength)
   var index = 0;
   videoBlock.shortVideoDescriptors = new Array();
 
-  var VIC_MASK = 0x7F;
   var NATIVE_RESOLUTION_MASK = 0x80;
+  var CEA861F_VIC_MASK = 0x40;
+  var LOW_VIC_MASK = 0x3F;
+  var HIGH_VIC_MASK = 0xFF;
   while(index < blockLength)
   {
-    shortVideoDescriptor = new Object;
-    shortVideoDescriptor.vic = this.edidData[startAddress+index] & VIC_MASK;
-    shortVideoDescriptor.nativeResolution = (this.edidData[startAddress+index] &
-                                              NATIVE_RESOLUTION_MASK)?true:false;
-
+    var shortVideoDescriptor = new Object;
+	var dataByte = this.edidData[startAddress+index];
+	if ((dataByte & CEA861F_VIC_MASK) > 0)
+	{
+		shortVideoDescriptor.vic = dataByte & HIGH_VIC_MASK;
+		shortVideoDescriptor.nativeResolution = false;
+	}
+	else
+	{
+	    shortVideoDescriptor.vic = dataByte & LOW_VIC_MASK;
+	    shortVideoDescriptor.nativeResolution = (dataByte & NATIVE_RESOLUTION_MASK)?true:false;
+	}
     videoBlock.shortVideoDescriptors[index] = shortVideoDescriptor;
 
     index++;
   }
 
+  // Store the video block - it is referenced by other data blocks (e.g. YCbCr 4:2:0 Capability Map)
+  this.videoBlock = videoBlock;
+
   return videoBlock;
 }
 
-Edid.prototype.parseVendorDataBlock = function(startAddress, blockLength)
-{
-  var vendorBlock = new Object();
-  vendorBlock.tag = this.dataBlockType.VENDOR_SPECIFIC;
-  vendorBlock.length = blockLength;
 
+Edid.prototype.parseVendorDataBlockHDMI14 = function(startAddress, blockLength, vendorBlock)
+{
   // Subtract one, so the indexing matches the HDMI Specification
   vsdbAddress = startAddress - 1;
-
-  var IEEE_REG_IDENTIFIER_1 = 1;
-  var IEEE_REG_IDENTIFIER_2 = 2;
-  var IEEE_REG_IDENTIFIER_3 = 3;
-  // 24-bit IEEE Registration Identifier
-  vendorBlock.ieeeIdentifier = (this.edidData[vsdbAddress+IEEE_REG_IDENTIFIER_3] << 16) |
-                      (this.edidData[vsdbAddress+IEEE_REG_IDENTIFIER_2] << 8) |
-                      (this.edidData[vsdbAddress+IEEE_REG_IDENTIFIER_1]);
 
   var PHYSICAL_ADDRESS_1 = 4;
   var PHYSICAL_ADDRESS_2 = 5;
@@ -1014,6 +1033,258 @@ Edid.prototype.parseVendorDataBlock = function(startAddress, blockLength)
   return vendorBlock;
 }
 
+
+Edid.prototype.parseVendorDataBlockHDMI20 = function(startAddress, blockLength, vendorBlock)
+{
+  // Subtract one, so the indexing matches the HDMI Specification
+  vsdbAddress = startAddress - 1;
+
+  var FIELD_ADDRESS = 0;
+  var FIELD_MASK = 0x0;
+
+  FIELD_ADDRESS = 4;
+  // VSDB version for HDMI Forum
+  vendorBlock.versionHF = this.edidData[vsdbAddress+FIELD_ADDRESS];
+
+  FIELD_ADDRESS = 5;
+  vendorBlock.maxTmdsRateHF = this.edidData[vsdbAddress+FIELD_ADDRESS] * 5;
+
+  FIELD_ADDRESS = 6;
+  FIELD_MASK = 0x80;
+  vendorBlock.supportsSCDC = (this.edidData[vsdbAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+
+  FIELD_ADDRESS = 6;
+  FIELD_MASK = 0x40;
+  vendorBlock.supportsSCDCRR = (this.edidData[vsdbAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+
+  FIELD_ADDRESS = 6;
+  FIELD_MASK = 0x08;
+  vendorBlock.supportsLTE340scramble = (this.edidData[vsdbAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+
+  FIELD_ADDRESS = 6;
+  FIELD_MASK = 0x04;
+  vendorBlock.supports3DIV = (this.edidData[vsdbAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+
+  FIELD_ADDRESS = 6;
+  FIELD_MASK = 0x02;
+  vendorBlock.supports3DDV = (this.edidData[vsdbAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+
+  FIELD_ADDRESS = 6;
+  FIELD_MASK = 0x01;
+  vendorBlock.supports3DOSD = (this.edidData[vsdbAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+
+  FIELD_ADDRESS = 7;
+  FIELD_MASK = 0x04;
+  vendorBlock.deepColorY420_30 = (this.edidData[vsdbAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+
+  FIELD_ADDRESS = 7;
+  FIELD_MASK = 0x02;
+  vendorBlock.deepColorY420_30 = (this.edidData[vsdbAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+
+  FIELD_ADDRESS = 7;
+  FIELD_MASK = 0x01;
+  vendorBlock.deepColorY420_30 = (this.edidData[vsdbAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+
+  return vendorBlock;
+}
+
+
+Edid.prototype.parseVendorDataBlock = function(startAddress, blockLength)
+{
+  var vendorBlock = new Object();
+  vendorBlock.tag = this.dataBlockType.VENDOR_SPECIFIC;
+  vendorBlock.length = blockLength;
+
+  // Subtract one, so the indexing matches the HDMI Specification
+  vsdbAddress = startAddress - 1;
+
+  var IEEE_REG_IDENTIFIER_1 = 1;
+  var IEEE_REG_IDENTIFIER_2 = 2;
+  var IEEE_REG_IDENTIFIER_3 = 3;
+  // 24-bit IEEE Registration Identifier
+  vendorBlock.ieeeIdentifier = (this.edidData[vsdbAddress+IEEE_REG_IDENTIFIER_3] << 16) |
+                      (this.edidData[vsdbAddress+IEEE_REG_IDENTIFIER_2] << 8) |
+                      (this.edidData[vsdbAddress+IEEE_REG_IDENTIFIER_1]);
+
+  if (vendorBlock.ieeeIdentifier == this.ieeeOuiType.HDMI14.value)
+  {
+  	// HDMI 1.4 VSDB
+  	return this.parseVendorDataBlockHDMI14(startAddress, blockLength, vendorBlock);
+  }
+  else if (vendorBlock.ieeeIdentifier == this.ieeeOuiType.HDMI20.value)
+  {
+  	// HDMI 2.0 VSDB
+  	return this.parseVendorDataBlockHDMI20(startAddress, blockLength, vendorBlock);
+  }
+
+  return vendorBlock;
+}
+
+Edid.prototype.parseVideoCapabilityDataBlock = function(startAddress, blockLength, extendedTagBlock)
+{
+  extendedTagBlock.extendedTag = this.extendedDataBlockType.VIDEO_CAPABILITY;
+
+  var FIELD_ADDRESS = 0;
+  var FIELD_MASK = 0x0;
+  var FIELD_SHIFT = 0;
+  var fieldData = 0;
+
+  FIELD_ADDRESS = 1;
+  FIELD_MASK = 0x80;
+  extendedTagBlock.quantizationRangeYCC = (this.edidData[startAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+
+  FIELD_ADDRESS = 1;
+  FIELD_MASK = 0x40;
+  extendedTagBlock.quantizationRangeRGB = (this.edidData[startAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+
+  FIELD_ADDRESS = 1;
+  FIELD_MASK = 0x30;
+  FIELD_SHIFT = 4;
+  fieldData = (this.edidData[startAddress+FIELD_ADDRESS] & FIELD_MASK) >> FIELD_SHIFT;
+  extendedTagBlock.overscanPT = this.overscanBehavior[fieldData];
+
+  FIELD_ADDRESS = 1;
+  FIELD_MASK = 0x0C;
+  FIELD_SHIFT = 2;
+  fieldData = (this.edidData[startAddress+FIELD_ADDRESS] & FIELD_MASK) >> FIELD_SHIFT;
+  extendedTagBlock.overscanIT = this.overscanBehavior[fieldData];
+
+  FIELD_ADDRESS = 1;
+  FIELD_MASK = 0x03;
+  FIELD_SHIFT = 0;
+  fieldData = (this.edidData[startAddress+FIELD_ADDRESS] & FIELD_MASK) >> FIELD_SHIFT;
+  extendedTagBlock.overscanCE = this.overscanBehavior[fieldData];
+
+  return extendedTagBlock;
+}
+
+Edid.prototype.parseColorimetryDataBlock = function(startAddress, blockLength, extendedTagBlock)
+{
+  extendedTagBlock.extendedTag = this.extendedDataBlockType.COLORIMETRY;
+
+  var FIELD_ADDRESS = 0;
+  var FIELD_MASK = 0x0;
+
+  FIELD_ADDRESS = 1;
+  FIELD_MASK = 0x80;
+  extendedTagBlock.supportsBT2020RGB = (this.edidData[startAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+
+  FIELD_ADDRESS = 1;
+  FIELD_MASK = 0x40;
+  extendedTagBlock.supportsBT2020YCC = (this.edidData[startAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+
+  FIELD_ADDRESS = 1;
+  FIELD_MASK = 0x20;
+  extendedTagBlock.supportsBT2020cYCC = (this.edidData[startAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+
+  FIELD_ADDRESS = 1;
+  FIELD_MASK = 0x10;
+  extendedTagBlock.supportsAdobeRGB = (this.edidData[startAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+
+  FIELD_ADDRESS = 1;
+  FIELD_MASK = 0x08;
+  extendedTagBlock.supportsAdobeYCC601 = (this.edidData[startAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+
+  FIELD_ADDRESS = 1;
+  FIELD_MASK = 0x04;
+  extendedTagBlock.supportssYCC601 = (this.edidData[startAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+
+  FIELD_ADDRESS = 1;
+  FIELD_MASK = 0x02;
+  extendedTagBlock.supportsxvYCC709 = (this.edidData[startAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+
+  FIELD_ADDRESS = 1;
+  FIELD_MASK = 0x01;
+  extendedTagBlock.supportsxvYCC601 = (this.edidData[startAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+
+  FIELD_ADDRESS = 2;
+  FIELD_MASK = 0x08;
+  extendedTagBlock.gamutMD3 = (this.edidData[startAddress+FIELD_ADDRESS] & FIELD_MASK)?1:0;
+
+  FIELD_ADDRESS = 2;
+  FIELD_MASK = 0x04;
+  extendedTagBlock.gamutMD2 = (this.edidData[startAddress+FIELD_ADDRESS] & FIELD_MASK)?1:0;
+
+  FIELD_ADDRESS = 2;
+  FIELD_MASK = 0x02;
+  extendedTagBlock.gamutMD1 = (this.edidData[startAddress+FIELD_ADDRESS] & FIELD_MASK)?1:0;
+
+  FIELD_ADDRESS = 2;
+  FIELD_MASK = 0x01;
+  extendedTagBlock.gamutMD0 = (this.edidData[startAddress+FIELD_ADDRESS] & FIELD_MASK)?1:0;
+
+  return extendedTagBlock;
+}
+
+Edid.prototype.parseYCbCr420VideoDataBlock = function(startAddress, blockLength, extendedTagBlock)
+{
+  extendedTagBlock.extendedTag = this.extendedDataBlockType.YCBCR420_VIDEO;
+
+  var svdIndex = 0;
+
+  var NATIVE_RESOLUTION_MASK = 0x80;
+  var CEA861F_VIC_MASK = 0x40;
+  var LOW_VIC_MASK = 0x3F;
+  var HIGH_VIC_MASK = 0xFF;
+
+  // SVDs listed in this block support only YCbCr 4:2:0 color format.
+  // These SVDs are not listed in the standard Video data block.
+  extendedTagBlock.YCbCr420OnlyShortVideoDescriptors = new Array();
+
+  for (svdIndex = 0; svdIndex < (blockLength - 1); svdIndex++)
+  {
+    var shortVideoDescriptor = new Object;
+	var dataByte = this.edidData[startAddress+1+svdIndex];	// +1 as this is an extended tag data block
+	if ((dataByte & CEA861F_VIC_MASK) > 0)
+	{
+		shortVideoDescriptor.vic = dataByte & HIGH_VIC_MASK;
+		shortVideoDescriptor.nativeResolution = false;
+	}
+	else
+	{
+	    shortVideoDescriptor.vic = dataByte & LOW_VIC_MASK;
+	    shortVideoDescriptor.nativeResolution = (dataByte & NATIVE_RESOLUTION_MASK)?true:false;
+	}
+    extendedTagBlock.YCbCr420OnlyShortVideoDescriptors[svdIndex] = shortVideoDescriptor;
+  }
+
+  return extendedTagBlock;
+}
+
+Edid.prototype.parseYCbCr420CapabilityMapDataBlock = function(startAddress, blockLength, extendedTagBlock)
+{
+  extendedTagBlock.extendedTag = this.extendedDataBlockType.YCBCR420_CAPABILITY_MAP;
+
+  var FIELD_ADDRESS = 0;
+  var FIELD_MASK = 0x0;
+  var svdIndex = 0;
+  var YCbCr420Capable = false;
+  var YCbCr420svdIndex = 0;
+
+  // YCbCr420 Capability Map block contains a bit map of SVDs from the Video block
+  // If a bit is set to "1", the corresponding SVD supports YCbCr 4:2:0 color format
+  // This data block is only used for SVDs which support 4:2:0 and some other colour
+  // format (e.g. 4:2:2).
+  // For SVDs which support only 4:2:0, YCbCr 4:2:0 Video data block is used.
+  extendedTagBlock.YCbCr420CapableShortVideoDescriptors = new Array();
+
+  for (FIELD_ADDRESS = 1; FIELD_ADDRESS < blockLength; FIELD_ADDRESS++)
+  {
+    for (FIELD_MASK = 0x01; FIELD_MASK <= 0x80; FIELD_MASK <<= 1)
+    {
+      YCbCr420Capable = (this.edidData[startAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+      if (YCbCr420Capable)
+      {
+        extendedTagBlock.YCbCr420CapableShortVideoDescriptors[YCbCr420svdIndex] = this.videoBlock.shortVideoDescriptors[svdIndex];
+        YCbCr420svdIndex++;
+      }
+      svdIndex++;
+    }
+  }
+
+  return extendedTagBlock;
+}
+
 Edid.prototype.parseSpeakerDataBlock = function(startAddress, blockLength)
 {
   var speakerBlock = new Object();
@@ -1025,6 +1296,40 @@ Edid.prototype.parseSpeakerDataBlock = function(startAddress, blockLength)
                           (this.edidData[startAddress]);
 
   return speakerBlock;
+}
+
+Edid.prototype.parseExtendedTagDataBlock = function(startAddress, blockLength)
+{
+  var extendedTagBlock = new Object();
+  extendedTagBlock.tag = this.dataBlockType.EXTENDED_TAG;
+  extendedTagBlock.length = blockLength;
+
+  var EXTENDED_TAG_ADDRESS = 0;
+
+  var extendedBlockTagCode = this.edidData[startAddress+EXTENDED_TAG_ADDRESS];
+
+  if (extendedBlockTagCode == this.extendedDataBlockType.VIDEO_CAPABILITY.value)
+  {
+    return this.parseVideoCapabilityDataBlock(startAddress, blockLength, extendedTagBlock);
+  }
+  else if (extendedBlockTagCode == this.extendedDataBlockType.COLORIMETRY.value)
+  {
+    return this.parseColorimetryDataBlock(startAddress, blockLength, extendedTagBlock);
+  }
+  else if (extendedBlockTagCode == this.extendedDataBlockType.YCBCR420_VIDEO.value)
+  {
+    return this.parseYCbCr420VideoDataBlock(startAddress, blockLength, extendedTagBlock);
+  }
+  else if (extendedBlockTagCode == this.extendedDataBlockType.YCBCR420_CAPABILITY_MAP.value)
+  {
+    return this.parseYCbCr420CapabilityMapDataBlock(startAddress, blockLength, extendedTagBlock);
+  }
+  else
+  {
+    extendedTagBlock.extendedTag = this.edidData[startAddress+EXTENDED_TAG_ADDRESS];
+  }
+
+  return extendedTagBlock;
 }
 
 Edid.prototype.getExtChecksum = function(extIndex)

@@ -99,6 +99,13 @@ function EdidCtrl($scope) {
                 $scope.edid.dataBlockType.SPEAKER_ALLOCATION.string.length);
       $scope.ceaDataBlock = $scope.ext.dataBlockCollection[ceaBlockNumber];
     }
+    else if(dataBlock.substring(0,5) == 
+      $scope.edid.dataBlockType.EXTENDED_TAG.string.substring(0,5))
+    {
+      ceaBlockNumber = dataBlock.substring(
+                $scope.edid.dataBlockType.EXTENDED_TAG.string.length);
+      $scope.ceaDataBlock = $scope.ext.dataBlockCollection[ceaBlockNumber];
+    }
     // Set the EDID Data View to load the node's URL
     $scope.edidData = node.url+"?"+$scope.getRevision(); 
   }
@@ -277,11 +284,30 @@ function EdidCtrl($scope) {
           }        
           else if(dataBlock.tag == $scope.edid.dataBlockType.VENDOR_SPECIFIC)
           {
-            treeDataBlock = {label:"Vendor Specific Data Block",
-                              id: id+$scope.edid.dataBlockType.VENDOR_SPECIFIC.string+ceaIndex,
-                              callback:$scope.ceaHandler,
-                              url:'partials/blockX/dataBlocks/vendorSpecific.html',
-                              "children" : []};
+            if (dataBlock.ieeeIdentifier == $scope.edid.ieeeOuiType.HDMI14.value)
+            {
+              treeDataBlock = {label:"Vendor Specific Data Block HDMI 1.4",
+                                id: id+$scope.edid.dataBlockType.VENDOR_SPECIFIC.string+ceaIndex,
+                                callback:$scope.ceaHandler,
+                                url:'partials/blockX/dataBlocks/vendorSpecificHDMI14.html',
+                                "children" : []};
+            }
+            else if (dataBlock.ieeeIdentifier == $scope.edid.ieeeOuiType.HDMI20.value)
+            {
+              treeDataBlock = {label:"Vendor Specific Data Block HDMI 2.0",
+                                id: id+$scope.edid.dataBlockType.VENDOR_SPECIFIC.string+ceaIndex,
+                                callback:$scope.ceaHandler,
+                                url:'partials/blockX/dataBlocks/vendorSpecificHDMI20.html',
+                                "children" : []};
+            }
+			else
+            {
+              treeDataBlock = {label:"Vendor Specific Data Block",
+                                id: id+$scope.edid.dataBlockType.VENDOR_SPECIFIC.string+ceaIndex,
+                                callback:$scope.ceaHandler,
+                                url:'partials/blockX/dataBlocks/vendorSpecific.html',
+                                "children" : []};
+            }
           }        
           else if(dataBlock.tag == $scope.edid.dataBlockType.SPEAKER_ALLOCATION)
           {
@@ -290,6 +316,49 @@ function EdidCtrl($scope) {
                               callback:$scope.ceaHandler,
                               url:'partials/blockX/dataBlocks/speakerAllocation.html',
                               "children" : []};
+          }
+          else if(dataBlock.tag == $scope.edid.dataBlockType.EXTENDED_TAG)
+          {
+            if (dataBlock.extendedTag == $scope.edid.extendedDataBlockType.VIDEO_CAPABILITY)
+            {
+              treeDataBlock = {label:"Video Capability Data Block",
+                                id: id+$scope.edid.dataBlockType.EXTENDED_TAG.string+ceaIndex,
+                                callback:$scope.ceaHandler,
+                                url:'partials/blockX/dataBlocks/videoCapability.html',
+                                "children" : []};
+            }
+            else if (dataBlock.extendedTag == $scope.edid.extendedDataBlockType.COLORIMETRY)
+            {
+              treeDataBlock = {label:"Colorimetry Data Block",
+                                id: id+$scope.edid.dataBlockType.EXTENDED_TAG.string+ceaIndex,
+                                callback:$scope.ceaHandler,
+                                url:'partials/blockX/dataBlocks/colorimetry.html',
+                                "children" : []};
+            }
+            else if (dataBlock.extendedTag == $scope.edid.extendedDataBlockType.YCBCR420_VIDEO)
+            {
+              treeDataBlock = {label:"YCbCr 4:2:0 Video Data Block",
+                                id: id+$scope.edid.dataBlockType.EXTENDED_TAG.string+ceaIndex,
+                                callback:$scope.ceaHandler,
+                                url:'partials/blockX/dataBlocks/YCbCr420Video.html',
+                                "children" : []};
+            }
+            else if (dataBlock.extendedTag == $scope.edid.extendedDataBlockType.YCBCR420_CAPABILITY_MAP)
+            {
+              treeDataBlock = {label:"YCbCr 4:2:0 Capability Map Data Block",
+                                id: id+$scope.edid.dataBlockType.EXTENDED_TAG.string+ceaIndex,
+                                callback:$scope.ceaHandler,
+                                url:'partials/blockX/dataBlocks/YCbCr420CapabilityMap.html',
+                                "children" : []};
+            }
+            else
+            {
+              treeDataBlock = {label:"Extended Tag Data Block",
+                                id: id+$scope.edid.dataBlockType.EXTENDED_TAG.string+ceaIndex,
+                                callback:$scope.ceaHandler,
+                                url:'partials/blockX/dataBlocks/extended.html',
+                                "children" : []};
+            }
           }
           ceaDataBlock.children.push(treeDataBlock);
         }
