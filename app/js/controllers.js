@@ -492,22 +492,11 @@ function scrubEdid(edid)
 {
   var scrubbedEdid;
 
-  // Remove commas, replace with spaces
-  scrubbedEdid = edid.replace(/,/g,' ');
-  // Remove 0x for hex
-  scrubbedEdid = scrubbedEdid.replace(/0x/g,' ');
-  // Replace Tabs
-  scrubbedEdid = scrubbedEdid.replace(/\t/g,' ');
-  // Remove all line returns
-  scrubbedEdid = scrubbedEdid.replace(/(\r\n|\n|\r)/gm,' ');
-  // Remove multiple spaces
-  scrubbedEdid = scrubbedEdid.replace( / +/g,' ');
-  // Make hex upper case
-  scrubbedEdid = scrubbedEdid.toUpperCase();
-  // Trim Leading and ending white space
-  scrubbedEdid = scrubbedEdid.trim();
-  // Convert to string array
-  scrubbedEdid = scrubbedEdid.split(" ");
+  // Remove non-hex characters
+  scrubbedEdid = edid.replace(/[^0-9A-Fa-f]/g, '').toUpperCase();
+
+  // Convert to string array by two characters
+  scrubbedEdid = scrubbedEdid.match(/.{1,2}/g);
 
   return scrubbedEdid;
 }
