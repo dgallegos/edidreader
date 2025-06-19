@@ -834,7 +834,7 @@ Edid.prototype.parseDataBlockCollection = function(extIndex)
 
 Edid.prototype.parseAudioDataBlock = function(startAddress, blockLength)
 {
-  var audioBlock = new Array();
+  var audioBlock = {};
   // Audio blocks are made up of Short Audio Descriptors that are three bytes each
   var SHORT_AUDIO_DESC_LENGTH = 3;
   // The number of Short Audio Descriptors is the block length divided by the descriptor size
