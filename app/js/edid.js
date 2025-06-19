@@ -1003,6 +1003,7 @@ Edid.prototype.parseVendorDataBlockHDMI14 = function(startAddress, blockLength, 
   }
 
   // If Latency fields are present
+  var AUDIO_LATENCY_ADDRESS = 10;
   if(vendorBlock.latencyPresent && (blockLength >= AUDIO_LATENCY_ADDRESS))
   {
     var VIDEO_LATENCY_ADDRESS = 9;
@@ -1010,16 +1011,15 @@ Edid.prototype.parseVendorDataBlockHDMI14 = function(startAddress, blockLength, 
     vendorBlock.videoLatency = ((this.edidData[vsdbAddress+VIDEO_LATENCY_ADDRESS] - 1)
                                   *2);
 
-    var AUDIO_LATENCY_ADDRESS = 10;
     // TODO: Add description
     vendorBlock.audioLatency = ((this.edidData[vsdbAddress+AUDIO_LATENCY_ADDRESS] - 1)
                                   *2);
   }
 
   // If Interlaced Latency fields are present
+  var I_VIDEO_LATENCY_ADDRESS = 11;
   if(vendorBlock.iLatencyPresent && (blockLength >= I_AUDIO_LATENCY_ADDRESS))
   {
-    var I_VIDEO_LATENCY_ADDRESS = 11;
     // TODO: Add description
     vendorBlock.iVideoLatency = ((this.edidData[vsdbAddress+I_VIDEO_LATENCY_ADDRESS] - 1)
                                   *2);
