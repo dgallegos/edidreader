@@ -1075,11 +1075,11 @@ Edid.prototype.parseVendorDataBlockHDMI20 = function(startAddress, blockLength, 
 
   FIELD_ADDRESS = 7;
   FIELD_MASK = 0x04;
-  vendorBlock.deepColorY420_30 = (this.edidData[vsdbAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+  vendorBlock.deepColorY420_48 = (this.edidData[vsdbAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
 
   FIELD_ADDRESS = 7;
   FIELD_MASK = 0x02;
-  vendorBlock.deepColorY420_30 = (this.edidData[vsdbAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+  vendorBlock.deepColorY420_36 = (this.edidData[vsdbAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
 
   FIELD_ADDRESS = 7;
   FIELD_MASK = 0x01;
