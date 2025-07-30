@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EDID Parser Tests - Standalone (No Angular)</title>
+    <link rel="stylesheet" type="text/css" href="test/lib/jasmine/jasmine.css">
+    <script type="text/javascript" src="test/lib/jasmine/jasmine.js"></script>
+    <script type="text/javascript" src="test/lib/jasmine/jasmine-html.js"></script>
+    
+    <!-- EDID Parser - Main code we're testing -->
+    <script src="app/js/edid.js"></script>
+    
+    <!-- Test Data -->
+    <script src="test/unit/edidTestData.js"></script>
+    
+    <!-- Standalone Test Specs (No Angular dependencies) -->
+    <script src="test/unit/edid-standalone/debug-edid.js"></script>
+    <script src="test/unit/edid-standalone/edidSpec.js"></script>
+</head>
+<body>
+    <div id="info" style="margin: 20px; padding: 15px; background: #f0f8ff; border: 1px solid #ddd; border-radius: 5px;">
+        <h3>EDID Parser Standalone Test Suite</h3>
+        <p><strong>Purpose:</strong> Test EDID parsing functionality without Angular dependencies</p>
+        <p><strong>Coverage:</strong> Header validation, manufacturer IDs, display parameters, chromaticity, timing descriptors, checksums</p>
+        <p><strong>Framework:</strong> Jasmine (standalone) - No Angular mocks or injectors</p>
+        <hr>
+        <p><strong>Test Status:</strong> <span id="status">Loading...</span></p>
+    </div>
+
+    <script type="text/javascript">
+        (function() {
+            var jasmineEnv = jasmine.getEnv();
+            jasmineEnv.updateInterval = 1000;
+
+            var htmlReporter = new jasmine.HtmlReporter();
+            jasmineEnv.addReporter(htmlReporter);
+
+            jasmineEnv.specFilter = function(spec) {
+                return htmlReporter.specFilter(spec);
+            };
+
+            // Add a custom reporter to update status
+            var statusReporter = {
+                reportRunnerStarting: function(runner) {
+                    document.getElementById('status').innerHTML = 'Running ' + runner.specs().length + ' tests...';
+                },
+                reportRunnerResults: function(runner) {
+                    var results = runner.results();
+                    var passed = results.passedCount;
+                    var failed = results.failedCount;
+                    var total = results.totalCount;
+                    
+                    var statusEl = document.getElementById('status');
+                    if (failed === 0) {
+                        statusEl.innerHTML = '<span style="color: green; font-weight: bold;">✓ All ' + passed + ' tests passed!</span>';
+                        statusEl.style.backgroundColor = '#e8f5e8';
+                    } else {
+                        statusEl.innerHTML = '<span style="color: red; font-weight: bold;">✗ ' + failed + ' of ' + total + ' tests failed</span>';
+                        statusEl.style.backgroundColor = '#ffeaea';
+                    }
+                }
+            };
+            
+            jasmineEnv.addReporter(statusReporter);
+
+            var currentWindowOnload = window.onload;
+
+            window.onload = function() {
+                if (currentWindowOnload) {
+                    currentWindowOnload();
+                }
+                execJasmine();
+            };
+
+            function execJasmine() {
+                jasmineEnv.execute();
+            }
+        })();
+    </script>
+</body>
+</html>
