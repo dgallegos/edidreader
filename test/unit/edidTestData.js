@@ -266,27 +266,6 @@ var EdidTestData = {
     }
   },
 
-  // Helper function to create full EDID array from test data
-  createFullEdidArray: function(testData) {
-    var fullEdid = [];
-    fullEdid = fullEdid.concat(testData.block0);
-    if (testData.block1) {
-      fullEdid = fullEdid.concat(testData.block1);
-    }
-    return fullEdid;
-  },
-
-  // Helper function to validate test data structure
-  validateTestData: function(testData) {
-    return testData.block0 && 
-           testData.block0.length === 128 &&
-           testData.expectedResults &&
-           testData.description;
-  }
-};
-    }
-  },
-
   // Dell P2415Q 4K Monitor HDMI 1.4 - Professional 4K display
   dellP2415Q_HDMI14: {
     description: 'Dell P2415Q 4K Monitor HDMI 1.4 - Professional display',
