@@ -300,6 +300,14 @@ function EdidCtrl($scope) {
                                 url:'partials/blockX/dataBlocks/vendorSpecificHDMI20.html',
                                 "children" : []};
             }
+            else if (dataBlock.ieeeIdentifier == $scope.edid.ieeeOuiType.HDMI_FORUM.value)
+            {
+              treeDataBlock = {label:"Vendor Specific Data Block HDMI Forum",
+                                id: id+$scope.edid.dataBlockType.VENDOR_SPECIFIC.string+ceaIndex,
+                                callback:$scope.ceaHandler,
+                                url:'partials/blockX/dataBlocks/vendorSpecificHDMIForum.html',
+                                "children" : []};
+            }
 			else
             {
               treeDataBlock = {label:"Vendor Specific Data Block",
@@ -349,6 +357,46 @@ function EdidCtrl($scope) {
                                 id: id+$scope.edid.dataBlockType.EXTENDED_TAG.string+ceaIndex,
                                 callback:$scope.ceaHandler,
                                 url:'partials/blockX/dataBlocks/YCbCr420CapabilityMap.html',
+                                "children" : []};
+            }
+            else if (dataBlock.extendedTag == $scope.edid.extendedDataBlockType.HDR_STATIC_METADATA)
+            {
+              treeDataBlock = {label:"HDR Static Metadata Data Block",
+                                id: id+$scope.edid.dataBlockType.EXTENDED_TAG.string+ceaIndex,
+                                callback:$scope.ceaHandler,
+                                url:'partials/blockX/dataBlocks/hdrStaticMetadata.html',
+                                "children" : []};
+            }
+            else if (dataBlock.extendedTag == $scope.edid.extendedDataBlockType.HDR_DYNAMIC_METADATA)
+            {
+              treeDataBlock = {label:"HDR Dynamic Metadata Data Block",
+                                id: id+$scope.edid.dataBlockType.EXTENDED_TAG.string+ceaIndex,
+                                callback:$scope.ceaHandler,
+                                url:'partials/blockX/dataBlocks/hdrDynamicMetadata.html',
+                                "children" : []};
+            }
+            else if (dataBlock.extendedTag == $scope.edid.extendedDataBlockType.VIDEO_FORMAT_PREFERENCE)
+            {
+              treeDataBlock = {label:"Video Format Preference Data Block",
+                                id: id+$scope.edid.dataBlockType.EXTENDED_TAG.string+ceaIndex,
+                                callback:$scope.ceaHandler,
+                                url:'partials/blockX/dataBlocks/videoFormatPreference.html',
+                                "children" : []};
+            }
+            else if (dataBlock.extendedTag == $scope.edid.extendedDataBlockType.ROOM_CONFIGURATION)
+            {
+              treeDataBlock = {label:"Room Configuration Data Block",
+                                id: id+$scope.edid.dataBlockType.EXTENDED_TAG.string+ceaIndex,
+                                callback:$scope.ceaHandler,
+                                url:'partials/blockX/dataBlocks/roomConfiguration.html',
+                                "children" : []};
+            }
+            else if (dataBlock.extendedTag == $scope.edid.extendedDataBlockType.HDMI_FORUM_SCDB)
+            {
+              treeDataBlock = {label:"HDMI Forum Sink Capability Data Block",
+                                id: id+$scope.edid.dataBlockType.EXTENDED_TAG.string+ceaIndex,
+                                callback:$scope.ceaHandler,
+                                url:'partials/blockX/dataBlocks/hdmiForumSCDB.html',
                                 "children" : []};
             }
             else

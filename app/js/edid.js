@@ -46,13 +46,30 @@ function Edid () {
 
   this.extendedDataBlockType = {
     VIDEO_CAPABILITY : {string:"VIDEO CAPABILITY",value:0},
+    VENDOR_SPECIFIC_VIDEO : {string:"VENDOR SPECIFIC VIDEO",value:1},
+    VESA_VIDEO_DISPLAY_DEVICE : {string:"VESA VIDEO DISPLAY DEVICE",value:2},
+    VESA_VIDEO_TIMING_BLOCK : {string:"VESA VIDEO TIMING BLOCK",value:3},
+    RESERVED_HDMI_VIDEO : {string:"RESERVED HDMI VIDEO",value:4},
     COLORIMETRY : {string:"COLORIMETRY",value:5},
+    HDR_STATIC_METADATA : {string:"HDR STATIC METADATA",value:6},
+    HDR_DYNAMIC_METADATA : {string:"HDR DYNAMIC METADATA",value:7},
+    NATIVE_VIDEO_RESOLUTION : {string:"NATIVE VIDEO RESOLUTION",value:8},
+    VIDEO_FORMAT_PREFERENCE : {string:"VIDEO FORMAT PREFERENCE",value:13},
     YCBCR420_VIDEO : {string:"YCBCR420 VIDEO DATA",value:14},
-    YCBCR420_CAPABILITY_MAP : {string:"YCBCR420_CAPABILITY_MAP",value:15}};
+    YCBCR420_CAPABILITY_MAP : {string:"YCBCR420_CAPABILITY_MAP",value:15},
+    MISC_AUDIO_FIELDS : {string:"MISC AUDIO FIELDS",value:16},
+    VENDOR_SPECIFIC_AUDIO : {string:"VENDOR SPECIFIC AUDIO",value:17},
+    HDMI_AUDIO : {string:"HDMI AUDIO",value:18},
+    ROOM_CONFIGURATION : {string:"ROOM CONFIGURATION",value:19},
+    SPEAKER_LOCATION : {string:"SPEAKER LOCATION",value:20},
+    INFOFRAME_DATA : {string:"INFOFRAME DATA",value:32},
+    PRODUCT_INFORMATION : {string:"PRODUCT INFORMATION",value:33},
+    HDMI_FORUM_SCDB : {string:"HDMI FORUM SCDB",value:0x779}};
 
   this.ieeeOuiType = {
     HDMI14 : {string:"HDMI14",value:0x000C03},
-    HDMI20 : {string:"HDMI20",value:0xC45DD8}};
+    HDMI20 : {string:"HDMI20",value:0xC45DD8},
+    HDMI_FORUM : {string:"HDMI FORUM",value:0xC45DD8}};
 
   this.overscanBehavior = ["No data", "Always overscanned", "Always underscanned", "Supports both overscan and underscan"];
 
@@ -61,6 +78,14 @@ function Edid () {
                                   "DTS","ATRAC","DSD","E-AC-3","DTS-HD","MLP","DST","WMA Pro"];
   this.sadSampleRates = ["32 kHz", "44.1 kHz", "48 kHz", "88.2 kHz", "96 kHz", "176.4 kHz", "192 kHz"];
   this.sadBitDepths = ["16 bit", "20 bit", "24 bit"];
+  
+  this.eotfTypes = ["Traditional gamma - SDR luminance range",
+                    "Traditional gamma - HDR luminance range", 
+                    "SMPTE ST2084 (PQ)",
+                    "Hybrid Log-Gamma (HLG)"];
+  
+  this.staticMetadataDescriptors = ["Static Metadata Type 1"];
+  
   this.shortVideoDescriptors = [{"vic":0},
     {"vic":1, "format":"640x480p", "fieldRate":"59.94Hz/60Hz", "pictureAspectRatio":"4:3", "pixelAspectRatio":"1:1"},
     {"vic":2, "format":"720x480p", "fieldRate":"59.94Hz/60Hz", "pictureAspectRatio":"4:3", "pixelAspectRatio":"8:9"},
@@ -169,6 +194,53 @@ function Edid () {
     {"vic":105, "format":"3840x2160p", "fieldRate":"29.97Hz/30Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
     {"vic":106, "format":"3840x2160p", "fieldRate":"50Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
     {"vic":107, "format":"3840x2160p", "fieldRate":"59.94Hz/60Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+    {"vic":108, "format":"1280x720p", "fieldRate":"48Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+    {"vic":109, "format":"1280x720p", "fieldRate":"48Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
+    {"vic":110, "format":"1680x720p", "fieldRate":"48Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"64:63"},
+    {"vic":111, "format":"1920x1080p", "fieldRate":"48Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+    {"vic":112, "format":"1920x1080p", "fieldRate":"48Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
+    {"vic":113, "format":"2560x1080p", "fieldRate":"48Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
+    {"vic":114, "format":"3840x2160p", "fieldRate":"48Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+    {"vic":115, "format":"4096x2160p", "fieldRate":"48Hz", "pictureAspectRatio":"256:135", "pixelAspectRatio":"1:1"},
+    {"vic":116, "format":"3840x2160p", "fieldRate":"48Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
+    {"vic":117, "format":"3840x2160p", "fieldRate":"100Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+    {"vic":118, "format":"3840x2160p", "fieldRate":"119.88Hz/120Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+    {"vic":119, "format":"3840x2160p", "fieldRate":"100Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
+    {"vic":120, "format":"3840x2160p", "fieldRate":"119.88Hz/120Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
+    {"vic":121, "format":"5120x2160p", "fieldRate":"24Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
+    {"vic":122, "format":"5120x2160p", "fieldRate":"25Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
+    {"vic":123, "format":"5120x2160p", "fieldRate":"30Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
+    {"vic":124, "format":"5120x2160p", "fieldRate":"48Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
+    {"vic":125, "format":"5120x2160p", "fieldRate":"50Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
+    {"vic":126, "format":"5120x2160p", "fieldRate":"60Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
+    {"vic":127, "format":"5120x2160p", "fieldRate":"100Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
+    {"vic":193, "format":"5120x2160p", "fieldRate":"120Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
+    {"vic":194, "format":"7680x4320p", "fieldRate":"24Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+    {"vic":195, "format":"7680x4320p", "fieldRate":"25Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+    {"vic":196, "format":"7680x4320p", "fieldRate":"30Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+    {"vic":197, "format":"7680x4320p", "fieldRate":"48Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+    {"vic":198, "format":"7680x4320p", "fieldRate":"50Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+    {"vic":199, "format":"7680x4320p", "fieldRate":"60Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+    {"vic":200, "format":"7680x4320p", "fieldRate":"100Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+    {"vic":201, "format":"7680x4320p", "fieldRate":"120Hz", "pictureAspectRatio":"16:9", "pixelAspectRatio":"1:1"},
+    {"vic":202, "format":"7680x4320p", "fieldRate":"24Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
+    {"vic":203, "format":"7680x4320p", "fieldRate":"25Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
+    {"vic":204, "format":"7680x4320p", "fieldRate":"30Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
+    {"vic":205, "format":"7680x4320p", "fieldRate":"48Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
+    {"vic":206, "format":"7680x4320p", "fieldRate":"50Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
+    {"vic":207, "format":"7680x4320p", "fieldRate":"60Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
+    {"vic":208, "format":"7680x4320p", "fieldRate":"100Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
+    {"vic":209, "format":"7680x4320p", "fieldRate":"120Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"4:3"},
+    {"vic":210, "format":"10240x4320p", "fieldRate":"24Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
+    {"vic":211, "format":"10240x4320p", "fieldRate":"25Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
+    {"vic":212, "format":"10240x4320p", "fieldRate":"30Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
+    {"vic":213, "format":"10240x4320p", "fieldRate":"48Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
+    {"vic":214, "format":"10240x4320p", "fieldRate":"50Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
+    {"vic":215, "format":"10240x4320p", "fieldRate":"60Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
+    {"vic":216, "format":"10240x4320p", "fieldRate":"100Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
+    {"vic":217, "format":"10240x4320p", "fieldRate":"120Hz", "pictureAspectRatio":"64:27", "pixelAspectRatio":"1:1"},
+    {"vic":218, "format":"4096x2160p", "fieldRate":"100Hz", "pictureAspectRatio":"256:135", "pixelAspectRatio":"1:1"},
+    {"vic":219, "format":"4096x2160p", "fieldRate":"120Hz", "pictureAspectRatio":"256:135", "pixelAspectRatio":"1:1"}
   ]
   this.speakerAllocation = ["Front Left/Front Right (FL/FR)", "Low Frequency Effort (LFE)",
                     "Front Center (FC)", "Rear Left/Rear Right (RL/RR)",
@@ -1116,6 +1188,11 @@ Edid.prototype.parseVendorDataBlock = function(startAddress, blockLength)
   	// HDMI 2.0 VSDB
   	return this.parseVendorDataBlockHDMI20(startAddress, blockLength, vendorBlock);
   }
+  else if (vendorBlock.ieeeIdentifier == this.ieeeOuiType.HDMI_FORUM.value)
+  {
+  	// HDMI Forum VSDB
+  	return this.parseVendorDataBlockHDMIForum(startAddress, blockLength, vendorBlock);
+  }
 
   return vendorBlock;
 }
@@ -1154,6 +1231,33 @@ Edid.prototype.parseVideoCapabilityDataBlock = function(startAddress, blockLengt
   FIELD_SHIFT = 0;
   fieldData = (this.edidData[startAddress+FIELD_ADDRESS] & FIELD_MASK) >> FIELD_SHIFT;
   extendedTagBlock.overscanCE = this.overscanBehavior[fieldData];
+
+  // CTA-861-I extended video capability features (byte 2 if available)
+  if (blockLength > 2) {
+    FIELD_ADDRESS = 2;
+    FIELD_MASK = 0x80;
+    extendedTagBlock.supportsQMS = (this.edidData[startAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+    
+    FIELD_ADDRESS = 2;
+    FIELD_MASK = 0x40;
+    extendedTagBlock.supportsVRR = (this.edidData[startAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+    
+    FIELD_ADDRESS = 2;
+    FIELD_MASK = 0x20;
+    extendedTagBlock.supportsCINEMAVRR = (this.edidData[startAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+    
+    FIELD_ADDRESS = 2;
+    FIELD_MASK = 0x10;
+    extendedTagBlock.supportsNegativeMRR = (this.edidData[startAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+    
+    FIELD_ADDRESS = 2;
+    FIELD_MASK = 0x08;
+    extendedTagBlock.supportsFVA = (this.edidData[startAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+    
+    FIELD_ADDRESS = 2;
+    FIELD_MASK = 0x04;
+    extendedTagBlock.supportsALLM = (this.edidData[startAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+  }
 
   return extendedTagBlock;
 }
@@ -1212,6 +1316,25 @@ Edid.prototype.parseColorimetryDataBlock = function(startAddress, blockLength, e
   FIELD_ADDRESS = 2;
   FIELD_MASK = 0x01;
   extendedTagBlock.gamutMD0 = (this.edidData[startAddress+FIELD_ADDRESS] & FIELD_MASK)?1:0;
+
+  // CTA-861-I extended colorimetry support (byte 3 if available)
+  if (blockLength > 3) {
+    FIELD_ADDRESS = 3;
+    FIELD_MASK = 0x80;
+    extendedTagBlock.supportsICtCp = (this.edidData[startAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+    
+    FIELD_ADDRESS = 3;
+    FIELD_MASK = 0x40;
+    extendedTagBlock.supportsST2094_40 = (this.edidData[startAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+    
+    FIELD_ADDRESS = 3;
+    FIELD_MASK = 0x20;
+    extendedTagBlock.supportsST2094_10 = (this.edidData[startAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+    
+    FIELD_ADDRESS = 3;
+    FIELD_MASK = 0x10;
+    extendedTagBlock.supportsBT2100ICtCp = (this.edidData[startAddress+FIELD_ADDRESS] & FIELD_MASK)?true:false;
+  }
 
   return extendedTagBlock;
 }
@@ -1324,11 +1447,279 @@ Edid.prototype.parseExtendedTagDataBlock = function(startAddress, blockLength)
   {
     return this.parseYCbCr420CapabilityMapDataBlock(startAddress, blockLength, extendedTagBlock);
   }
+  else if (extendedBlockTagCode == this.extendedDataBlockType.HDR_STATIC_METADATA.value)
+  {
+    return this.parseHDRStaticMetadataDataBlock(startAddress, blockLength, extendedTagBlock);
+  }
+  else if (extendedBlockTagCode == this.extendedDataBlockType.HDR_DYNAMIC_METADATA.value)
+  {
+    return this.parseHDRDynamicMetadataDataBlock(startAddress, blockLength, extendedTagBlock);
+  }
+  else if (extendedBlockTagCode == this.extendedDataBlockType.VIDEO_FORMAT_PREFERENCE.value)
+  {
+    return this.parseVideoFormatPreferenceDataBlock(startAddress, blockLength, extendedTagBlock);
+  }
+  else if (extendedBlockTagCode == this.extendedDataBlockType.ROOM_CONFIGURATION.value)
+  {
+    return this.parseRoomConfigurationDataBlock(startAddress, blockLength, extendedTagBlock);
+  }
+  else if (extendedBlockTagCode == this.extendedDataBlockType.HDMI_FORUM_SCDB.value)
+  {
+    return this.parseHDMIForumSCDB(startAddress, blockLength, extendedTagBlock);
+  }
   else
   {
     extendedTagBlock.extendedTag = this.edidData[startAddress+EXTENDED_TAG_ADDRESS];
   }
 
+  return extendedTagBlock;
+}
+
+Edid.prototype.parseHDRStaticMetadataDataBlock = function(startAddress, blockLength, extendedTagBlock)
+{
+  extendedTagBlock.extendedTag = this.extendedDataBlockType.HDR_STATIC_METADATA;
+  
+  if (blockLength < 2) {
+    extendedTagBlock.error = "Empty Data Block";
+    return extendedTagBlock;
+  }
+  
+  var EOTF_ADDRESS = 1;
+  var STATIC_METADATA_ADDRESS = 2;
+  
+  extendedTagBlock.supportedEOTFs = [];
+  var eotfByte = this.edidData[startAddress + EOTF_ADDRESS];
+  
+  for (var i = 0; i < this.eotfTypes.length; i++) {
+    if (eotfByte & (1 << i)) {
+      extendedTagBlock.supportedEOTFs.push(this.eotfTypes[i]);
+    }
+  }
+  
+  extendedTagBlock.supportedStaticMetadataDescriptors = [];
+  if (blockLength > 2) {
+    var staticMetadataByte = this.edidData[startAddress + STATIC_METADATA_ADDRESS];
+    for (var i = 0; i < this.staticMetadataDescriptors.length; i++) {
+      if (staticMetadataByte & (1 << i)) {
+        extendedTagBlock.supportedStaticMetadataDescriptors.push(this.staticMetadataDescriptors[i]);
+      }
+    }
+  }
+  
+  if (blockLength >= 4) {
+    extendedTagBlock.desiredContentMaxLuminance = this.edidData[startAddress + 3];
+    extendedTagBlock.desiredContentMaxFrameAverageLuminance = this.edidData[startAddress + 4];
+  }
+  
+  if (blockLength >= 5) {
+    extendedTagBlock.desiredContentMinLuminance = this.edidData[startAddress + 5];
+  }
+  
+  return extendedTagBlock;
+}
+
+Edid.prototype.parseHDRDynamicMetadataDataBlock = function(startAddress, blockLength, extendedTagBlock)
+{
+  extendedTagBlock.extendedTag = this.extendedDataBlockType.HDR_DYNAMIC_METADATA;
+  
+  if (blockLength < 3) {
+    extendedTagBlock.error = "Data Block too short";
+    return extendedTagBlock;
+  }
+  
+  extendedTagBlock.supportedMetadataTypes = [];
+  
+  var metadataType = this.edidData[startAddress + 1];
+  extendedTagBlock.metadataTypeId = metadataType;
+  
+  if (metadataType === 1) {
+    extendedTagBlock.supportedMetadataTypes.push("SMPTE ST 2094-10");
+  } else if (metadataType === 2) {
+    extendedTagBlock.supportedMetadataTypes.push("SMPTE ST 2094-20");
+  } else if (metadataType === 3) {
+    extendedTagBlock.supportedMetadataTypes.push("SMPTE ST 2094-30");
+  } else if (metadataType === 4) {
+    extendedTagBlock.supportedMetadataTypes.push("SMPTE ST 2094-40");
+  }
+  
+  extendedTagBlock.metadataVersionNumber = this.edidData[startAddress + 2];
+  
+  return extendedTagBlock;
+}
+
+Edid.prototype.parseVideoFormatPreferenceDataBlock = function(startAddress, blockLength, extendedTagBlock)
+{
+  extendedTagBlock.extendedTag = this.extendedDataBlockType.VIDEO_FORMAT_PREFERENCE;
+  
+  if (blockLength < 1) {
+    extendedTagBlock.error = "Empty Data Block";
+    return extendedTagBlock;
+  }
+  
+  extendedTagBlock.videoFormatPreferences = [];
+  
+  for (var i = 1; i < blockLength; i++) {
+    var preference = {};
+    var dataByte = this.edidData[startAddress + i];
+    
+    preference.svr = dataByte & 0x3F;
+    preference.frr = (dataByte & 0xC0) >> 6;
+    
+    extendedTagBlock.videoFormatPreferences.push(preference);
+  }
+  
+  return extendedTagBlock;
+}
+
+Edid.prototype.parseRoomConfigurationDataBlock = function(startAddress, blockLength, extendedTagBlock)
+{
+  extendedTagBlock.extendedTag = this.extendedDataBlockType.ROOM_CONFIGURATION;
+  
+  if (blockLength < 1) {
+    extendedTagBlock.error = "Empty Data Block";
+    return extendedTagBlock;
+  }
+  
+  var configByte = this.edidData[startAddress + 1];
+  
+  extendedTagBlock.speakerCount = (configByte & 0x1F) + 1;
+  extendedTagBlock.roomType = (configByte & 0x60) >> 5;
+  
+  var roomTypes = ["Not indicated", "Front Height", "Rear Height", "Reserved"];
+  extendedTagBlock.roomTypeString = roomTypes[extendedTagBlock.roomType];
+  
+  return extendedTagBlock;
+}
+
+Edid.prototype.parseVendorDataBlockHDMIForum = function(startAddress, blockLength, vendorBlock)
+{
+  vendorBlock.hdmiForumFeatures = {};
+  
+  if (blockLength < 8) {
+    vendorBlock.error = "HDMI Forum VSDB too short";
+    return vendorBlock;
+  }
+  
+  var data = [];
+  for (var i = 0; i < blockLength; i++) {
+    data[i] = this.edidData[startAddress + i];
+  }
+  
+  vendorBlock.version = data[3];
+  vendorBlock.maxTMDSCharacterRate = data[4] * 5;
+  
+  if (data[5] & 0x80) vendorBlock.hdmiForumFeatures.scdcPresent = true;
+  if (data[5] & 0x40) vendorBlock.hdmiForumFeatures.scdcReadRequestCapable = true;
+  if (data[5] & 0x20) vendorBlock.hdmiForumFeatures.supportsCableStatus = true;
+  if (data[5] & 0x10) vendorBlock.hdmiForumFeatures.supportsColorContentBitsPerComponent = true;
+  if (data[5] & 0x08) vendorBlock.hdmiForumFeatures.supportsScrambling340Mcsc = true;
+  if (data[5] & 0x04) vendorBlock.hdmiForumFeatures.supports3DIndependentView = true;
+  if (data[5] & 0x02) vendorBlock.hdmiForumFeatures.supports3DDualView = true;
+  if (data[5] & 0x01) vendorBlock.hdmiForumFeatures.supports3DOSDDisparity = true;
+  
+  var maxFrlRate = (data[6] & 0xF0) >> 4;
+  var frlRates = ["Not Supported", "3 lanes @ 3 Gbps", "3 lanes @ 6 Gbps", 
+                  "4 lanes @ 6 Gbps", "4 lanes @ 8 Gbps", "4 lanes @ 10 Gbps", 
+                  "4 lanes @ 12 Gbps"];
+  vendorBlock.maxFixedRateLink = maxFrlRate < frlRates.length ? frlRates[maxFrlRate] : "Unknown";
+  
+  if (data[7] & 0x80) vendorBlock.hdmiForumFeatures.supportsFAPAEndExtended = true;
+  if (data[7] & 0x40) vendorBlock.hdmiForumFeatures.supportsQMS = true;
+  if (data[7] & 0x20) vendorBlock.hdmiForumFeatures.supportsMdelta = true;
+  if (data[7] & 0x10) vendorBlock.hdmiForumFeatures.supportsCinemaVRR = true;
+  if (data[7] & 0x08) vendorBlock.hdmiForumFeatures.supportsNegativeMvrr = true;
+  if (data[7] & 0x04) vendorBlock.hdmiForumFeatures.supportsFastVactive = true;
+  if (data[7] & 0x02) vendorBlock.hdmiForumFeatures.supportsALLM = true;
+  if (data[7] & 0x01) vendorBlock.hdmiForumFeatures.supportsFAPAInBlanking = true;
+  
+  if (blockLength > 8) {
+    var vrrMin = data[8] & 0x3F;
+    var vrrMax = ((data[8] & 0xC0) << 2) | data[9];
+    
+    if (vrrMin > 0) vendorBlock.vrrMin = vrrMin;
+    if (vrrMax > 0) vendorBlock.vrrMax = vrrMax;
+  }
+  
+  if (blockLength > 10) {
+    if (data[10] & 0x80) vendorBlock.hdmiForumFeatures.supportsVESADSC12a = true;
+    if (data[10] & 0x40) vendorBlock.hdmiForumFeatures.supportsCompressedVideo420 = true;
+    if (data[10] & 0x20) vendorBlock.hdmiForumFeatures.supportsQMSTFRmax = true;
+    if (data[10] & 0x10) vendorBlock.hdmiForumFeatures.supportsQMSTFRmin = true;
+    if (data[10] & 0x08) vendorBlock.hdmiForumFeatures.supportsCompressedVideoAnyBpp = true;
+    if (data[10] & 0x04) vendorBlock.hdmiForumFeatures.supports16bpcCompressedVideo = true;
+    if (data[10] & 0x02) vendorBlock.hdmiForumFeatures.supports12bpcCompressedVideo = true;
+    if (data[10] & 0x01) vendorBlock.hdmiForumFeatures.supports10bpcCompressedVideo = true;
+  }
+  
+  return vendorBlock;
+}
+
+Edid.prototype.parseHDMIForumSCDB = function(startAddress, blockLength, extendedTagBlock)
+{
+  extendedTagBlock.extendedTag = this.extendedDataBlockType.HDMI_FORUM_SCDB;
+  
+  if (blockLength < 3) {
+    extendedTagBlock.error = "HDMI Forum SCDB too short";
+    return extendedTagBlock;
+  }
+  
+  var data = [];
+  for (var i = 0; i < blockLength; i++) {
+    data[i] = this.edidData[startAddress + i];
+  }
+  
+  extendedTagBlock.version = data[1];
+  extendedTagBlock.maxTMDSCharacterRate = data[2] * 5;
+  
+  extendedTagBlock.hdmiForumFeatures = {};
+  
+  if (blockLength > 3) {
+    if (data[3] & 0x80) extendedTagBlock.hdmiForumFeatures.scdcPresent = true;
+    if (data[3] & 0x40) extendedTagBlock.hdmiForumFeatures.scdcReadRequestCapable = true;
+    if (data[3] & 0x20) extendedTagBlock.hdmiForumFeatures.supportsCableStatus = true;
+    if (data[3] & 0x10) extendedTagBlock.hdmiForumFeatures.supportsColorContentBitsPerComponent = true;
+    if (data[3] & 0x08) extendedTagBlock.hdmiForumFeatures.supportsScrambling340Mcsc = true;
+    if (data[3] & 0x04) extendedTagBlock.hdmiForumFeatures.supports3DIndependentView = true;
+    if (data[3] & 0x02) extendedTagBlock.hdmiForumFeatures.supports3DDualView = true;
+    if (data[3] & 0x01) extendedTagBlock.hdmiForumFeatures.supports3DOSDDisparity = true;
+  }
+  
+  if (blockLength > 4) {
+    var maxFrlRate = (data[4] & 0xF0) >> 4;
+    var frlRates = ["Not Supported", "3 lanes @ 3 Gbps", "3 lanes @ 6 Gbps", 
+                    "4 lanes @ 6 Gbps", "4 lanes @ 8 Gbps", "4 lanes @ 10 Gbps", 
+                    "4 lanes @ 12 Gbps"];
+    extendedTagBlock.maxFixedRateLink = maxFrlRate < frlRates.length ? frlRates[maxFrlRate] : "Unknown";
+    
+    if (data[5] & 0x80) extendedTagBlock.hdmiForumFeatures.supportsFAPAEndExtended = true;
+    if (data[5] & 0x40) extendedTagBlock.hdmiForumFeatures.supportsQMS = true;
+    if (data[5] & 0x20) extendedTagBlock.hdmiForumFeatures.supportsMdelta = true;
+    if (data[5] & 0x10) extendedTagBlock.hdmiForumFeatures.supportsCinemaVRR = true;
+    if (data[5] & 0x08) extendedTagBlock.hdmiForumFeatures.supportsNegativeMvrr = true;
+    if (data[5] & 0x04) extendedTagBlock.hdmiForumFeatures.supportsFastVactive = true;
+    if (data[5] & 0x02) extendedTagBlock.hdmiForumFeatures.supportsALLM = true;
+    if (data[5] & 0x01) extendedTagBlock.hdmiForumFeatures.supportsFAPAInBlanking = true;
+  }
+  
+  if (blockLength > 6) {
+    var vrrMin = data[6] & 0x3F;
+    var vrrMax = ((data[6] & 0xC0) << 2) | data[7];
+    
+    if (vrrMin > 0) extendedTagBlock.vrrMin = vrrMin;
+    if (vrrMax > 0) extendedTagBlock.vrrMax = vrrMax;
+  }
+  
+  if (blockLength > 8) {
+    if (data[8] & 0x80) extendedTagBlock.hdmiForumFeatures.supportsVESADSC12a = true;
+    if (data[8] & 0x40) extendedTagBlock.hdmiForumFeatures.supportsCompressedVideo420 = true;
+    if (data[8] & 0x20) extendedTagBlock.hdmiForumFeatures.supportsQMSTFRmax = true;
+    if (data[8] & 0x10) extendedTagBlock.hdmiForumFeatures.supportsQMSTFRmin = true;
+    if (data[8] & 0x08) extendedTagBlock.hdmiForumFeatures.supportsCompressedVideoAnyBpp = true;
+    if (data[8] & 0x04) extendedTagBlock.hdmiForumFeatures.supports16bpcCompressedVideo = true;
+    if (data[8] & 0x02) extendedTagBlock.hdmiForumFeatures.supports12bpcCompressedVideo = true;
+    if (data[8] & 0x01) extendedTagBlock.hdmiForumFeatures.supports10bpcCompressedVideo = true;
+  }
+  
   return extendedTagBlock;
 }
 

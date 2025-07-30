@@ -19,6 +19,12 @@ files = [
   'test/unit/edidHDRSpec.js',
   // Error handling and edge cases
   'test/unit/edidErrorHandlingSpec.js',
+  // Integration tests for real-world EDID samples
+  'test/unit/edidIntegrationSpec.js',
+  // Validation and edge case tests
+  'test/unit/edidValidationSpec.js',
+  // Performance and benchmarking tests
+  'test/unit/edidPerformanceSpec.js',
   // Legacy tests
   'test/unit/controllersSpec.js',
   'test/unit/directivesSpec.js',

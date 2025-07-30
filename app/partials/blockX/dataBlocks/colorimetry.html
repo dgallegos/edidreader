@@ -46,3 +46,24 @@ Gamut MetaData2 (MD2): {{ceaDataBlock.gamutMD2}} <br />
 Gamut MetaData1 (MD1): {{ceaDataBlock.gamutMD1}} <br />
 Gamut MetaData0 (MD0): {{ceaDataBlock.gamutMD0}} <br />
 
+<h4>CTA-861-I Extended Colorimetry</h4>
+<input type="checkbox" 
+disabled="disabled" 
+ng-checked="ceaDataBlock.supportsICtCp">
+Supports ICtCp<br />
+
+<input type="checkbox" 
+disabled="disabled" 
+ng-checked="ceaDataBlock.supportsST2094_40">
+Supports ST 2094-40 (HDR10+ Adaptive)<br />
+
+<input type="checkbox" 
+disabled="disabled" 
+ng-checked="ceaDataBlock.supportsST2094_10">
+Supports ST 2094-10 (HDR10+ Base)<br />
+
+<input type="checkbox" 
+disabled="disabled" 
+ng-checked="ceaDataBlock.supportsBT2100ICtCp">
+Supports BT.2100 ICtCp<br />
+
