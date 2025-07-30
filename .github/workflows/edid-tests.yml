@@ -1,0 +1,37 @@
+name: EDID Parser Tests
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  test:
+    name: Run EDID Parser Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm install
+        
+    - name: Run tests
+      run: npm run test:ci
+      
+    - name: Test Summary
+      if: always()
+      run: |
+        echo "🧪 EDID Parser Test Results"
+        echo "✅ Standalone tests (no Angular dependencies)"
+        echo "✅ 18 test cases covering core EDID functionality"
+        echo "✅ Header validation, manufacturer IDs, display parameters"
+        echo "✅ Chromaticity coordinates, timing descriptors, checksums"

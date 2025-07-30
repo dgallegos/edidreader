@@ -1,7 +1,38 @@
 {
+  "name": "edid-reader",
+  "version": "1.0.0",
+  "description": "EDID Parser - Extended Display Identification Data parser for monitors and displays",
+  "main": "app/js/edid.js",
+  "scripts": {
+    "test": "karma start karma-edid.conf.js --single-run",
+    "test:watch": "karma start karma-edid.conf.js",
+    "test:ci": "karma start karma-edid.conf.js --single-run --browsers=ChromeHeadless",
+    "server": "node simple-server.js",
+    "dev": "node simple-server.js 3847"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/user/edidreader.git"
+  },
+  "keywords": [
+    "edid",
+    "display",
+    "monitor",
+    "parser",
+    "cta-861",
+    "hdmi",
+    "hdr",
+    "display-identification"
+  ],
+  "author": "",
+  "license": "MIT",
   "devDependencies": {
     "karma": "^6.4.4",
     "karma-chrome-launcher": "^3.2.0",
-    "karma-jasmine": "^5.1.0"
+    "karma-jasmine": "^5.1.0",
+    "jasmine": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
   }
 }
