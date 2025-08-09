@@ -13,6 +13,24 @@
 #parseButton {
   position:absolute;
   right:0px;
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 5px 15px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+   
+#parseButton:hover {
+  background-color: #e8e8e8;
+  border-color: #999;
+}
+ 
+#parseButton:active {
+  background-color: #ddd;
+  border-color: #888;
+  transform: translateY(1px);
 }
 
 #inputEdid, #outputEdid {
