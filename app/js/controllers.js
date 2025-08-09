@@ -121,7 +121,6 @@ function EdidCtrl($scope) {
     // QuantumData Default Edid
     $scope.inputTextbox =  {originalEdid:$scope.originalEdid};
 
-    $scope.edid = new Edid();
     $scope.checkbox = {addLine:false,addCommas:false,addHex:true};
 
     $scope.validChecksums = new Array();
@@ -131,7 +130,9 @@ function EdidCtrl($scope) {
     //*********************************
     // Start Actually Parsing
     $scope.parseEdid = function() {
-    // Scrub the EDID of all the ugly stuff
+    $scope.edid = new Edid();
+
+      // Scrub the EDID of all the ugly stuff
     $scope.scrubbedEdid = scrubEdid($scope.inputTextbox.originalEdid);
     // Convert the EDID into an integer array
     var edidArray = convertToIntArray($scope.scrubbedEdid);
@@ -540,8 +541,11 @@ function scrubEdid(edid)
 {
   var scrubbedEdid;
 
-  // Remove non-hex characters
-  scrubbedEdid = edid.replace(/[^0-9A-Fa-f]/g, '').toUpperCase();
+  // First remove 0x prefixes
+  scrubbedEdid = edid.replace(/0x/gi, '');
+  
+  // Then remove all remaining non-hex characters
+  scrubbedEdid = scrubbedEdid.replace(/[^0-9A-Fa-f]/g, '').toUpperCase();
 
   // Convert to string array by two characters
   scrubbedEdid = scrubbedEdid.match(/.{1,2}/g);
